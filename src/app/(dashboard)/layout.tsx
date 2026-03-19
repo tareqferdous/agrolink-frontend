@@ -1,9 +1,19 @@
-import { ReactNode } from "react";
+import Sidebar from "@/components/shared/Sidebar";
 
-interface DashboardLayoutProps {
-  children: ReactNode;
-}
-
-export default function DashboardLayout({ children }: DashboardLayoutProps) {
-  return <div className='flex h-screen bg-gray-50'>{children}</div>;
+export default function DashboardLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <div className='min-h-screen bg-gray-50'>
+      {/* <Navbar /> */}
+      <div className='flex'>
+        <Sidebar />
+        <main className='ml-56 flex-1 min-h-[calc(100vh-64px)]'>
+          <div className='p-6'>{children}</div>
+        </main>
+      </div>
+    </div>
+  );
 }

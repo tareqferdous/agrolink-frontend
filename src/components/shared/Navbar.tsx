@@ -36,7 +36,9 @@ export default function Navbar() {
           {/* Logo */}
           <Link href='/' className='flex items-center gap-2'>
             <span className='text-2xl'>🌾</span>
-            <span className='font-bold text-green-700 text-lg'>AgroLink</span>
+            <div className='text-lg font-black tracking-tight text-gray-900'>
+              Agro<span className='text-green-600'>Link</span>
+            </div>
           </Link>
 
           {/* Desktop — center links */}

@@ -29,9 +29,31 @@ export interface User {
   createdAt: string;
 }
 
+export type Category =
+  | "VEGETABLES"
+  | "FRUITS"
+  | "GRAINS"
+  | "RICE"
+  | "PULSES"
+  | "SPICES"
+  | "DAIRY"
+  | "OTHERS";
+
+export const CATEGORIES: { value: Category; label: string; icon: string }[] = [
+  { value: "VEGETABLES", label: "Vegetables", icon: "🥬" },
+  { value: "FRUITS", label: "Fruits", icon: "🍎" },
+  { value: "GRAINS", label: "Grains", icon: "🌾" },
+  { value: "RICE", label: "Rice", icon: "🍚" },
+  { value: "PULSES", label: "Pulses", icon: "🫘" },
+  { value: "SPICES", label: "Spices", icon: "🌶️" },
+  { value: "DAIRY", label: "Dairy", icon: "🥛" },
+  { value: "OTHERS", label: "Others", icon: "📦" },
+];
+
 export interface Listing {
   id: string;
   cropName: string;
+  category: Category;
   quantity: number;
   unit: Unit;
   minPricePerUnit?: number;

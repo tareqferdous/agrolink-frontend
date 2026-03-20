@@ -27,3 +27,22 @@ html {
   color-scheme: light;
 }
 
+@layer components {
+  .gradient-text {
+    @apply relative inline-block bg-linear-to-r from-green-500 via-emerald-500 to-teal-500 bg-clip-text text-transparent whitespace-nowrap;
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@utility animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+

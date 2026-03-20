@@ -1,3 +1,4 @@
+import Footer from "@/components/shared/Footer";
 import Navbar from "@/components/shared/Navbar";
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
@@ -22,6 +23,7 @@ export default function RootLayout({
       <body className={geist.className}>
         <Navbar />
         {children}
+        <Footer />
         <Toaster position='top-right' richColors />
       </body>
     </html>

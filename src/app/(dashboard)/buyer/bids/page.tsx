@@ -1,5 +1,6 @@
 "use client";
 
+import VerificationBanner from "@/components/shared/VerificationBanner";
 import Badge, { getBidStatusBadge } from "@/components/ui/Badge";
 import api from "@/lib/axios";
 import { ApiResponse, Bid } from "@/types";
@@ -40,6 +41,7 @@ export default function BuyerBidsPage() {
 
   return (
     <div>
+      <VerificationBanner />
       <div className='mb-6'>
         <h1 className='text-2xl font-bold text-gray-900'>My Bids</h1>
         <p className='text-gray-500 text-sm mt-1'>Track all your placed bids</p>
@@ -53,7 +55,7 @@ export default function BuyerBidsPage() {
             Browse listings and place your first bid
           </p>
           <Link
-            href='/buyer/listings'
+            href='/listings'
             className='inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg text-sm font-medium hover:bg-green-700 transition-colors'>
             Browse Listings
           </Link>

@@ -20,7 +20,7 @@ type TLoginForm = z.infer<typeof loginSchema>;
 
 const getRedirectPathByRole = (role?: string) => {
   if (role === Roles.FARMER) return "/farmer/listings";
-  if (role === Roles.BUYER) return "/buyer/listings";
+  if (role === Roles.BUYER) return "/listings";
   if (role === Roles.ADMIN) return "/admin/analytics";
   return "/";
 };

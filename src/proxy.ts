@@ -45,7 +45,7 @@ export default async function proxy(request: NextRequest) {
       return NextResponse.redirect(new URL("/farmer/listings", request.url));
     }
     if (role === Roles.BUYER) {
-      return NextResponse.redirect(new URL("/buyer/listings", request.url));
+      return NextResponse.redirect(new URL("/buyer/orders", request.url));
     }
     if (role === Roles.ADMIN) {
       return NextResponse.redirect(new URL("/admin/analytics", request.url));
@@ -61,7 +61,7 @@ export default async function proxy(request: NextRequest) {
 
   if (role === Roles.BUYER) {
     if (pathname.startsWith("/farmer") || pathname.startsWith("/admin")) {
-      return NextResponse.redirect(new URL("/buyer/listings", request.url));
+      return NextResponse.redirect(new URL("/buyer/orders", request.url));
     }
   }
 

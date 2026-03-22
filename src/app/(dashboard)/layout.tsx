@@ -1,3 +1,4 @@
+import DashboardNavbar from "@/components/shared/DashboardNavbar";
 import Sidebar from "@/components/shared/Sidebar";
 
 export default function DashboardLayout({
@@ -7,7 +8,7 @@ export default function DashboardLayout({
 }) {
   return (
     <div className='min-h-screen bg-gray-50'>
-      {/* <Navbar /> */}
+      <DashboardNavbar />
       <div className='flex'>
         <Sidebar />
         <main className='ml-56 flex-1 min-h-[calc(100vh-64px)]'>

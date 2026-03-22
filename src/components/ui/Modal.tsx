@@ -17,7 +17,6 @@ export default function Modal({
   children,
   size = "md",
 }: ModalProps) {
-  // ESC key close
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -26,7 +25,6 @@ export default function Modal({
     return () => document.removeEventListener("keydown", handleEsc);
   }, [isOpen, onClose]);
 
-  // Body scroll lock
   useEffect(() => {
     if (isOpen) document.body.style.overflow = "hidden";
     else document.body.style.overflow = "";
@@ -40,36 +38,43 @@ export default function Modal({
   const sizes = {
     sm: "max-w-sm",
     md: "max-w-md",
-    lg: "max-w-lg",
+    lg: "max-w-2xl",
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
+    <div className='fixed inset-0 z-50 flex items-center justify-center p-4'>
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-black/50"
+        className='absolute inset-0 bg-black/40 backdrop-blur-sm'
         onClick={onClose}
       />
 
       {/* Modal */}
       <div
-        className={`relative bg-white rounded-xl shadow-xl w-full ${sizes[size]} mx-4 p-6`}
-      >
+        className={`relative bg-white rounded-2xl shadow-2xl w-full ${sizes[size]} mx-4 flex flex-col max-h-[90vh]`}>
         {/* Header */}
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold text-gray-900">{title}</h2>
+        <div className='flex items-center justify-between px-6 py-5 border-b border-gray-100 flex-shrink-0'>
+          <h2 className='text-lg font-bold text-gray-900'>{title}</h2>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 transition-colors"
-          >
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            className='w-8 h-8 rounded-xl bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-500 hover:text-gray-700 transition-colors'>
+            <svg
+              className='w-4 h-4'
+              fill='none'
+              viewBox='0 0 24 24'
+              stroke='currentColor'>
+              <path
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                strokeWidth={2}
+                d='M6 18L18 6M6 6l12 12'
+              />
             </svg>
           </button>
         </div>
 
         {/* Content */}
-        {children}
+        <div className='overflow-y-auto flex-1 px-6 py-5'>{children}</div>
       </div>
     </div>
   );

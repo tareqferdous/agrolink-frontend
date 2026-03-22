@@ -1,13 +1,25 @@
 "use client";
 
 import Button from "@/components/ui/Button";
+import ImageUpload from "@/components/ui/ImageUpload";
 import Input from "@/components/ui/Input";
+import { CATEGORIES } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 
 const listingSchema = z.object({
   cropName: z.string().min(2, "Crop name required"),
+  category: z.enum([
+    "VEGETABLES",
+    "FRUITS",
+    "GRAINS",
+    "RICE",
+    "PULSES",
+    "SPICES",
+    "DAIRY",
+    "OTHERS",
+  ]),
   quantity: z.number().positive("Quantity must be positive"),
   unit: z.enum(["KG", "MON", "TON"]),
   minPricePerUnit: z.number().positive().optional(),
@@ -26,23 +38,27 @@ interface ListingFormProps {
   defaultValues?: Partial<TListingForm>;
   onSubmit: (data: TListingForm) => Promise<void>;
   submitLabel?: string;
+  isSubmitting?: boolean;
 }
 
 export default function ListingForm({
   defaultValues,
   onSubmit,
   submitLabel = "Create Listing",
+  isSubmitting = false,
 }: ListingFormProps) {
   const {
     register,
     handleSubmit,
     watch,
     setValue,
-    formState: { errors, isSubmitting },
+    control,
+    formState: { errors, isSubmitting: formSubmitting },
   } = useForm<TListingForm>({
     resolver: zodResolver(listingSchema),
     defaultValues: {
       unit: "KG",
+      category: "OTHERS",
       deliveryOptions: [],
       images: [],
       ...defaultValues,
@@ -63,9 +79,12 @@ export default function ListingForm({
     }
   };
 
+  const loading = isSubmitting || formSubmitting;
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='space-y-5'>
-      <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+      {/* Crop name + Category */}
+      <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
         <Input
           label='Crop Name'
           placeholder='e.g. আলু, ধান, টমেটো'
@@ -74,33 +93,57 @@ export default function ListingForm({
           {...register("cropName")}
         />
 
-        <div className='flex gap-3'>
-          <div className='flex-1'>
-            <Input
-              label='Quantity'
-              type='number'
-              placeholder='e.g. 100'
-              error={errors.quantity?.message}
-              required
-              {...register("quantity", { valueAsNumber: true })}
-            />
-          </div>
-          <div className='w-28'>
-            <label className='text-sm font-medium text-gray-700 block mb-1'>
-              Unit <span className='text-red-500'>*</span>
-            </label>
-            <select
-              className='w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:border-green-500 focus:ring-1 focus:ring-green-500 outline-none'
-              {...register("unit")}>
-              <option value='KG'>KG</option>
-              <option value='MON'>MON</option>
-              <option value='TON'>TON</option>
-            </select>
-          </div>
+        <div>
+          <label className='text-sm font-medium text-gray-700 block mb-1'>
+            Category <span className='text-red-500'>*</span>
+          </label>
+          <select
+            className={`w-full px-3 py-2 border rounded-lg text-sm focus:border-green-500 focus:ring-1 focus:ring-green-500 outline-none ${
+              errors.category ? "border-red-500" : "border-gray-300"
+            }`}
+            {...register("category")}>
+            {CATEGORIES.map((cat) => (
+              <option key={cat.value} value={cat.value}>
+                {cat.icon} {cat.label}
+              </option>
+            ))}
+          </select>
+          {errors.category && (
+            <p className='text-xs text-red-500 mt-1'>
+              {errors.category.message}
+            </p>
+          )}
         </div>
       </div>
 
-      <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+      {/* Quantity + Unit */}
+      <div className='flex gap-3'>
+        <div className='flex-1'>
+          <Input
+            label='Quantity'
+            type='number'
+            placeholder='e.g. 100'
+            error={errors.quantity?.message}
+            required
+            {...register("quantity", { valueAsNumber: true })}
+          />
+        </div>
+        <div className='w-28'>
+          <label className='text-sm font-medium text-gray-700 block mb-1'>
+            Unit <span className='text-red-500'>*</span>
+          </label>
+          <select
+            className='w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:border-green-500 focus:ring-1 focus:ring-green-500 outline-none'
+            {...register("unit")}>
+            <option value='KG'>KG</option>
+            <option value='MON'>MON</option>
+            <option value='TON'>TON</option>
+          </select>
+        </div>
+      </div>
+
+      {/* Min price + Harvest date */}
+      <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
         <Input
           label='Min Price per Unit (৳)'
           type='number'
@@ -108,7 +151,6 @@ export default function ListingForm({
           error={errors.minPricePerUnit?.message}
           {...register("minPricePerUnit", { valueAsNumber: true })}
         />
-
         <Input
           label='Harvest Date'
           type='date'
@@ -118,6 +160,7 @@ export default function ListingForm({
         />
       </div>
 
+      {/* Location */}
       <Input
         label='Location (District)'
         placeholder='e.g. Rajshahi, Dhaka'
@@ -126,12 +169,15 @@ export default function ListingForm({
         {...register("location")}
       />
 
+      {/* Description */}
       <div>
         <label className='text-sm font-medium text-gray-700 block mb-1'>
           Description
         </label>
         <textarea
-          className='w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:border-green-500 focus:ring-1 focus:ring-green-500 outline-none resize-none'
+          className={`w-full px-3 py-2 border rounded-lg text-sm focus:border-green-500 focus:ring-1 focus:ring-green-500 outline-none resize-none ${
+            errors.description ? "border-red-500" : "border-gray-300"
+          }`}
           rows={3}
           placeholder='Describe your crop quality, farming method, etc.'
           {...register("description")}
@@ -154,7 +200,7 @@ export default function ListingForm({
               key={option}
               type='button'
               onClick={() => toggleDelivery(option)}
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-lg border-2 text-sm font-medium transition-colors ${
+              className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border-2 text-sm font-medium transition-all ${
                 selectedDelivery.includes(option)
                   ? "border-green-500 bg-green-50 text-green-700"
                   : "border-gray-200 text-gray-600 hover:border-gray-300"
@@ -171,7 +217,20 @@ export default function ListingForm({
         )}
       </div>
 
-      <Button type='submit' loading={isSubmitting} size='lg' className='w-full'>
+      {/* Image Upload */}
+      <Controller
+        name='images'
+        control={control}
+        render={({ field }) => (
+          <ImageUpload
+            value={field.value ?? []}
+            onChange={field.onChange}
+            maxImages={3}
+          />
+        )}
+      />
+
+      <Button type='submit' loading={loading} size='lg' className='w-full'>
         {submitLabel}
       </Button>
     </form>

@@ -1,16 +1,25 @@
 "use client";
 
 import ListingCard from "@/components/listings/ListingCard";
+import ListingForm, { TListingForm } from "@/components/listings/ListingForm";
+import VerificationBanner from "@/components/shared/VerificationBanner";
 import Button from "@/components/ui/Button";
+import Modal from "@/components/ui/Modal";
 import api from "@/lib/axios";
 import { ApiResponse, Listing } from "@/types";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+
+type ModalState = {
+  mode: "create" | "edit";
+  listing?: Listing;
+} | null;
 
 export default function FarmerListingsPage() {
   const [listings, setListings] = useState<Listing[]>([]);
   const [loading, setLoading] = useState(true);
+  const [modal, setModal] = useState<ModalState>(null);
+  const [submitting, setSubmitting] = useState(false);
 
   const fetchListings = async () => {
     try {
@@ -28,6 +37,31 @@ export default function FarmerListingsPage() {
     fetchListings();
   }, []);
 
+  const handleSubmit = async (data: TListingForm) => {
+    try {
+      setSubmitting(true);
+      if (modal?.mode === "create") {
+        await api.post("/api/listings", {
+          ...data,
+          harvestDate: new Date(data.harvestDate).toISOString(),
+        });
+        toast.success("Listing created — awaiting admin approval");
+      } else {
+        await api.patch(`/api/listings/${modal?.listing?.id}`, {
+          ...data,
+          harvestDate: new Date(data.harvestDate).toISOString(),
+        });
+        toast.success("Listing updated successfully");
+      }
+      setModal(null);
+      fetchListings();
+    } catch (err: any) {
+      toast.error(err.message);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   const handleDelete = async (id: string) => {
     if (!confirm("Are you sure you want to delete this listing?")) return;
     try {
@@ -39,8 +73,27 @@ export default function FarmerListingsPage() {
     }
   };
 
+  const getDefaultValues = (listing?: Listing): Partial<TListingForm> => {
+    if (!listing) return {};
+    return {
+      cropName: listing.cropName,
+      category: listing.category,
+      quantity: listing.quantity,
+      unit: listing.unit,
+      minPricePerUnit: listing.minPricePerUnit,
+      description: listing.description,
+      harvestDate: new Date(listing.harvestDate).toISOString().split("T")[0],
+      location: listing.location,
+      deliveryOptions: listing.deliveryOptions,
+      images: listing.images,
+    };
+  };
+
   return (
     <div>
+      {/* Verification banner */}
+      <VerificationBanner />
+
       {/* Header */}
       <div className='flex items-center justify-between mb-6'>
         <div>
@@ -49,9 +102,9 @@ export default function FarmerListingsPage() {
             Manage your crop listings
           </p>
         </div>
-        <Link href='/farmer/listings/new'>
-          <Button size='md'>+ New Listing</Button>
-        </Link>
+        <Button onClick={() => setModal({ mode: "create" })}>
+          + New Listing
+        </Button>
       </div>
 
       {/* Content */}
@@ -60,22 +113,24 @@ export default function FarmerListingsPage() {
           {[...Array(3)].map((_, i) => (
             <div
               key={i}
-              className='bg-white rounded-xl border border-gray-100 h-72 animate-pulse'
+              className='bg-white rounded-2xl border border-gray-100 h-72 animate-pulse'
             />
           ))}
         </div>
       ) : listings.length === 0 ? (
-        <div className='text-center py-16'>
-          <p className='text-5xl mb-4'>🌾</p>
-          <h3 className='text-lg font-semibold text-gray-900'>
+        <div className='text-center py-20 bg-white rounded-2xl border border-gray-100'>
+          <div className='w-16 h-16 bg-gray-50 rounded-2xl flex items-center justify-center mx-auto mb-4 text-3xl border border-gray-100'>
+            🌾
+          </div>
+          <h3 className='text-lg font-semibold text-gray-900 mb-1'>
             No listings yet
           </h3>
-          <p className='text-gray-500 text-sm mt-1 mb-6'>
+          <p className='text-gray-500 text-sm mb-6'>
             Create your first crop listing to start receiving bids
           </p>
-          <Link href='/farmer/listings/new'>
-            <Button>Create Listing</Button>
-          </Link>
+          <Button onClick={() => setModal({ mode: "create" })}>
+            Create Listing
+          </Button>
         </div>
       ) : (
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
@@ -84,11 +139,32 @@ export default function FarmerListingsPage() {
               key={listing.id}
               listing={listing}
               showActions
+              onEdit={(listing) => setModal({ mode: "edit", listing })}
               onDelete={handleDelete}
             />
           ))}
         </div>
       )}
+
+      {/* Create / Edit Modal */}
+      <Modal
+        isOpen={!!modal}
+        onClose={() => setModal(null)}
+        title={modal?.mode === "create" ? "New Listing" : "Edit Listing"}
+        size='lg'>
+        <div className='max-h-[70vh] overflow-y-auto pr-1'>
+          {modal && (
+            <ListingForm
+              defaultValues={getDefaultValues(modal.listing)}
+              onSubmit={handleSubmit}
+              submitLabel={
+                modal.mode === "create" ? "Create Listing" : "Save Changes"
+              }
+              isSubmitting={submitting}
+            />
+          )}
+        </div>
+      </Modal>
     </div>
   );
 }

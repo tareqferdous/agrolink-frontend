@@ -1,17 +1,29 @@
 "use client";
 
 import { useAuth } from "@/hooks/useAuth";
-import { ChevronDown, Menu, User, X } from "lucide-react";
+import { useUserImage } from "@/hooks/useUserImage";
+import { ChevronDown, Menu, X } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
+import Avatar from "../ui/Avatar";
 
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const { user, logout } = useAuth();
-  const router = useRouter();
+  const pathname = usePathname();
+  const userImage = useUserImage();
+
+  const isDashboardRoute =
+    pathname.startsWith("/admin") ||
+    pathname.startsWith("/buyer") ||
+    pathname.startsWith("/farmer");
+
+  if (isDashboardRoute) {
+    return null;
+  }
 
   const handleLogout = async () => {
     try {
@@ -24,7 +36,7 @@ export default function Navbar() {
 
   const getDashboardLink = () => {
     if (user?.role === "FARMER") return "/farmer/listings";
-    if (user?.role === "BUYER") return "/buyer/listings";
+    if (user?.role === "BUYER") return "/listings";
     if (user?.role === "ADMIN") return "/admin/analytics";
     return "/";
   };
@@ -65,7 +77,7 @@ export default function Navbar() {
                   onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
                   className='flex items-center gap-2 p-2 rounded-lg hover:bg-gray-100 transition-colors'>
                   <div className='w-8 h-8 bg-green-100 rounded-full flex items-center justify-center'>
-                    <User className='w-4 h-4 text-green-700' />
+                    <Avatar src={userImage} name={user?.name ?? ""} size='md' />
                   </div>
                   <div className='text-left'>
                     <p className='text-sm font-medium text-gray-900 leading-none'>
@@ -120,7 +132,7 @@ export default function Navbar() {
                       {user.role === "BUYER" && (
                         <>
                           <Link
-                            href='/buyer/listings'
+                            href='/listings'
                             className='flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors'
                             onClick={() => setIsUserMenuOpen(false)}>
                             🔍 Browse Listings
@@ -237,7 +249,7 @@ export default function Navbar() {
                   {user.role === "BUYER" && (
                     <>
                       <Link
-                        href='/buyer/listings'
+                        href='/listings'
                         className='px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg'
                         onClick={() => setIsMobileMenuOpen(false)}>
                         🔍 Browse Listings

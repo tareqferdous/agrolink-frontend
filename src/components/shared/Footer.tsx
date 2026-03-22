@@ -1,6 +1,20 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const Footer = () => {
+  const pathname = usePathname();
+
+  const isDashboardRoute =
+    pathname.startsWith("/admin") ||
+    pathname.startsWith("/buyer") ||
+    pathname.startsWith("/farmer");
+
+  if (isDashboardRoute) {
+    return null;
+  }
+
   return (
     <footer className='border-t border-gray-100 py-8 px-6'>
       <div className='max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4'>

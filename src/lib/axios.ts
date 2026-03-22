@@ -15,10 +15,6 @@ api.interceptors.request.use(async (config) => {
     config.headers.Authorization = `Bearer ${token}`;
   }
 
-  if (typeof window !== "undefined") {
-    config.headers["Origin"] = window.location.origin;
-  }
-
   return config;
 });
 

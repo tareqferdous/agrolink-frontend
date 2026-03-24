@@ -6,12 +6,13 @@ const publicRoutes = ["/", "/login", "/register"];
 const getSession = async (request: NextRequest) => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/auth/get-session`,
+      `${request.nextUrl.origin}/api/auth/get-session`,
       {
         headers: {
           cookie: request.headers.get("cookie") ?? "",
           origin: request.nextUrl.origin,
         },
+        cache: "no-store",
       },
     );
     if (!response.ok) return null;

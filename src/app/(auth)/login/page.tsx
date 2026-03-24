@@ -27,13 +27,10 @@ const getRedirectPathByRole = (role?: string) => {
 
 const getRoleFromProfile = async () => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/auth/me`,
-      {
-        method: "GET",
-        credentials: "include",
-      },
-    );
+    const response = await fetch("/api/auth/me", {
+      method: "GET",
+      credentials: "include",
+    });
 
     if (!response.ok) return undefined;
 

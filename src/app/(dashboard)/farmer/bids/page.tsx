@@ -58,8 +58,12 @@ export default function FarmerBidsPage() {
     try {
       setAccepting(bidId);
       await api.patch(`/api/bids/${bidId}/accept`);
-      toast.success("Bid accepted! Order created.");
-      fetchData();
+      toast.success("Bid accepted! Order created. Listing closed.");
+
+      // Immediately remove the listing from the list
+      setListingBids((prev) =>
+        prev.filter((item) => !item.bids.some((b) => b.id === bidId)),
+      );
     } catch (err: any) {
       toast.error(err.message);
     } finally {

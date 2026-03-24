@@ -2,10 +2,10 @@ import Link from "next/link";
 
 const Hero = () => {
   const stats = [
-    { val: "16M+", label: "Farming households in BD" },
-    { val: "60–80%", label: "Value lost to middlemen" },
-    { val: "3%", label: "Platform fee only" },
-    { val: "24hr", label: "Buyer payment deadline" },
+    { val: "16M+", label: "Farming households in BD", icon: "🌾" },
+    { val: "60–80%", label: "Value lost to middlemen", icon: "📉" },
+    { val: "3%", label: "Platform fee only", icon: "💸" },
+    { val: "24hr", label: "Buyer payment deadline", icon: "⏱️" },
   ];
   return (
     <section className='relative bg-linear-to-b from-green-50/80 via-white to-white overflow-hidden'>

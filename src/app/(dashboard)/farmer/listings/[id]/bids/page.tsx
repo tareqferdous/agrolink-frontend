@@ -36,8 +36,21 @@ export default function ListingBidsPage() {
     try {
       setAccepting(bidId);
       await api.patch(`/api/bids/${bidId}/accept`);
-      toast.success("Bid accepted! Order created.");
-      fetchBids();
+      toast.success("Bid accepted! Listing closed.");
+
+      // Immediately remove the accepted bid and show all others as rejected
+      setBids((prev) =>
+        prev.map((bid) =>
+          bid.id === bidId
+            ? { ...bid, bidStatus: "ACCEPTED" as const }
+            : { ...bid, bidStatus: "REJECTED" as const },
+        ),
+      );
+
+      // Hide the listing after a short delay to show the status change
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
     } catch (err: any) {
       toast.error(err.message);
     } finally {

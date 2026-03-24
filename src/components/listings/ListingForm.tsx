@@ -29,7 +29,7 @@ const listingSchema = z.object({
   deliveryOptions: z
     .array(z.enum(["PICKUP", "COURIER"]))
     .min(1, "Select at least one delivery option"),
-  images: z.array(z.string().url()).max(3).optional().default([]),
+  images: z.array(z.string().url()).max(3).optional(),
 });
 
 export type TListingForm = z.infer<typeof listingSchema>;

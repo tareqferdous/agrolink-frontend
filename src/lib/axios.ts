@@ -2,7 +2,8 @@ import axios from "axios";
 import { authClient } from "./auth-client";
 
 const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL,
+  // Empty baseURL: all calls use full path via Next.js rewrites
+  baseURL: "",
   withCredentials: true,
 });
 

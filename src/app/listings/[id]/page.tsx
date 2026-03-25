@@ -1,91 +1,71 @@
-"use client";
-
-import BidSection from "@/components/listings/BidSection";
+import BidSectionWrapper from "@/components/listings/BidSectionWrapper";
+import ListingCard from "@/components/listings/ListingCard";
 import ListingGallery from "@/components/listings/ListingGallery";
-import api from "@/lib/axios";
+import serverApi from "@/lib/server-axios";
 import { ApiResponse, CATEGORIES, Listing } from "@/types";
 import Link from "next/link";
-import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import { toast } from "sonner";
+import { notFound } from "next/navigation";
 
-export default function ListingDetailPage() {
-  const { id } = useParams();
-  const [listing, setListing] = useState<Listing | null>(null);
-  const [loading, setLoading] = useState(true);
+interface ListingDetailPageProps {
+  params: Promise<{ id: string }>;
+}
 
-  useEffect(() => {
-    const fetchListing = async () => {
-      try {
-        const res = await api.get<ApiResponse<Listing>>(`/api/listings/${id}`);
-        setListing(res.data.data);
-      } catch {
-        toast.error("Listing not found");
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchListing();
-  }, [id]);
-
-  if (loading) {
-    return (
-      <div className='min-h-screen bg-gray-50'>
-        <header className='bg-white border-b border-gray-100 px-6 py-4'>
-          <div className='h-6 w-32 bg-gray-200 rounded animate-pulse' />
-        </header>
-        <div className='max-w-6xl mx-auto px-6 py-8'>
-          <div className='grid grid-cols-1 lg:grid-cols-5 gap-8'>
-            <div className='lg:col-span-3 space-y-6'>
-              <div className='aspect-[4/3] bg-gray-200 rounded-2xl animate-pulse' />
-              <div className='bg-white rounded-2xl border border-gray-100 h-48 animate-pulse' />
-            </div>
-            <div className='lg:col-span-2 space-y-4'>
-              <div className='bg-white rounded-2xl border border-gray-100 h-64 animate-pulse' />
-              <div className='bg-white rounded-2xl border border-gray-100 h-48 animate-pulse' />
-            </div>
-          </div>
-        </div>
-      </div>
-    );
+const getListingById = async (id: string): Promise<Listing | null> => {
+  try {
+    const api = await serverApi();
+    const res = await api.get<ApiResponse<Listing>>(`/api/listings/${id}`);
+    return res.data.data;
+  } catch {
+    return null;
   }
+};
+
+const getRelatedListings = async (
+  category: Listing["category"],
+  currentId: string,
+): Promise<Listing[]> => {
+  try {
+    const api = await serverApi();
+    const res = await api.get<ApiResponse<Listing[]>>(
+      `/api/listings?category=${category}&limit=8`,
+    );
+
+    return (res.data.data ?? [])
+      .filter((item) => item.id !== currentId)
+      .slice(0, 3);
+  } catch {
+    return [];
+  }
+};
+
+export default async function ListingDetailPage({
+  params,
+}: ListingDetailPageProps) {
+  const { id } = await params;
+  const listing = await getListingById(id);
 
   if (!listing) {
-    return (
-      <div className='min-h-screen bg-gray-50 flex items-center justify-center'>
-        <div className='text-center'>
-          <p className='text-5xl mb-4'>🌾</p>
-          <h2 className='text-xl font-bold text-gray-900 mb-2'>
-            Listing not found
-          </h2>
-          <Link
-            href='/listings'
-            className='text-green-600 hover:underline text-sm'>
-            ← Back to listings
-          </Link>
-        </div>
-      </div>
-    );
+    notFound();
   }
 
+  const relatedListings = await getRelatedListings(
+    listing.category,
+    listing.id,
+  );
   const categoryInfo = CATEGORIES.find((c) => c.value === listing.category);
 
   return (
     <div className='min-h-screen bg-gray-50'>
       <div className='max-w-6xl mx-auto px-6 py-8'>
         <div className='grid grid-cols-1 lg:grid-cols-5 gap-8'>
-          {/* Left col — 3/5 */}
           <div className='lg:col-span-3 space-y-6'>
-            {/* Gallery */}
             <ListingGallery
               images={listing.images}
               cropName={listing.cropName}
               categoryIcon={categoryInfo?.icon}
             />
 
-            {/* Main info card */}
             <div className='bg-white rounded-2xl border border-gray-100 p-6'>
-              {/* Tags */}
               <div className='flex flex-wrap items-center gap-2 mb-4'>
                 <span className='inline-flex items-center gap-1.5 text-xs px-3 py-1.5 bg-green-100 text-green-700 rounded-full font-medium'>
                   {categoryInfo?.icon} {categoryInfo?.label}
@@ -99,13 +79,12 @@ export default function ListingDetailPage() {
                 ))}
               </div>
 
-              {/* Title + price */}
               <div className='flex items-start justify-between gap-4'>
                 <h1 className='text-3xl font-bold text-gray-900 leading-tight'>
                   {listing.cropName}
                 </h1>
                 {listing.minPricePerUnit && (
-                  <div className='text-right flex-shrink-0'>
+                  <div className='text-right shrink-0'>
                     <div className='flex items-baseline gap-1'>
                       <span className='text-3xl font-bold text-green-600'>
                         ৳{listing.minPricePerUnit}
@@ -119,7 +98,6 @@ export default function ListingDetailPage() {
                 )}
               </div>
 
-              {/* Stats grid */}
               <div className='grid grid-cols-2 sm:grid-cols-4 gap-3 mt-6'>
                 {[
                   {
@@ -164,7 +142,6 @@ export default function ListingDetailPage() {
                 ))}
               </div>
 
-              {/* Description */}
               {listing.description && (
                 <div className='mt-6 pt-6 border-t border-gray-100'>
                   <h2 className='font-semibold text-gray-900 mb-2 flex items-center gap-2'>
@@ -177,7 +154,6 @@ export default function ListingDetailPage() {
               )}
             </div>
 
-            {/* Farmer card */}
             <div className='bg-white rounded-2xl border border-gray-100 p-6'>
               <h2 className='font-semibold text-gray-900 mb-4 flex items-center gap-2'>
                 <span>👨‍🌾</span> About the Farmer
@@ -185,7 +161,7 @@ export default function ListingDetailPage() {
               <Link
                 href={`/users/${listing.farmer.id}`}
                 className='flex items-center gap-4 p-4 rounded-xl border border-gray-100 hover:border-green-200 hover:bg-green-50/50 transition-all group'>
-                <div className='w-14 h-14 rounded-2xl bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center text-white font-bold text-xl flex-shrink-0 shadow-sm'>
+                <div className='w-14 h-14 rounded-2xl bg-linear-to-br from-green-400 to-green-600 flex items-center justify-center text-white font-bold text-xl shrink-0 shadow-sm'>
                   {listing.farmer.name.charAt(0).toUpperCase()}
                 </div>
                 <div className='flex-1 min-w-0'>
@@ -205,7 +181,7 @@ export default function ListingDetailPage() {
                     )}
                   </div>
                 </div>
-                <span className='inline-flex items-center gap-1 text-xs text-green-600 font-medium bg-green-50 px-3 py-1.5 rounded-full group-hover:bg-green-100 transition-colors flex-shrink-0'>
+                <span className='inline-flex items-center gap-1 text-xs text-green-600 font-medium bg-green-50 px-3 py-1.5 rounded-full group-hover:bg-green-100 transition-colors shrink-0'>
                   View Profile
                   <svg
                     className='w-3 h-3'
@@ -222,7 +198,6 @@ export default function ListingDetailPage() {
                 </span>
               </Link>
 
-              {/* Trust badges */}
               <div className='grid grid-cols-3 gap-3 mt-4'>
                 {[
                   { icon: "🔒", text: "Secure Payment" },
@@ -242,11 +217,37 @@ export default function ListingDetailPage() {
             </div>
           </div>
 
-          {/* Right col — 2/5 */}
           <div className='lg:col-span-2'>
-            <BidSection listing={listing} />
+            <BidSectionWrapper listing={listing} />
           </div>
         </div>
+
+        {relatedListings.length > 0 && (
+          <section className='mt-12'>
+            <div className='flex items-center justify-between gap-4 mb-5'>
+              <div>
+                <h2 className='text-2xl font-bold text-gray-900'>
+                  You might also like
+                </h2>
+                <p className='text-sm text-gray-500 mt-1'>
+                  Similar crops from the same category
+                </p>
+              </div>
+
+              <Link
+                href={`/listings?category=${listing.category}`}
+                className='text-sm font-medium text-green-600 hover:text-green-700 hover:underline'>
+                View all
+              </Link>
+            </div>
+
+            <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5'>
+              {relatedListings.map((item) => (
+                <ListingCard key={item.id} listing={item} />
+              ))}
+            </div>
+          </section>
+        )}
       </div>
     </div>
   );

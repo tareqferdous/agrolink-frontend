@@ -170,3 +170,12 @@ export interface ApiResponse<T> {
     totalPages: number;
   };
 }
+
+export interface FarmerAnalytics {
+  totalListings: number;
+  activeListings: number;
+  totalEarnings: number;
+  pendingOrders: number;
+  completedOrders: number;
+  totalBids: number;
+}

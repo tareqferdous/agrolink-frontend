@@ -13,6 +13,7 @@ interface NavItem {
 }
 
 const farmerNav: NavItem[] = [
+  { label: "Analytics", href: "/farmer/analytics", icon: "📊" },
   { label: "My Listings", href: "/farmer/listings", icon: "🌾" },
   { label: "Bids", href: "/farmer/bids", icon: "💬" },
   { label: "Orders", href: "/farmer/orders", icon: "📦" },
@@ -41,10 +42,20 @@ export default function Sidebar() {
   const userImage = useUserImage();
   const pathname = usePathname();
 
+  const pathRole = pathname?.startsWith("/farmer")
+    ? "FARMER"
+    : pathname?.startsWith("/buyer")
+      ? "BUYER"
+      : pathname?.startsWith("/admin")
+        ? "ADMIN"
+        : undefined;
+
+  const resolvedRole = user?.role ?? pathRole;
+
   const navItems =
-    user?.role === "FARMER"
+    resolvedRole === "FARMER"
       ? farmerNav
-      : user?.role === "BUYER"
+      : resolvedRole === "BUYER"
         ? buyerNav
         : adminNav;
 
@@ -76,7 +87,7 @@ export default function Sidebar() {
     };
   };
 
-  const roleConfig = getRoleConfig(user?.role);
+  const roleConfig = getRoleConfig(resolvedRole);
 
   return (
     <aside className='w-56 bg-white border-r border-gray-100 fixed top-16 left-0 bottom-0 z-30 flex flex-col'>

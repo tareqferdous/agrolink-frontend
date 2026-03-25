@@ -1,36 +1,84 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AgroLink Frontend
+
+AgroLink is a role-based agriculture marketplace where farmers create crop listings, buyers place bids, and orders are handled with secure payments and review workflows.
+
+## Live Links
+
+- Frontend Live URL: `Add your deployed frontend URL`
+- Backend Live URL: `Add your deployed backend URL`
+
+## Features
+
+- Modern responsive homepage with multiple sections (Hero, Features, Category, CTA, Footer)
+- Authentication flow (login/register) with Better Auth session handling
+- Role-based dashboards:
+  - Farmer: manage listings, bids, orders, wallet
+  - Buyer: browse listings, place bids, pay and track orders
+  - Admin: manage users, listings, orders and analytics
+- Listing management with image uploads and category-based filtering
+- Bid flow with accept/reject actions and listing close behavior
+- Stripe payment integration for order payments
+- Review and rating support after completed orders
+- Loading states, toast notifications, and form validation with Zod + React Hook Form
+
+## Tech Stack
+
+- Next.js (App Router)
+- React
+- TypeScript
+- Tailwind CSS
+- Axios
+- Better Auth (client-side integration)
+- Stripe.js
+- Zod + React Hook Form
+
+## Project Structure
+
+```text
+src/
+	app/                 # App Router pages and layouts
+	components/          # Reusable UI and feature components
+	hooks/               # Custom React hooks
+	lib/                 # API/auth/stripe helpers
+	types/               # Shared TypeScript types
+```
+
+## Environment Variables
+
+Create a `.env.local` file in the frontend root and set:
+
+```env
+NEXT_PUBLIC_API_URL=http://localhost:5000
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+NEXT_PUBLIC_FRONTEND_URL=http://localhost:3000
+NEXT_PUBLIC_IMAGEBB_API_KEY=your_imagebb_key
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=your_stripe_publishable_key
+```
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Available Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `npm run dev` - Start development server
+- `npm run build` - Build production bundle
+- `npm run start` - Start production server
+- `npm run lint` - Run ESLint
 
-## Learn More
+## Deployment
 
-To learn more about Next.js, take a look at the following resources:
+- Recommended platform: Vercel
+- Set all required frontend environment variables in the deployment dashboard
+- Ensure `NEXT_PUBLIC_API_URL` points to the deployed backend base URL
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Author
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Name: `Your Name`
+- Email: `your-email@example.com`
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

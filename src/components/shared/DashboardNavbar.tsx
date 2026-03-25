@@ -18,13 +18,23 @@ export default function DashboardNavbar() {
   const userImage = useUserImage();
   const pathname = usePathname();
 
+  const pathRole = pathname?.startsWith("/farmer")
+    ? "FARMER"
+    : pathname?.startsWith("/buyer")
+      ? "BUYER"
+      : pathname?.startsWith("/admin")
+        ? "ADMIN"
+        : undefined;
+
+  const resolvedRole = user?.role ?? pathRole;
+
   const quickLinks: QuickLink[] =
-    user?.role === "FARMER"
+    resolvedRole === "FARMER"
       ? [
           { label: "Listings", href: "/farmer/listings" },
           { label: "Orders", href: "/farmer/orders" },
         ]
-      : user?.role === "BUYER"
+      : resolvedRole === "BUYER"
         ? [
             { label: "Browse", href: "/listings" },
             { label: "Orders", href: "/buyer/orders" },
@@ -35,9 +45,9 @@ export default function DashboardNavbar() {
           ];
 
   const panelTitle =
-    user?.role === "FARMER"
+    resolvedRole === "FARMER"
       ? "Farmer Dashboard"
-      : user?.role === "BUYER"
+      : resolvedRole === "BUYER"
         ? "Buyer Dashboard"
         : "Admin Dashboard";
 

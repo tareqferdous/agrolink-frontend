@@ -27,8 +27,8 @@ export default function AdminOrdersPage() {
         `/api/admin/orders${params}`,
       );
       setOrders(res.data.data);
-    } catch (err: any) {
-      toast.error(err.message);
+    } catch (err: unknown) {
+      toast.error(err instanceof Error ? err.message : "Something went wrong");
     } finally {
       setLoading(false);
     }

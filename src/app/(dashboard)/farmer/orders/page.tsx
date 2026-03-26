@@ -35,9 +35,17 @@ export default function FarmerOrdersPage() {
     try {
       setLoading(true);
       const res = await api.get<ApiResponse<Order[]>>("/api/orders/my");
-      setOrders(res.data.data);
-    } catch (err: any) {
-      toast.error(err.message);
+      const fetchedOrders = res.data.data;
+      setOrders(fetchedOrders);
+      setReviewedOrders(
+        new Set(
+          fetchedOrders
+            .filter((order) => order.hasReviewedByMe)
+            .map((order) => order.id),
+        ),
+      );
+    } catch (err: unknown) {
+      toast.error(err instanceof Error ? err.message : "Something went wrong");
     } finally {
       setLoading(false);
     }
@@ -52,8 +60,8 @@ export default function FarmerOrdersPage() {
       await api.patch(`/api/orders/${orderId}/ready-pickup`);
       toast.success("Order marked as ready for pickup");
       fetchOrders();
-    } catch (err: any) {
-      toast.error(err.message);
+    } catch (err: unknown) {
+      toast.error(err instanceof Error ? err.message : "Something went wrong");
     }
   };
 
@@ -64,8 +72,8 @@ export default function FarmerOrdersPage() {
       setShipModal(null);
       reset();
       fetchOrders();
-    } catch (err: any) {
-      toast.error(err.message);
+    } catch (err: unknown) {
+      toast.error(err instanceof Error ? err.message : "Something went wrong");
     }
   };
 

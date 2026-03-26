@@ -132,6 +132,7 @@ export interface Order {
     phone?: string;
     location?: string;
   };
+  hasReviewedByMe?: boolean;
 }
 
 export interface WalletTransaction {

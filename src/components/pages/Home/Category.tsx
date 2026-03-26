@@ -93,7 +93,7 @@ const getAvailableCategories = async (): Promise<CategoryType[]> => {
     }
 
     const response = await fetch(`${apiUrl}/api/listings?limit=1`, {
-      next: { revalidate: 120 },
+      cache: "no-store",
     });
 
     if (!response.ok) {
@@ -171,9 +171,9 @@ const Category = async () => {
               <span className='text-xs text-gray-500 leading-tight'>
                 {cat.labelBn}
               </span>
-              <span className='text-[10px] text-gray-400 font-medium'>
+              {/* <span className='text-[10px] text-gray-400 font-medium'>
                 {cat.count}
-              </span>
+              </span> */}
             </Link>
           );
         })}

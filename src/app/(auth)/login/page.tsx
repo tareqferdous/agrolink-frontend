@@ -12,11 +12,15 @@ import { toast } from "sonner";
 import { z } from "zod";
 
 const loginSchema = z.object({
-  email: z.string().email("Invalid email address"),
+  email: z.string().trim().toLowerCase().email("Invalid email address"),
   password: z.string().min(6, "Password must be at least 6 characters"),
 });
 
 type TLoginForm = z.infer<typeof loginSchema>;
+
+type UserWithOptionalRole = {
+  role?: string;
+};
 
 const getRedirectPathByRole = (role?: string) => {
   if (role === Roles.FARMER) return "/farmer/listings";
@@ -60,15 +64,20 @@ export default function LoginPage() {
       });
 
       if (result.error) {
-        toast.error(result.error.message ?? "Login failed");
+        toast.error("Invalid email or password");
         return;
       }
 
       const sessionResult = await authClient.getSession();
+      const sessionUser = sessionResult.data?.user as
+        | UserWithOptionalRole
+        | undefined;
+      const signedInUser = result.data?.user as
+        | UserWithOptionalRole
+        | undefined;
+
       const role =
-        (sessionResult.data?.user as any)?.role ??
-        (result.data?.user as any)?.role ??
-        (await getRoleFromProfile());
+        sessionUser?.role ?? signedInUser?.role ?? (await getRoleFromProfile());
       const redirectPath = getRedirectPathByRole(role);
 
       toast.success("Login successful!");

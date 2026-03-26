@@ -11,18 +11,36 @@ import { toast } from "sonner";
 import { z } from "zod";
 
 const registerSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
-  email: z.string().email("Invalid email address"),
+  name: z.string().trim().min(2, "Name must be at least 2 characters"),
+  email: z.string().trim().toLowerCase().email("Invalid email address"),
   password: z.string().min(6, "Password must be at least 6 characters"),
   role: z.enum(["FARMER", "BUYER"], {
     message: "Role must be FARMER or BUYER",
   }),
-  phone: z.string().min(11, "Phone must be at least 11 digits").optional(),
-  location: z.string().min(2, "Location is required").optional(),
-  companyName: z.string().optional(),
+  phone: z
+    .string()
+    .trim()
+    .optional()
+    .transform((value) => (value === "" ? undefined : value))
+    .refine((value) => !value || value.length >= 11, {
+      message: "Phone must be at least 11 digits",
+    }),
+  location: z
+    .string()
+    .trim()
+    .optional()
+    .transform((value) => (value === "" ? undefined : value))
+    .refine((value) => !value || value.length >= 2, {
+      message: "Location is required",
+    }),
+  companyName: z
+    .string()
+    .trim()
+    .optional()
+    .transform((value) => (value === "" ? undefined : value)),
 });
 
-type TRegisterForm = z.infer<typeof registerSchema>;
+type TRegisterForm = z.input<typeof registerSchema>;
 
 export default function RegisterPage() {
   const router = useRouter();

@@ -1,9 +1,19 @@
 import { authClient } from "@/lib/auth-client";
+import { useSyncExternalStore } from "react";
+
+const subscribe = () => () => {};
 
 export const useAuth = () => {
   const { data: session, isPending } = authClient.useSession();
+  const hydrated = useSyncExternalStore(
+    subscribe,
+    () => true,
+    () => false,
+  );
 
-  const user = session?.user as
+  const sessionUser = hydrated ? session?.user : undefined;
+
+  const user = sessionUser as
     | {
         id: string;
         name: string;
@@ -19,7 +29,7 @@ export const useAuth = () => {
       }
     | undefined;
 
-  const isAuthenticated = !!session?.user;
+  const isAuthenticated = !!sessionUser;
 
   const logout = async () => {
     await authClient.signOut();

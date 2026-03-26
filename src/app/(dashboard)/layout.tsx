@@ -1,5 +1,5 @@
 import DashboardFooter from "@/components/shared/DashboardFooter";
-import DashboardNavbar from "@/components/shared/DashboardNavbar";
+import DashboardNavbarClient from "@/components/shared/DashboardNavbarClient";
 import Sidebar from "@/components/shared/Sidebar";
 
 export default function DashboardLayout({
@@ -9,7 +9,7 @@ export default function DashboardLayout({
 }) {
   return (
     <div className='min-h-screen bg-gray-50'>
-      <DashboardNavbar />
+      <DashboardNavbarClient />
       <Sidebar />
 
       <div className='ml-56 min-h-[calc(100vh-64px)] flex flex-col'>

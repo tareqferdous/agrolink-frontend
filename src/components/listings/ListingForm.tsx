@@ -8,6 +8,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 
+const getTodayDateString = () => {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const day = String(today.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
+
 const listingSchema = z.object({
   cropName: z.string().min(2, "Crop name required"),
   category: z.enum([
@@ -24,7 +32,12 @@ const listingSchema = z.object({
   unit: z.enum(["KG", "MON", "TON"]),
   minPricePerUnit: z.number().positive().optional(),
   description: z.string().min(10).max(500).optional(),
-  harvestDate: z.string().min(1, "Harvest date required"),
+  harvestDate: z
+    .string()
+    .min(1, "Harvest date required")
+    .refine((date) => date <= getTodayDateString(), {
+      message: "Harvest date cannot be in the future",
+    }),
   location: z.string().min(2, "Location required"),
   deliveryOptions: z
     .array(z.enum(["PICKUP", "COURIER"]))
@@ -47,6 +60,8 @@ export default function ListingForm({
   submitLabel = "Create Listing",
   isSubmitting = false,
 }: ListingFormProps) {
+  const maxHarvestDate = getTodayDateString();
+
   const {
     register,
     handleSubmit,
@@ -154,6 +169,7 @@ export default function ListingForm({
         <Input
           label='Harvest Date'
           type='date'
+          max={maxHarvestDate}
           error={errors.harvestDate?.message}
           required
           {...register("harvestDate")}

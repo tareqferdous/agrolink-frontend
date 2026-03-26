@@ -21,9 +21,17 @@ export default function BuyerOrdersPage() {
     try {
       setLoading(true);
       const res = await api.get<ApiResponse<Order[]>>("/api/orders/my");
-      setOrders(res.data.data);
-    } catch (err: any) {
-      toast.error(err.message);
+      const fetchedOrders = res.data.data;
+      setOrders(fetchedOrders);
+      setReviewedOrders(
+        new Set(
+          fetchedOrders
+            .filter((order) => order.hasReviewedByMe)
+            .map((order) => order.id),
+        ),
+      );
+    } catch (err: unknown) {
+      toast.error(err instanceof Error ? err.message : "Something went wrong");
     } finally {
       setLoading(false);
     }
@@ -44,8 +52,8 @@ export default function BuyerOrdersPage() {
       await api.patch(`/api/orders/${orderId}/confirm-received`);
       toast.success("Order completed! Payment released to farmer.");
       fetchOrders();
-    } catch (err: any) {
-      toast.error(err.message);
+    } catch (err: unknown) {
+      toast.error(err instanceof Error ? err.message : "Something went wrong");
     } finally {
       setConfirming(null);
     }

@@ -14,5 +14,13 @@ export const uploadToImageBB = async (file: File): Promise<string> => {
     throw new Error("Image upload failed");
   }
 
-  return data.data.url as string;
+  const rawUrl = (data?.data?.display_url ?? data?.data?.url) as
+    | string
+    | undefined;
+
+  if (!rawUrl) {
+    throw new Error("Image URL missing from upload response");
+  }
+
+  return rawUrl.replace(/^http:\/\//i, "https://");
 };

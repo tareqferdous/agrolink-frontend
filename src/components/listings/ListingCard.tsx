@@ -20,20 +20,22 @@ export default function ListingCard({
   const categoryInfo = CATEGORIES.find((c) => c.value === listing.category);
   const canEdit =
     listing.status === "PENDING_APPROVAL" || listing.status === "ACTIVE";
+  const coverImage = listing.images[0]?.replace(/^http:\/\//i, "https://");
 
   return (
     <div className='bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 group'>
       {/* Image */}
       <div className='relative h-48 bg-gray-100 overflow-hidden'>
-        {listing.images.length > 0 ? (
+        {coverImage ? (
           <Image
-            src={listing.images[0]}
+            src={coverImage}
             alt={listing.cropName}
             fill
+            unoptimized
             className='object-cover group-hover:scale-105 transition-transform duration-300'
           />
         ) : (
-          <div className='h-full flex items-center justify-center bg-gradient-to-br from-green-50 to-emerald-100'>
+          <div className='h-full flex items-center justify-center bg-linear-to-br from-green-50 to-emerald-100'>
             <span className='text-6xl'>{categoryInfo?.icon ?? "🌾"}</span>
           </div>
         )}
@@ -72,7 +74,7 @@ export default function ListingCard({
             {listing.cropName}
           </h3>
           {listing.minPricePerUnit && (
-            <div className='text-right flex-shrink-0'>
+            <div className='text-right shrink-0'>
               <span className='text-lg font-bold text-green-600'>
                 ৳{listing.minPricePerUnit}
               </span>

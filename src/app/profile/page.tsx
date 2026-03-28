@@ -9,9 +9,8 @@ import {
   ProfileUser,
   TProfileForm,
 } from "@/components/pages/Profile/profileSchema";
-import { useAuth } from "@/hooks/useAuth";
+import { dispatchAuthUserUpdate, useAuth } from "@/hooks/useAuth";
 import { dispatchImageUpdate } from "@/hooks/useUserImage";
-import { authClient } from "@/lib/auth-client";
 import api from "@/lib/axios";
 import { uploadToImageBB } from "@/lib/imagebb";
 import { ApiResponse, User } from "@/types";
@@ -55,10 +54,13 @@ export default function ProfilePage() {
     try {
       setImageUploading(true);
       const url = await uploadToImageBB(file);
-      const res = await api.patch("/api/users/profile", { image: url });
+      await api.patch("/api/users/profile", { image: url });
 
-      const session = await authClient.getSession();
-      dispatchImageUpdate(url);
+      setCurrentImage(url);
+      if (profileUser?.id) {
+        dispatchAuthUserUpdate({ id: profileUser.id, image: url });
+      }
+      dispatchImageUpdate(url, profileUser?.id);
       toast.success("Profile picture updated!");
     } catch (err) {
       console.error(err);
@@ -76,6 +78,17 @@ export default function ProfilePage() {
         location: data.location || undefined,
         companyName: data.companyName || undefined,
       });
+
+      if (profileUser?.id) {
+        dispatchAuthUserUpdate({
+          id: profileUser.id,
+          name: data.name,
+          phone: data.phone || undefined,
+          location: data.location || undefined,
+          companyName: data.companyName || undefined,
+        });
+      }
+
       toast.success("Profile updated successfully");
       reset(data);
     } catch (err: any) {

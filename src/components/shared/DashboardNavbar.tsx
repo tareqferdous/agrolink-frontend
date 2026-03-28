@@ -9,11 +9,6 @@ import { usePathname } from "next/navigation";
 import { toast } from "sonner";
 import ThemeToggle from "./ThemeToggle";
 
-interface QuickLink {
-  label: string;
-  href: string;
-}
-
 export default function DashboardNavbar() {
   const { user, logout } = useAuth();
   const userImage = useUserImage();
@@ -29,30 +24,12 @@ export default function DashboardNavbar() {
 
   const resolvedRole = user?.role ?? pathRole;
 
-  const quickLinks: QuickLink[] =
-    resolvedRole === "FARMER"
-      ? [
-          { label: "Listings", href: "/farmer/listings" },
-          { label: "Orders", href: "/farmer/orders" },
-        ]
-      : resolvedRole === "BUYER"
-        ? [
-            { label: "Browse", href: "/listings" },
-            { label: "Orders", href: "/buyer/orders" },
-          ]
-        : [
-            { label: "Analytics", href: "/admin/analytics" },
-            { label: "Users", href: "/admin/users" },
-          ];
-
   const panelTitle =
     resolvedRole === "FARMER"
       ? "Farmer Dashboard"
       : resolvedRole === "BUYER"
         ? "Buyer Dashboard"
         : "Admin Dashboard";
-
-  const isActive = (href: string) => pathname === href;
 
   const handleLogout = async () => {
     try {
@@ -77,21 +54,6 @@ export default function DashboardNavbar() {
           <span className='hidden md:inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-green-50 dark:bg-green-900/40 text-green-700 dark:text-green-300'>
             {panelTitle}
           </span>
-
-          <nav className='hidden lg:flex items-center gap-1 ml-2'>
-            {quickLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-                  isActive(link.href)
-                    ? "bg-green-50 dark:bg-green-900/40 text-green-700 dark:text-green-300"
-                    : "text-gray-600 dark:text-gray-300 hover:text-green-700 dark:hover:text-green-400 hover:bg-gray-50 dark:hover:bg-gray-800"
-                }`}>
-                {link.label}
-              </Link>
-            ))}
-          </nav>
         </div>
 
         <div className='flex items-center gap-2 sm:gap-3'>

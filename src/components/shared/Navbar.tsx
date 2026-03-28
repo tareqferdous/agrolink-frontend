@@ -36,8 +36,8 @@ export default function Navbar() {
   };
 
   const getDashboardLink = () => {
-    if (user?.role === "FARMER") return "/farmer/listings";
-    if (user?.role === "BUYER") return "/listings";
+    if (user?.role === "FARMER") return "/farmer/analytics";
+    if (user?.role === "BUYER") return "/buyer/bids";
     if (user?.role === "ADMIN") return "/admin/analytics";
     return "/";
   };
@@ -137,12 +137,12 @@ export default function Navbar() {
 
                       {user.role === "BUYER" && (
                         <>
-                          <Link
+                          {/* <Link
                             href='/listings'
                             className='flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors'
                             onClick={() => setIsUserMenuOpen(false)}>
                             🔍 Browse Listings
-                          </Link>
+                          </Link> */}
                           <Link
                             href='/buyer/orders'
                             className='flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors'

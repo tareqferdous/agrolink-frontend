@@ -97,8 +97,10 @@ export default function FarmerListingsPage() {
       {/* Header */}
       <div className='flex items-center justify-between mb-6'>
         <div>
-          <h1 className='text-2xl font-bold text-gray-900'>My Listings</h1>
-          <p className='text-gray-500 text-sm mt-1'>
+          <h1 className='text-2xl font-bold text-gray-900 dark:text-gray-100'>
+            My Listings
+          </h1>
+          <p className='text-gray-500 dark:text-gray-400 text-sm mt-1'>
             Manage your crop listings
           </p>
         </div>
@@ -113,19 +115,19 @@ export default function FarmerListingsPage() {
           {[...Array(3)].map((_, i) => (
             <div
               key={i}
-              className='bg-white rounded-2xl border border-gray-100 h-72 animate-pulse'
+              className='bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 h-72 animate-pulse'
             />
           ))}
         </div>
       ) : listings.length === 0 ? (
-        <div className='text-center py-20 bg-white rounded-2xl border border-gray-100'>
-          <div className='w-16 h-16 bg-gray-50 rounded-2xl flex items-center justify-center mx-auto mb-4 text-3xl border border-gray-100'>
+        <div className='text-center py-20 bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800'>
+          <div className='w-16 h-16 bg-gray-50 dark:bg-gray-800 rounded-2xl flex items-center justify-center mx-auto mb-4 text-3xl border border-gray-100 dark:border-gray-700'>
             🌾
           </div>
-          <h3 className='text-lg font-semibold text-gray-900 mb-1'>
+          <h3 className='text-lg font-semibold text-gray-900 dark:text-gray-100 mb-1'>
             No listings yet
           </h3>
-          <p className='text-gray-500 text-sm mb-6'>
+          <p className='text-gray-500 dark:text-gray-400 text-sm mb-6'>
             Create your first crop listing to start receiving bids
           </p>
           <Button onClick={() => setModal({ mode: "create" })}>

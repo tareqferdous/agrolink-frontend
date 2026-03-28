@@ -55,8 +55,8 @@ export default function BidSection({ listing }: { listing: Listing }) {
   if (isPending) {
     return (
       <div className='sticky top-24 space-y-4'>
-        <div className='bg-white rounded-2xl border border-gray-100 h-48 animate-pulse' />
-        <div className='bg-white rounded-2xl border border-gray-100 h-64 animate-pulse' />
+        <div className='bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 h-48 animate-pulse' />
+        <div className='bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 h-64 animate-pulse' />
       </div>
     );
   }
@@ -64,12 +64,12 @@ export default function BidSection({ listing }: { listing: Listing }) {
   return (
     <div className='sticky top-24 space-y-4'>
       {/* Price card */}
-      <div className='bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm'>
+      <div className='bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 overflow-hidden shadow-sm'>
         {/* Header */}
-        <div className='bg-gradient-to-r from-green-600 to-green-700 px-6 py-4 text-white relative overflow-hidden'>
+        <div className='bg-linear-to-r from-green-600 to-green-700 dark:from-green-900 dark:to-green-800 px-6 py-4 text-white relative overflow-hidden'>
           <div className='absolute -right-4 -top-4 w-20 h-20 rounded-full bg-white/10' />
           <div className='absolute -right-2 top-8 w-10 h-10 rounded-full bg-white/10' />
-          <p className='text-green-100 text-xs font-medium uppercase tracking-wide relative'>
+          <p className='text-green-100 dark:text-green-300 text-xs font-medium uppercase tracking-wide relative'>
             {listing.minPricePerUnit ? "Starting from" : "Open Bidding"}
           </p>
           {listing.minPricePerUnit ? (
@@ -103,25 +103,35 @@ export default function BidSection({ listing }: { listing: Listing }) {
             <div
               key={item.label}
               className='flex justify-between items-center text-sm'>
-              <span className='text-gray-500'>{item.label}</span>
-              <span className='font-medium text-gray-900'>{item.value}</span>
+              <span className='text-gray-500 dark:text-gray-400'>
+                {item.label}
+              </span>
+              <span className='font-medium text-gray-900 dark:text-gray-100'>
+                {item.value}
+              </span>
             </div>
           ))}
 
           {/* Live estimate */}
           {totalEstimate && (
-            <div className='border-t border-gray-100 pt-3 mt-1 space-y-2'>
+            <div className='border-t border-gray-100 dark:border-gray-800 pt-3 mt-1 space-y-2'>
               <div className='flex justify-between text-sm'>
-                <span className='text-gray-500'>Crop subtotal</span>
+                <span className='text-gray-500 dark:text-gray-400'>
+                  Crop subtotal
+                </span>
                 <span className='font-medium'>৳{totalEstimate}</span>
               </div>
               <div className='flex justify-between text-sm'>
-                <span className='text-gray-500'>Platform fee (3%)</span>
+                <span className='text-gray-500 dark:text-gray-400'>
+                  Platform fee (3%)
+                </span>
                 <span className='font-medium'>৳{platformFee}</span>
               </div>
-              <div className='flex justify-between pt-2 border-t border-gray-100'>
-                <span className='font-bold text-gray-900'>Est. Total</span>
-                <span className='font-bold text-green-600 text-lg'>
+              <div className='flex justify-between pt-2 border-t border-gray-100 dark:border-gray-800'>
+                <span className='font-bold text-gray-900 dark:text-gray-100'>
+                  Est. Total
+                </span>
+                <span className='font-bold text-green-600 dark:text-green-400 text-lg'>
                   ৳{totalEstimate + (platformFee ?? 0)}
                 </span>
               </div>
@@ -131,17 +141,17 @@ export default function BidSection({ listing }: { listing: Listing }) {
       </div>
 
       {/* Action card */}
-      <div className='bg-white rounded-2xl border border-gray-100 p-5 shadow-sm'>
+      <div className='bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 p-5 shadow-sm'>
         {/* Not logged in */}
         {!user ? (
           <div className='text-center py-2'>
-            <div className='w-16 h-16 bg-gray-50 rounded-2xl flex items-center justify-center mx-auto mb-4 text-3xl border border-gray-100'>
+            <div className='w-16 h-16 bg-gray-50 dark:bg-gray-800 rounded-2xl flex items-center justify-center mx-auto mb-4 text-3xl border border-gray-100 dark:border-gray-700'>
               🔐
             </div>
-            <h3 className='font-semibold text-gray-900 mb-1'>
+            <h3 className='font-semibold text-gray-900 dark:text-gray-100 mb-1'>
               Login to Place a Bid
             </h3>
-            <p className='text-sm text-gray-500 mb-5'>
+            <p className='text-sm text-gray-500 dark:text-gray-400 mb-5'>
               Login as a Buyer to place your bid on this listing
             </p>
             <Link
@@ -150,13 +160,15 @@ export default function BidSection({ listing }: { listing: Listing }) {
               Login to Bid
             </Link>
             <div className='flex items-center gap-3 mt-4'>
-              <div className='flex-1 h-px bg-gray-100' />
-              <span className='text-xs text-gray-400'>or</span>
-              <div className='flex-1 h-px bg-gray-100' />
+              <div className='flex-1 h-px bg-gray-100 dark:bg-gray-800' />
+              <span className='text-xs text-gray-400 dark:text-gray-500'>
+                or
+              </span>
+              <div className='flex-1 h-px bg-gray-100 dark:bg-gray-800' />
             </div>
             <Link
               href='/register'
-              className='block w-full py-3 mt-3 border border-gray-200 text-gray-700 rounded-xl font-medium hover:bg-gray-50 transition-colors text-center text-sm'>
+              className='block w-full py-3 mt-3 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 rounded-xl font-medium hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors text-center text-sm'>
               Create Buyer Account
             </Link>
           </div>
@@ -164,7 +176,7 @@ export default function BidSection({ listing }: { listing: Listing }) {
           // Farmer
           <div className='text-center py-4'>
             <span className='text-4xl'>👨‍🌾</span>
-            <p className='text-sm text-gray-500 mt-3 font-medium'>
+            <p className='text-sm text-gray-500 dark:text-gray-400 mt-3 font-medium'>
               Farmers cannot bid on listings
             </p>
           </div>
@@ -172,25 +184,25 @@ export default function BidSection({ listing }: { listing: Listing }) {
           // Admin
           <div className='text-center py-4'>
             <span className='text-4xl'>👑</span>
-            <p className='text-sm text-gray-500 mt-3 font-medium'>
+            <p className='text-sm text-gray-500 dark:text-gray-400 mt-3 font-medium'>
               Admins cannot place bids
             </p>
           </div>
         ) : !(user as any).isVerified ? (
           // Unverified buyer
           <div className='text-center py-2'>
-            <div className='w-16 h-16 bg-amber-50 rounded-2xl flex items-center justify-center mx-auto mb-4 text-3xl border border-amber-100'>
+            <div className='w-16 h-16 bg-amber-50 dark:bg-amber-900/30 rounded-2xl flex items-center justify-center mx-auto mb-4 text-3xl border border-amber-100 dark:border-amber-800'>
               ⏳
             </div>
-            <h3 className='font-semibold text-gray-900 mb-1'>
+            <h3 className='font-semibold text-gray-900 dark:text-gray-100 mb-1'>
               Account not verified
             </h3>
-            <p className='text-sm text-gray-500 mb-4'>
+            <p className='text-sm text-gray-500 dark:text-gray-400 mb-4'>
               Your account is pending admin verification. You cannot place bids
               yet.
             </p>
-            <div className='p-3 bg-amber-50 rounded-xl border border-amber-100'>
-              <p className='text-xs text-amber-700 font-medium'>
+            <div className='p-3 bg-amber-50 dark:bg-amber-900/20 rounded-xl border border-amber-100 dark:border-amber-800'>
+              <p className='text-xs text-amber-700 dark:text-amber-300 font-medium'>
                 ⏳ Please wait for admin approval
               </p>
             </div>
@@ -198,9 +210,9 @@ export default function BidSection({ listing }: { listing: Listing }) {
         ) : bidPlaced ? (
           // Bid placed success
           <div className='text-center py-2'>
-            <div className='w-16 h-16 bg-green-50 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-green-100'>
+            <div className='w-16 h-16 bg-green-50 dark:bg-green-900/30 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-green-100 dark:border-green-800'>
               <svg
-                className='w-8 h-8 text-green-600'
+                className='w-8 h-8 text-green-600 dark:text-green-400'
                 fill='none'
                 viewBox='0 0 24 24'
                 stroke='currentColor'>
@@ -212,14 +224,16 @@ export default function BidSection({ listing }: { listing: Listing }) {
                 />
               </svg>
             </div>
-            <h3 className='font-semibold text-gray-900 mb-1'>Bid Placed!</h3>
-            <p className='text-sm text-gray-500 mb-5'>
+            <h3 className='font-semibold text-gray-900 dark:text-gray-100 mb-1'>
+              Bid Placed!
+            </h3>
+            <p className='text-sm text-gray-500 dark:text-gray-400 mb-5'>
               You&apos;ll be notified when the farmer responds
             </p>
             <div className='flex gap-2'>
               <button
                 onClick={() => setBidPlaced(false)}
-                className='flex-1 py-2.5 border border-gray-200 text-gray-600 rounded-xl text-sm font-medium hover:bg-gray-50 transition-colors'>
+                className='flex-1 py-2.5 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 rounded-xl text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors'>
                 Update Bid
               </button>
               <Link
@@ -232,7 +246,9 @@ export default function BidSection({ listing }: { listing: Listing }) {
         ) : (
           // Bid form
           <>
-            <h3 className='font-semibold text-gray-900 mb-4'>Place Your Bid</h3>
+            <h3 className='font-semibold text-gray-900 dark:text-gray-100 mb-4'>
+              Place Your Bid
+            </h3>
             <form onSubmit={handleSubmit(onSubmit)} className='space-y-4'>
               <Input
                 label='Your Bid (৳ per unit)'
@@ -248,14 +264,14 @@ export default function BidSection({ listing }: { listing: Listing }) {
               />
 
               <div>
-                <label className='text-sm font-medium text-gray-700 block mb-1'>
+                <label className='text-sm font-medium text-gray-700 dark:text-gray-300 block mb-1'>
                   Note{" "}
-                  <span className='text-gray-400 font-normal text-xs'>
+                  <span className='text-gray-400 dark:text-gray-500 font-normal text-xs'>
                     optional
                   </span>
                 </label>
                 <textarea
-                  className='w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:border-green-500 focus:ring-1 focus:ring-green-500 outline-none resize-none transition-colors'
+                  className='w-full px-3 py-2 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-lg text-sm focus:border-green-500 focus:ring-1 focus:ring-green-500 outline-none resize-none transition-colors'
                   rows={2}
                   placeholder='Any special requirements...'
                   {...register("buyerNote")}
@@ -263,7 +279,7 @@ export default function BidSection({ listing }: { listing: Listing }) {
               </div>
 
               {listing.minPricePerUnit && (
-                <div className='flex items-center gap-2 text-xs text-amber-700 bg-amber-50 px-3 py-2 rounded-lg border border-amber-100'>
+                <div className='flex items-center gap-2 text-xs text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-900/20 px-3 py-2 rounded-lg border border-amber-100 dark:border-amber-800'>
                   <span>⚠️</span>
                   <span>
                     Minimum bid: ৳{listing.minPricePerUnit}/{listing.unit}
@@ -279,9 +295,11 @@ export default function BidSection({ listing }: { listing: Listing }) {
                 Place Bid
               </Button>
 
-              <p className='text-xs text-gray-400 text-center'>
+              <p className='text-xs text-gray-400 dark:text-gray-500 text-center'>
                 Bidding as{" "}
-                <span className='font-medium text-gray-600'>{user.name}</span>
+                <span className='font-medium text-gray-600 dark:text-gray-400'>
+                  {user.name}
+                </span>
               </p>
             </form>
           </>
@@ -289,14 +307,14 @@ export default function BidSection({ listing }: { listing: Listing }) {
       </div>
 
       {/* Security badge */}
-      <div className='bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-4 border border-green-100'>
+      <div className='bg-linear-to-r from-green-50 to-emerald-50 dark:from-green-900/30 dark:to-emerald-900/20 rounded-xl p-4 border border-green-100 dark:border-green-800'>
         <div className='flex items-start gap-3'>
           <span className='text-xl flex-shrink-0'>🔒</span>
           <div>
-            <p className='text-sm font-semibold text-green-800'>
+            <p className='text-sm font-semibold text-green-800 dark:text-green-300'>
               Secure Transaction
             </p>
-            <p className='text-xs text-green-600 mt-0.5 leading-relaxed'>
+            <p className='text-xs text-green-600 dark:text-green-400 mt-0.5 leading-relaxed'>
               Payment via Stripe. Money held securely and released only after
               you confirm receipt.
             </p>

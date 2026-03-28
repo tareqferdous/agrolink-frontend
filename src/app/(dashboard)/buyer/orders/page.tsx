@@ -65,7 +65,7 @@ export default function BuyerOrdersPage() {
         {[...Array(3)].map((_, i) => (
           <div
             key={i}
-            className='bg-white rounded-xl border border-gray-100 h-32 animate-pulse'
+            className='bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-800 h-32 animate-pulse'
           />
         ))}
       </div>
@@ -75,8 +75,10 @@ export default function BuyerOrdersPage() {
   return (
     <div>
       <div className='mb-6'>
-        <h1 className='text-2xl font-bold text-gray-900'>My Orders</h1>
-        <p className='text-gray-500 text-sm mt-1'>
+        <h1 className='text-2xl font-bold text-gray-900 dark:text-gray-100'>
+          My Orders
+        </h1>
+        <p className='text-gray-500 dark:text-gray-400 text-sm mt-1'>
           Track your purchases and payments
         </p>
       </div>
@@ -84,8 +86,10 @@ export default function BuyerOrdersPage() {
       {orders.length === 0 ? (
         <div className='text-center py-16'>
           <p className='text-5xl mb-4'>📦</p>
-          <h3 className='text-lg font-semibold text-gray-900'>No orders yet</h3>
-          <p className='text-gray-500 text-sm mt-1'>
+          <h3 className='text-lg font-semibold text-gray-900 dark:text-gray-100'>
+            No orders yet
+          </h3>
+          <p className='text-gray-500 dark:text-gray-400 text-sm mt-1'>
             Orders appear here after your bid is accepted
           </p>
         </div>
@@ -98,11 +102,11 @@ export default function BuyerOrdersPage() {
             return (
               <div
                 key={order.id}
-                className='bg-white rounded-xl border border-gray-100 p-6'>
+                className='bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-800 p-6'>
                 <div className='flex items-start justify-between'>
                   <div className='flex-1'>
                     <div className='flex items-center gap-3 mb-2'>
-                      <h3 className='font-semibold text-gray-900'>
+                      <h3 className='font-semibold text-gray-900 dark:text-gray-100'>
                         {order.listing.cropName}
                       </h3>
                       <Badge
@@ -113,38 +117,48 @@ export default function BuyerOrdersPage() {
 
                     <div className='grid grid-cols-2 md:grid-cols-4 gap-4 mt-3 text-sm'>
                       <div>
-                        <p className='text-gray-400'>Farmer</p>
+                        <p className='text-gray-400 dark:text-gray-500'>
+                          Farmer
+                        </p>
                         <Link
                           href={`/users/${order.farmer.id}`}
-                          className='font-medium text-gray-900 hover:text-green-600 transition-colors'>
+                          className='font-medium text-gray-900 dark:text-gray-100 hover:text-green-600 dark:hover:text-green-400 transition-colors'>
                           {order.farmer.name}
                         </Link>
                       </div>
                       <div>
-                        <p className='text-gray-400'>Quantity</p>
-                        <p className='font-medium'>
+                        <p className='text-gray-400 dark:text-gray-500'>
+                          Quantity
+                        </p>
+                        <p className='font-medium text-gray-900 dark:text-gray-100'>
                           {order.listing.quantity} {order.listing.unit}
                         </p>
                       </div>
                       <div>
-                        <p className='text-gray-400'>Total</p>
+                        <p className='text-gray-400 dark:text-gray-500'>
+                          Total
+                        </p>
                         <p className='font-medium text-green-600'>
                           ৳{order.totalAmount}
                         </p>
                       </div>
                       <div>
-                        <p className='text-gray-400'>Delivery</p>
-                        <p className='font-medium'>{order.deliveryMethod}</p>
+                        <p className='text-gray-400 dark:text-gray-500'>
+                          Delivery
+                        </p>
+                        <p className='font-medium text-gray-900 dark:text-gray-100'>
+                          {order.deliveryMethod}
+                        </p>
                       </div>
                     </div>
 
                     {/* Tracking info */}
                     {order.trackingNumber && (
-                      <div className='mt-3 p-3 bg-blue-50 rounded-lg text-sm'>
-                        <p className='text-blue-700 font-medium'>
+                      <div className='mt-3 p-3 bg-blue-50 dark:bg-blue-900/30 rounded-lg text-sm'>
+                        <p className='text-blue-700 dark:text-blue-300 font-medium'>
                           🚚 Shipped via {order.courierName}
                         </p>
-                        <p className='text-blue-600'>
+                        <p className='text-blue-600 dark:text-blue-300'>
                           Tracking: {order.trackingNumber}
                         </p>
                       </div>
@@ -152,8 +166,8 @@ export default function BuyerOrdersPage() {
 
                     {/* Payment pending warning */}
                     {order.orderStatus === "PENDING_PAYMENT" && (
-                      <div className='mt-3 p-3 bg-yellow-50 rounded-lg text-sm'>
-                        <p className='text-yellow-700 font-medium'>
+                      <div className='mt-3 p-3 bg-yellow-50 dark:bg-yellow-900/30 rounded-lg text-sm'>
+                        <p className='text-yellow-700 dark:text-yellow-300 font-medium'>
                           ⚠️ Payment required within 24 hours
                         </p>
                       </div>

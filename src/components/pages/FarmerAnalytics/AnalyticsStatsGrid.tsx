@@ -10,8 +10,8 @@ export default function AnalyticsStatsGrid({ cards }: AnalyticsStatsGridProps) {
       {cards.map((card) => (
         <div
           key={card.label}
-          className='bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm hover:shadow-md transition-shadow group'>
-          <div className={`h-1 bg-gradient-to-r ${card.valueBg}`} />
+          className='bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 overflow-hidden shadow-sm hover:shadow-md transition-shadow group'>
+          <div className={`h-1 bg-linear-to-r ${card.valueBg}`} />
 
           <div className='p-6'>
             <div
@@ -19,15 +19,17 @@ export default function AnalyticsStatsGrid({ cards }: AnalyticsStatsGridProps) {
               {card.icon}
             </div>
 
-            <p className='text-3xl font-bold text-gray-900 tracking-tight'>
+            <p className='text-3xl font-bold text-gray-900 dark:text-gray-100 tracking-tight'>
               {card.value}
             </p>
 
-            <p className='text-sm font-semibold text-gray-700 mt-1'>
+            <p className='text-sm font-semibold text-gray-700 dark:text-gray-300 mt-1'>
               {card.label}
             </p>
 
-            <p className='text-xs text-gray-400 mt-1'>{card.trend}</p>
+            <p className='text-xs text-gray-400 dark:text-gray-500 mt-1'>
+              {card.trend}
+            </p>
           </div>
         </div>
       ))}

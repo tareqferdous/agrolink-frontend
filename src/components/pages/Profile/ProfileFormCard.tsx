@@ -30,16 +30,18 @@ export default function ProfileFormCard({
 }: ProfileFormCardProps) {
   return (
     <div className='lg:col-span-2'>
-      <div className='bg-white rounded-2xl border border-gray-100 p-6'>
+      <div className='bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 p-6'>
         <div className='flex items-center justify-between mb-6'>
           <div>
-            <h2 className='font-bold text-gray-900'>Personal Information</h2>
-            <p className='text-sm text-gray-500 mt-0.5'>
+            <h2 className='font-bold text-gray-900 dark:text-gray-100'>
+              Personal Information
+            </h2>
+            <p className='text-sm text-gray-500 dark:text-gray-400 mt-0.5'>
               Update your profile details
             </p>
           </div>
           {isDirty && (
-            <span className='text-xs text-amber-600 bg-amber-50 px-2.5 py-1 rounded-full font-medium'>
+            <span className='text-xs text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/30 px-2.5 py-1 rounded-full font-medium'>
               Unsaved changes
             </span>
           )}
@@ -55,15 +57,17 @@ export default function ProfileFormCard({
           />
 
           <div>
-            <label className='text-sm font-medium text-gray-700 block mb-1'>
+            <label className='text-sm font-medium text-gray-700 dark:text-gray-300 block mb-1'>
               Email Address
             </label>
-            <div className='flex items-center gap-2 px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg'>
-              <span className='text-gray-400 text-sm'>📧</span>
-              <span className='text-sm text-gray-500 flex-1'>
+            <div className='flex items-center gap-2 px-3 py-2 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg'>
+              <span className='text-gray-400 dark:text-gray-500 text-sm'>
+                📧
+              </span>
+              <span className='text-sm text-gray-500 dark:text-gray-400 flex-1'>
                 {user?.email}
               </span>
-              <span className='text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full'>
+              <span className='text-xs text-gray-400 dark:text-gray-500 bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full'>
                 Cannot change
               </span>
             </div>
@@ -92,7 +96,7 @@ export default function ProfileFormCard({
             />
           )}
 
-          <div className='flex items-center gap-3 pt-2 border-t border-gray-100'>
+          <div className='flex items-center gap-3 pt-2 border-t border-gray-100 dark:border-gray-800'>
             <Button
               type='button'
               variant='secondary'

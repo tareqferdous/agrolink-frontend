@@ -56,7 +56,7 @@ export default async function ListingDetailPage({
   const categoryInfo = CATEGORIES.find((c) => c.value === listing.category);
 
   return (
-    <div className='min-h-screen bg-gray-50'>
+    <div className='min-h-screen bg-gray-50 dark:bg-gray-950'>
       <div className='max-w-6xl mx-auto px-6 py-8'>
         <div className='grid grid-cols-1 lg:grid-cols-5 gap-8'>
           <div className='lg:col-span-3 space-y-6'>

@@ -47,8 +47,12 @@ export default function AdminUsersPage() {
   return (
     <div>
       <div className='mb-6'>
-        <h1 className='text-2xl font-bold text-gray-900'>Users</h1>
-        <p className='text-gray-500 text-sm mt-1'>Manage platform users</p>
+        <h1 className='text-2xl font-bold text-gray-900 dark:text-gray-100'>
+          Users
+        </h1>
+        <p className='text-gray-500 dark:text-gray-400 text-sm mt-1'>
+          Manage platform users
+        </p>
       </div>
 
       {loading ? (
@@ -56,45 +60,49 @@ export default function AdminUsersPage() {
           {[...Array(5)].map((_, i) => (
             <div
               key={i}
-              className='bg-white rounded-xl border border-gray-100 h-16 animate-pulse'
+              className='bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-800 h-16 animate-pulse'
             />
           ))}
         </div>
       ) : (
-        <div className='bg-white rounded-xl border border-gray-100 overflow-hidden'>
+        <div className='bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-800 overflow-hidden'>
           <table className='w-full'>
             <thead>
-              <tr className='bg-gray-50 border-b border-gray-100'>
-                <th className='text-left px-6 py-3 text-xs font-medium text-gray-500 uppercase'>
+              <tr className='bg-gray-50 dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700'>
+                <th className='text-left px-6 py-3 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase'>
                   User
                 </th>
-                <th className='text-left px-6 py-3 text-xs font-medium text-gray-500 uppercase'>
+                <th className='text-left px-6 py-3 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase'>
                   Role
                 </th>
-                <th className='text-left px-6 py-3 text-xs font-medium text-gray-500 uppercase'>
+                <th className='text-left px-6 py-3 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase'>
                   Location
                 </th>
-                <th className='text-left px-6 py-3 text-xs font-medium text-gray-500 uppercase'>
+                <th className='text-left px-6 py-3 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase'>
                   Status
                 </th>
-                <th className='text-left px-6 py-3 text-xs font-medium text-gray-500 uppercase'>
+                <th className='text-left px-6 py-3 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase'>
                   Actions
                 </th>
               </tr>
             </thead>
-            <tbody className='divide-y divide-gray-100'>
+            <tbody className='divide-y divide-gray-100 dark:divide-gray-800'>
               {users.map((user) => (
-                <tr key={user.id} className='hover:bg-gray-50'>
+                <tr
+                  key={user.id}
+                  className='hover:bg-gray-50 dark:hover:bg-gray-800/70'>
                   <td className='px-6 py-4'>
                     <div className='flex items-center gap-3'>
-                      <div className='w-8 h-8 rounded-full bg-green-100 flex items-center justify-center text-green-700 font-semibold text-sm'>
+                      <div className='w-8 h-8 rounded-full bg-green-100 dark:bg-green-900/40 flex items-center justify-center text-green-700 dark:text-green-300 font-semibold text-sm'>
                         {user.name.charAt(0).toUpperCase()}
                       </div>
                       <div>
-                        <p className='font-medium text-gray-900 text-sm'>
+                        <p className='font-medium text-gray-900 dark:text-gray-100 text-sm'>
                           {user.name}
                         </p>
-                        <p className='text-xs text-gray-400'>{user.email}</p>
+                        <p className='text-xs text-gray-400 dark:text-gray-500'>
+                          {user.email}
+                        </p>
                       </div>
                     </div>
                   </td>
@@ -111,7 +119,7 @@ export default function AdminUsersPage() {
                     />
                   </td>
                   <td className='px-6 py-4'>
-                    <p className='text-sm text-gray-600'>
+                    <p className='text-sm text-gray-600 dark:text-gray-300'>
                       {user.location ?? "—"}
                     </p>
                   </td>

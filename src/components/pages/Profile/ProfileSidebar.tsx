@@ -10,9 +10,11 @@ interface ProfileSidebarProps {
 }
 
 const getRoleBadgeColor = (role: string) => {
-  if (role === "FARMER") return "bg-green-100 text-green-700";
-  if (role === "BUYER") return "bg-blue-100 text-blue-700";
-  return "bg-purple-100 text-purple-700";
+  if (role === "FARMER")
+    return "bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300";
+  if (role === "BUYER")
+    return "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300";
+  return "bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300";
 };
 
 const getRoleIcon = (role: string) => {
@@ -30,13 +32,13 @@ export default function ProfileSidebar({
 }: ProfileSidebarProps) {
   return (
     <div className='lg:col-span-1 space-y-4'>
-      <div className='bg-white rounded-2xl border border-gray-100 overflow-hidden'>
-        <div className='h-20 bg-gradient-to-r from-green-500 to-emerald-600' />
+      <div className='bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 overflow-hidden'>
+        <div className='h-20 bg-linear-to-r from-green-500 to-emerald-600' />
 
         <div className='px-6 pb-6'>
           <div className='flex flex-col items-center -mt-10 mb-4'>
             <div className='relative group'>
-              <div className='w-20 h-20 rounded-2xl ring-4 ring-white shadow-md overflow-hidden'>
+              <div className='w-20 h-20 rounded-2xl ring-4 ring-white dark:ring-gray-900 shadow-md overflow-hidden'>
                 <Avatar src={currentImage} name={user?.name ?? ""} size='xl' />
               </div>
 
@@ -77,12 +79,18 @@ export default function ProfileSidebar({
               />
             </div>
 
-            <p className='text-xs text-gray-400 mt-2'>Click to change photo</p>
+            <p className='text-xs text-gray-400 dark:text-gray-500 mt-2'>
+              Click to change photo
+            </p>
           </div>
 
           <div className='text-center'>
-            <h2 className='font-bold text-gray-900 text-lg'>{user?.name}</h2>
-            <p className='text-gray-500 text-sm'>{user?.email}</p>
+            <h2 className='font-bold text-gray-900 dark:text-gray-100 text-lg'>
+              {user?.name}
+            </h2>
+            <p className='text-gray-500 dark:text-gray-400 text-sm'>
+              {user?.email}
+            </p>
 
             <div className='flex items-center justify-center gap-2 mt-3'>
               <span
@@ -104,11 +112,11 @@ export default function ProfileSidebar({
       </div>
 
       {user?.role === "FARMER" && (
-        <div className='bg-white rounded-2xl border border-gray-100 p-5'>
-          <h3 className='font-semibold text-gray-900 mb-4 text-sm'>
+        <div className='bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 p-5'>
+          <h3 className='font-semibold text-gray-900 dark:text-gray-100 mb-4 text-sm'>
             Wallet Balance
           </h3>
-          <div className='bg-gradient-to-r from-green-600 to-emerald-600 rounded-xl p-4 text-white'>
+          <div className='bg-linear-to-r from-green-600 to-emerald-600 rounded-xl p-4 text-white'>
             <p className='text-xs text-green-100 font-medium'>
               Available Balance
             </p>
@@ -119,18 +127,18 @@ export default function ProfileSidebar({
         </div>
       )}
 
-      <div className='bg-white rounded-2xl border border-gray-100 p-5'>
-        <h3 className='font-semibold text-gray-900 mb-4 text-sm'>
+      <div className='bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 p-5'>
+        <h3 className='font-semibold text-gray-900 dark:text-gray-100 mb-4 text-sm'>
           Account Info
         </h3>
         <div className='space-y-3'>
           <div className='flex items-center gap-3 text-sm'>
-            <div className='w-8 h-8 rounded-lg bg-gray-50 flex items-center justify-center flex-shrink-0'>
+            <div className='w-8 h-8 rounded-lg bg-gray-50 dark:bg-gray-800 flex items-center justify-center shrink-0'>
               📧
             </div>
             <div className='min-w-0'>
-              <p className='text-xs text-gray-400'>Email</p>
-              <p className='font-medium text-gray-900 truncate'>
+              <p className='text-xs text-gray-400 dark:text-gray-500'>Email</p>
+              <p className='font-medium text-gray-900 dark:text-gray-100 truncate'>
                 {user?.email}
               </p>
             </div>
@@ -138,24 +146,32 @@ export default function ProfileSidebar({
 
           {user?.phone && (
             <div className='flex items-center gap-3 text-sm'>
-              <div className='w-8 h-8 rounded-lg bg-gray-50 flex items-center justify-center flex-shrink-0'>
+              <div className='w-8 h-8 rounded-lg bg-gray-50 dark:bg-gray-800 flex items-center justify-center shrink-0'>
                 📞
               </div>
               <div>
-                <p className='text-xs text-gray-400'>Phone</p>
-                <p className='font-medium text-gray-900'>{user.phone}</p>
+                <p className='text-xs text-gray-400 dark:text-gray-500'>
+                  Phone
+                </p>
+                <p className='font-medium text-gray-900 dark:text-gray-100'>
+                  {user.phone}
+                </p>
               </div>
             </div>
           )}
 
           {user?.location && (
             <div className='flex items-center gap-3 text-sm'>
-              <div className='w-8 h-8 rounded-lg bg-gray-50 flex items-center justify-center flex-shrink-0'>
+              <div className='w-8 h-8 rounded-lg bg-gray-50 dark:bg-gray-800 flex items-center justify-center shrink-0'>
                 📍
               </div>
               <div>
-                <p className='text-xs text-gray-400'>Location</p>
-                <p className='font-medium text-gray-900'>{user.location}</p>
+                <p className='text-xs text-gray-400 dark:text-gray-500'>
+                  Location
+                </p>
+                <p className='font-medium text-gray-900 dark:text-gray-100'>
+                  {user.location}
+                </p>
               </div>
             </div>
           )}

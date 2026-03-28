@@ -32,7 +32,7 @@ export default function BuyerBidsPage() {
         {[...Array(3)].map((_, i) => (
           <div
             key={i}
-            className='bg-white rounded-xl border border-gray-100 h-24 animate-pulse'
+            className='bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-800 h-24 animate-pulse'
           />
         ))}
       </div>
@@ -43,15 +43,21 @@ export default function BuyerBidsPage() {
     <div>
       <VerificationBanner />
       <div className='mb-6'>
-        <h1 className='text-2xl font-bold text-gray-900'>My Bids</h1>
-        <p className='text-gray-500 text-sm mt-1'>Track all your placed bids</p>
+        <h1 className='text-2xl font-bold text-gray-900 dark:text-gray-100'>
+          My Bids
+        </h1>
+        <p className='text-gray-500 dark:text-gray-400 text-sm mt-1'>
+          Track all your placed bids
+        </p>
       </div>
 
       {bids.length === 0 ? (
         <div className='text-center py-16'>
           <p className='text-5xl mb-4'>💬</p>
-          <h3 className='text-lg font-semibold text-gray-900'>No bids yet</h3>
-          <p className='text-gray-500 text-sm mt-1 mb-6'>
+          <h3 className='text-lg font-semibold text-gray-900 dark:text-gray-100'>
+            No bids yet
+          </h3>
+          <p className='text-gray-500 dark:text-gray-400 text-sm mt-1 mb-6'>
             Browse listings and place your first bid
           </p>
           <Link
@@ -67,10 +73,10 @@ export default function BuyerBidsPage() {
             return (
               <div
                 key={bid.id}
-                className='bg-white rounded-xl border border-gray-100 p-5 flex items-center justify-between'>
+                className='bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-800 p-5 flex items-center justify-between'>
                 <div>
                   <div className='flex items-center gap-3 mb-1'>
-                    <h3 className='font-semibold text-gray-900'>
+                    <h3 className='font-semibold text-gray-900 dark:text-gray-100'>
                       {bid.listing?.cropName}
                     </h3>
                     <Badge
@@ -78,15 +84,15 @@ export default function BuyerBidsPage() {
                       variant={statusBadge.variant}
                     />
                   </div>
-                  <p className='text-sm text-gray-500'>
+                  <p className='text-sm text-gray-500 dark:text-gray-400'>
                     📦 {bid.listing?.quantity} {bid.listing?.unit} •{" "}
                     {bid.listing?.location}
                   </p>
-                  <p className='text-sm text-gray-500'>
+                  <p className='text-sm text-gray-500 dark:text-gray-400'>
                     👨‍🌾 {bid.listing?.farmer.name}
                   </p>
                   {bid.buyerNote && (
-                    <p className='text-sm text-gray-400 italic mt-1'>
+                    <p className='text-sm text-gray-400 dark:text-gray-500 italic mt-1'>
                       "{bid.buyerNote}"
                     </p>
                   )}
@@ -96,8 +102,10 @@ export default function BuyerBidsPage() {
                   <p className='text-xl font-bold text-green-600'>
                     ৳{bid.bidAmount}
                   </p>
-                  <p className='text-xs text-gray-400'>per unit</p>
-                  <p className='text-xs text-gray-400 mt-1'>
+                  <p className='text-xs text-gray-400 dark:text-gray-500'>
+                    per unit
+                  </p>
+                  <p className='text-xs text-gray-400 dark:text-gray-500 mt-1'>
                     {new Date(bid.createdAt).toLocaleDateString()}
                   </p>
                 </div>

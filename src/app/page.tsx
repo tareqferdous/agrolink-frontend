@@ -6,13 +6,13 @@ import ProblemSolved from "@/components/pages/Home/ProblemSolved";
 
 export default function HomePage() {
   return (
-    <div className='min-h-screen bg-white text-gray-900 overflow-x-hidden'>
+    <div className='min-h-screen bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 overflow-x-hidden'>
       <Hero />
       <Category />
       {/* <div className='border-t border-gray-100' /> */}
       <ProblemSolved />
 
-      <div className='border-t border-gray-100' />
+      <div className='border-t border-gray-100 dark:border-gray-800' />
 
       {/* ── FEATURES ── */}
       <Features />

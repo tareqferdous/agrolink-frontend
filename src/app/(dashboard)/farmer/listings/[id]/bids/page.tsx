@@ -64,7 +64,7 @@ export default function ListingBidsPage() {
         {[...Array(3)].map((_, i) => (
           <div
             key={i}
-            className='bg-white rounded-xl border border-gray-100 h-24 animate-pulse'
+            className='bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-800 h-24 animate-pulse'
           />
         ))}
       </div>
@@ -74,8 +74,10 @@ export default function ListingBidsPage() {
   return (
     <div>
       <div className='mb-6'>
-        <h1 className='text-2xl font-bold text-gray-900'>Bids</h1>
-        <p className='text-gray-500 text-sm mt-1'>
+        <h1 className='text-2xl font-bold text-gray-900 dark:text-gray-100'>
+          Bids
+        </h1>
+        <p className='text-gray-500 dark:text-gray-400 text-sm mt-1'>
           {bids.length} bid{bids.length !== 1 ? "s" : ""} on this listing
         </p>
       </div>
@@ -83,14 +85,16 @@ export default function ListingBidsPage() {
       {bids.length === 0 ? (
         <div className='text-center py-16'>
           <p className='text-5xl mb-4'>💬</p>
-          <h3 className='text-lg font-semibold text-gray-900'>No bids yet</h3>
-          <p className='text-gray-500 text-sm mt-1'>
+          <h3 className='text-lg font-semibold text-gray-900 dark:text-gray-100'>
+            No bids yet
+          </h3>
+          <p className='text-gray-500 dark:text-gray-400 text-sm mt-1'>
             Bids will appear here when buyers place them
           </p>
         </div>
       ) : (
-        <div className='bg-white rounded-xl border border-gray-100 overflow-hidden'>
-          <div className='divide-y divide-gray-100'>
+        <div className='bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-800 overflow-hidden'>
+          <div className='divide-y divide-gray-100 dark:divide-gray-800'>
             {bids.map((bid, index) => {
               const statusBadge = getBidStatusBadge(bid.bidStatus);
               return (
@@ -102,14 +106,14 @@ export default function ListingBidsPage() {
                       #{index + 1}
                     </div>
                     <div>
-                      <p className='font-medium text-gray-900'>
+                      <p className='font-medium text-gray-900 dark:text-gray-100'>
                         {(bid as any).buyer?.name}
                       </p>
-                      <p className='text-sm text-gray-500'>
+                      <p className='text-sm text-gray-500 dark:text-gray-400'>
                         📍 {(bid as any).buyer?.location}
                       </p>
                       {bid.buyerNote && (
-                        <p className='text-sm text-gray-400 italic mt-0.5'>
+                        <p className='text-sm text-gray-400 dark:text-gray-500 italic mt-0.5'>
                           {bid.buyerNote}
                         </p>
                       )}
@@ -121,7 +125,9 @@ export default function ListingBidsPage() {
                       <p className='text-lg font-bold text-green-600'>
                         ৳{bid.bidAmount}
                       </p>
-                      <p className='text-xs text-gray-400'>per unit</p>
+                      <p className='text-xs text-gray-400 dark:text-gray-500'>
+                        per unit
+                      </p>
                     </div>
                     <Badge
                       label={statusBadge.label}

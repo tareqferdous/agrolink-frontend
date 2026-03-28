@@ -21,11 +21,13 @@ export default function UserReviewsSection({
   const totalReviews = reviewsData?.totalReviews ?? 0;
 
   return (
-    <div className='bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm'>
-      <div className='px-6 py-5 border-b border-gray-100 flex items-center justify-between'>
+    <div className='bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 overflow-hidden shadow-sm'>
+      <div className='px-6 py-5 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between'>
         <div>
-          <h2 className='font-bold text-gray-900'>Reviews</h2>
-          <p className='text-sm text-gray-400 mt-0.5'>
+          <h2 className='font-bold text-gray-900 dark:text-gray-100'>
+            Reviews
+          </h2>
+          <p className='text-sm text-gray-400 dark:text-gray-500 mt-0.5'>
             {totalReviews > 0
               ? `${totalReviews} review${totalReviews !== 1 ? "s" : ""} from verified transactions`
               : "No reviews yet"}
@@ -37,7 +39,7 @@ export default function UserReviewsSection({
             <div className='flex items-center gap-0.5 justify-end'>
               {renderStars(Math.round(averageRating), "text-base")}
             </div>
-            <p className='text-xs text-gray-400 mt-1'>
+            <p className='text-xs text-gray-400 dark:text-gray-500 mt-1'>
               {averageRating.toFixed(1)} out of 5
             </p>
           </div>
@@ -46,30 +48,32 @@ export default function UserReviewsSection({
 
       {totalReviews === 0 ? (
         <div className='text-center py-16'>
-          <div className='w-16 h-16 bg-gray-50 rounded-2xl flex items-center justify-center mx-auto mb-4 text-3xl'>
+          <div className='w-16 h-16 bg-gray-50 dark:bg-gray-800 rounded-2xl flex items-center justify-center mx-auto mb-4 text-3xl'>
             ⭐
           </div>
-          <h3 className='font-semibold text-gray-900 mb-1'>No reviews yet</h3>
-          <p className='text-sm text-gray-400'>
+          <h3 className='font-semibold text-gray-900 dark:text-gray-100 mb-1'>
+            No reviews yet
+          </h3>
+          <p className='text-sm text-gray-400 dark:text-gray-500'>
             Reviews will appear after completed transactions
           </p>
         </div>
       ) : (
-        <div className='divide-y divide-gray-50'>
+        <div className='divide-y divide-gray-50 dark:divide-gray-800'>
           {reviewsData?.reviews.map((review) => (
             <div
               key={review.id}
-              className='px-6 py-5 hover:bg-gray-50/50 transition-colors'>
+              className='px-6 py-5 hover:bg-gray-50/50 dark:hover:bg-gray-800/50 transition-colors'>
               <div className='flex items-start justify-between gap-4'>
                 <div className='flex items-center gap-3 flex-1 min-w-0'>
-                  <div className='w-10 h-10 rounded-xl bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center text-sm font-bold text-gray-600 flex-shrink-0'>
+                  <div className='w-10 h-10 rounded-xl bg-linear-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 flex items-center justify-center text-sm font-bold text-gray-600 dark:text-gray-300 shrink-0'>
                     {review.reviewer.name.charAt(0).toUpperCase()}
                   </div>
                   <div className='min-w-0'>
-                    <p className='text-sm font-semibold text-gray-900'>
+                    <p className='text-sm font-semibold text-gray-900 dark:text-gray-100'>
                       {review.reviewer.name}
                     </p>
-                    <p className='text-xs text-gray-400'>
+                    <p className='text-xs text-gray-400 dark:text-gray-500'>
                       {review.reviewer.role === "FARMER"
                         ? "👨‍🌾 Farmer"
                         : "🛒 Buyer"}
@@ -77,11 +81,11 @@ export default function UserReviewsSection({
                   </div>
                 </div>
 
-                <div className='text-right flex-shrink-0'>
+                <div className='text-right shrink-0'>
                   <div className='flex items-center gap-0.5 justify-end'>
                     {renderStars(review.rating, "text-base")}
                   </div>
-                  <p className='text-xs text-gray-400 mt-1'>
+                  <p className='text-xs text-gray-400 dark:text-gray-500 mt-1'>
                     {new Date(review.createdAt).toLocaleDateString("en-BD", {
                       year: "numeric",
                       month: "short",
@@ -93,7 +97,7 @@ export default function UserReviewsSection({
 
               {review.comment && (
                 <div className='mt-3 ml-13'>
-                  <p className='text-sm text-gray-600 leading-relaxed bg-gray-50 px-4 py-3 rounded-xl border border-gray-100 italic'>
+                  <p className='text-sm text-gray-600 dark:text-gray-400 leading-relaxed bg-gray-50 dark:bg-gray-800 px-4 py-3 rounded-xl border border-gray-100 dark:border-gray-700 italic'>
                     &ldquo;{review.comment}&rdquo;
                   </p>
                 </div>

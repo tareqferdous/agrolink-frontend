@@ -109,11 +109,11 @@ export default function FarmerOrdersPage() {
         title='Ship Order'>
         <form onSubmit={handleSubmit(handleShip)} className='space-y-4'>
           <div>
-            <label className='text-sm font-medium text-gray-700 block mb-1.5'>
+            <label className='text-sm font-medium text-gray-700 dark:text-gray-300 block mb-1.5'>
               Courier Name <span className='text-red-500'>*</span>
             </label>
             <select
-              className='w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:border-green-500 focus:ring-1 focus:ring-green-500 outline-none bg-white'
+              className='w-full px-3 py-2.5 border border-gray-200 dark:border-gray-700 rounded-xl text-sm text-gray-700 dark:text-gray-200 focus:border-green-500 focus:ring-1 focus:ring-green-500 outline-none bg-white dark:bg-gray-900'
               {...register("courierName")}>
               <option value='Pathao'>🚗 Pathao</option>
               <option value='Sundarban'>📦 Sundarban</option>

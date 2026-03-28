@@ -5,6 +5,21 @@ import { Geist } from "next/font/google";
 import { Toaster } from "sonner";
 import "./globals.css";
 
+const THEME_BOOTSTRAP_SCRIPT = `(() => {
+  try {
+    const key = "theme";
+    const root = document.documentElement;
+    const saved = localStorage.getItem(key);
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const resolved = saved === "light" || saved === "dark" ? saved : (prefersDark ? "dark" : "light");
+
+    root.classList.toggle("dark", resolved === "dark");
+    root.setAttribute("data-theme", resolved);
+  } catch {
+    // Ignore localStorage/matchMedia failures during early boot.
+  }
+})();`;
+
 const geist = Geist({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -19,12 +34,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang='en'>
+    <html lang='en' suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_BOOTSTRAP_SCRIPT }} />
+      </head>
       <body className={geist.className}>
         <Navbar />
         {children}
         <Footer />
-        <Toaster position='top-right' richColors />
+        <Toaster position='top-right' richColors theme='system' />
       </body>
     </html>
   );

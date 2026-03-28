@@ -17,17 +17,17 @@ export default function RelatedListingsSection({
     <section className='mt-12'>
       <div className='flex items-center justify-between gap-4 mb-5'>
         <div>
-          <h2 className='text-2xl font-bold text-gray-900'>
+          <h2 className='text-2xl font-bold text-gray-900 dark:text-gray-100'>
             You might also like
           </h2>
-          <p className='text-sm text-gray-500 mt-1'>
+          <p className='text-sm text-gray-500 dark:text-gray-400 mt-1'>
             Similar crops from the same category
           </p>
         </div>
 
         <Link
           href={`/listings?category=${category}`}
-          className='text-sm font-medium text-green-600 hover:text-green-700 hover:underline'>
+          className='text-sm font-medium text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 hover:underline'>
           View all
         </Link>
       </div>

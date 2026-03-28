@@ -83,7 +83,7 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className='min-h-screen bg-gray-50 flex items-center justify-center px-4 py-8'>
+    <div className='min-h-screen bg-gray-50 dark:bg-gray-950 flex items-center justify-center px-4 py-8'>
       <div className='w-full max-w-md'>
         {/* Logo */}
         <div className='text-center mb-8'>
@@ -91,12 +91,14 @@ export default function RegisterPage() {
             <span className='text-3xl'>🌾</span>
             <h1 className='text-2xl font-bold text-green-700'>AgroLink</h1>
           </div>
-          <p className='text-gray-500 text-sm'>কৃষক থেকে সরাসরি ক্রেতা</p>
+          <p className='text-gray-500 dark:text-gray-400 text-sm'>
+            কৃষক থেকে সরাসরি ক্রেতা
+          </p>
         </div>
 
         {/* Card */}
-        <div className='bg-white rounded-2xl shadow-sm border border-gray-100 p-8'>
-          <h2 className='text-xl font-semibold text-gray-900 mb-6'>
+        <div className='bg-white dark:bg-gray-900 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 p-8'>
+          <h2 className='text-xl font-semibold text-gray-900 dark:text-gray-100 mb-6'>
             Create your account
           </h2>
 
@@ -108,8 +110,8 @@ export default function RegisterPage() {
                   key={role}
                   className={`flex items-center justify-center gap-2 p-3 rounded-lg border-2 cursor-pointer transition-colors ${
                     selectedRole === role
-                      ? "border-green-500 bg-green-50 text-green-700"
-                      : "border-gray-200 text-gray-600 hover:border-gray-300"
+                      ? "border-green-500 bg-green-50 dark:bg-green-900/40 text-green-700 dark:text-green-300"
+                      : "border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600"
                   }`}>
                   <input
                     type='radio'
@@ -183,11 +185,11 @@ export default function RegisterPage() {
             </Button>
           </form>
 
-          <p className='text-center text-sm text-gray-500 mt-6'>
+          <p className='text-center text-sm text-gray-500 dark:text-gray-400 mt-6'>
             Already have an account?{" "}
             <Link
               href='/login'
-              className='text-green-600 font-medium hover:underline'>
+              className='text-green-600 dark:text-green-400 font-medium hover:underline'>
               Login
             </Link>
           </p>

@@ -13,25 +13,27 @@ export default function AnalyticsPipelineSection({
 
   return (
     <div className='mt-6 grid grid-cols-1 lg:grid-cols-3 gap-5'>
-      <div className='lg:col-span-2 bg-white rounded-2xl border border-gray-100 p-6 shadow-sm'>
-        <h2 className='font-bold text-gray-900 mb-1 flex items-center gap-2'>
+      <div className='lg:col-span-2 bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 p-6 shadow-sm'>
+        <h2 className='font-bold text-gray-900 dark:text-gray-100 mb-1 flex items-center gap-2'>
           <span>📈</span> Platform Distribution
         </h2>
-        <p className='text-xs text-gray-400 mb-5'>
+        <p className='text-xs text-gray-400 dark:text-gray-500 mb-5'>
           User, listing, and order activity at a glance
         </p>
 
         <div className='space-y-4'>
           <div>
             <div className='flex items-center justify-between text-sm mb-1.5'>
-              <p className='font-medium text-gray-700'>Orders per User</p>
-              <p className='text-gray-500'>
+              <p className='font-medium text-gray-700 dark:text-gray-300'>
+                Orders per User
+              </p>
+              <p className='text-gray-500 dark:text-gray-400'>
                 {analytics.totalOrders} / {analytics.totalUsers || 1}
               </p>
             </div>
             <div className='h-2.5 rounded-full bg-purple-50 overflow-hidden'>
               <div
-                className='h-full rounded-full bg-gradient-to-r from-purple-500 to-violet-500 transition-all duration-700'
+                className='h-full rounded-full bg-linear-to-r from-purple-500 to-violet-500 transition-all duration-700'
                 style={{ width: `${Math.min(rates.orderReachRate, 100)}%` }}
               />
             </div>
@@ -39,16 +41,16 @@ export default function AnalyticsPipelineSection({
 
           <div>
             <div className='flex items-center justify-between text-sm mb-1.5'>
-              <p className='font-medium text-gray-700'>
+              <p className='font-medium text-gray-700 dark:text-gray-300'>
                 Active Listings / User
               </p>
-              <p className='text-gray-500'>
+              <p className='text-gray-500 dark:text-gray-400'>
                 {analytics.activeListings} / {analytics.totalUsers || 1}
               </p>
             </div>
             <div className='h-2.5 rounded-full bg-emerald-50 overflow-hidden'>
               <div
-                className='h-full rounded-full bg-gradient-to-r from-emerald-500 to-green-600 transition-all duration-700'
+                className='h-full rounded-full bg-linear-to-r from-emerald-500 to-green-600 transition-all duration-700'
                 style={{
                   width: `${Math.min(rates.listingsPerUserRate, 100)}%`,
                 }}
@@ -58,14 +60,16 @@ export default function AnalyticsPipelineSection({
 
           <div>
             <div className='flex items-center justify-between text-sm mb-1.5'>
-              <p className='font-medium text-gray-700'>Revenue Momentum</p>
-              <p className='text-gray-500'>
+              <p className='font-medium text-gray-700 dark:text-gray-300'>
+                Revenue Momentum
+              </p>
+              <p className='text-gray-500 dark:text-gray-400'>
                 ৳{analytics.platformRevenue.toFixed(2)} total
               </p>
             </div>
             <div className='h-2.5 rounded-full bg-yellow-50 overflow-hidden'>
               <div
-                className='h-full rounded-full bg-gradient-to-r from-yellow-500 to-orange-500 transition-all duration-700'
+                className='h-full rounded-full bg-linear-to-r from-yellow-500 to-orange-500 transition-all duration-700'
                 style={{ width: `${safeMonetizationRate}%` }}
               />
             </div>
@@ -73,11 +77,11 @@ export default function AnalyticsPipelineSection({
         </div>
       </div>
 
-      <div className='bg-white rounded-2xl border border-gray-100 p-6 shadow-sm'>
-        <h2 className='font-bold text-gray-900 mb-1 flex items-center gap-2'>
+      <div className='bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 p-6 shadow-sm'>
+        <h2 className='font-bold text-gray-900 dark:text-gray-100 mb-1 flex items-center gap-2'>
           <span>🎯</span> Revenue Health
         </h2>
-        <p className='text-xs text-gray-400 mb-5'>
+        <p className='text-xs text-gray-400 dark:text-gray-500 mb-5'>
           Platform monetization snapshot
         </p>
 
@@ -85,26 +89,30 @@ export default function AnalyticsPipelineSection({
           <div
             className='w-36 h-36 rounded-full grid place-items-center'
             style={{
-              background: `conic-gradient(#f59e0b ${safeMonetizationRate}%, #e5e7eb 0)`,
+              background: `conic-gradient(#f59e0b ${safeMonetizationRate}%, ${"var(--color-border)"} 0)`,
             }}>
-            <div className='w-28 h-28 rounded-full bg-white border border-gray-100 flex flex-col items-center justify-center'>
-              <p className='text-3xl font-bold text-gray-900'>
+            <div className='w-28 h-28 rounded-full bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-700 flex flex-col items-center justify-center'>
+              <p className='text-3xl font-bold text-gray-900 dark:text-gray-100'>
                 {safeMonetizationRate}%
               </p>
-              <p className='text-[11px] text-gray-400 mt-0.5'>revenue index</p>
+              <p className='text-[11px] text-gray-400 dark:text-gray-500 mt-0.5'>
+                revenue index
+              </p>
             </div>
           </div>
 
           <div className='w-full mt-5 space-y-2 text-sm'>
             <div className='flex items-center justify-between'>
-              <p className='text-gray-500'>Total Orders</p>
-              <p className='font-semibold text-gray-900'>
+              <p className='text-gray-500 dark:text-gray-400'>Total Orders</p>
+              <p className='font-semibold text-gray-900 dark:text-gray-100'>
                 {analytics.totalOrders}
               </p>
             </div>
             <div className='flex items-center justify-between'>
-              <p className='text-gray-500'>Platform Revenue</p>
-              <p className='font-semibold text-gray-900'>
+              <p className='text-gray-500 dark:text-gray-400'>
+                Platform Revenue
+              </p>
+              <p className='font-semibold text-gray-900 dark:text-gray-100'>
                 ৳{analytics.platformRevenue.toFixed(2)}
               </p>
             </div>

@@ -34,13 +34,13 @@ const Features = () => {
   return (
     <section className='max-w-6xl mx-auto px-6 py-16 md:py-16'>
       <div className='text-center mb-14 '>
-        <p className='text-[11px] tracking-[0.14em] uppercase text-gray-400 font-semibold mb-3'>
+        <p className='text-[11px] tracking-[0.14em] uppercase text-gray-400 dark:text-gray-500 font-semibold mb-3'>
           Platform Features
         </p>
-        <h2 className='text-[clamp(1.75rem,4vw,2.5rem)] font-black text-gray-900 mb-4'>
+        <h2 className='text-[clamp(1.75rem,4vw,2.5rem)] font-black text-gray-900 dark:text-gray-100 mb-4'>
           কেন <span className='gradient-text'>AgroLink</span> বেছে নেবেন?
         </h2>
-        <p className='text-gray-400 max-w-md mx-auto text-sm leading-relaxed'>
+        <p className='text-gray-400 dark:text-gray-500 max-w-md mx-auto text-sm leading-relaxed'>
           Every feature is built around one goal — making sure farmers get paid
           fairly and on time.
         </p>
@@ -50,14 +50,16 @@ const Features = () => {
         {features.map((f) => (
           <div
             key={f.title}
-            className='p-7 rounded-2xl shadow-sm border border-gray-100 bg-white hover:border-green-200 hover:shadow-md transition-all duration-300 group'>
-            <div className='w-12 h-12 rounded-xl bg-green-50 border border-green-100 flex items-center justify-center text-xl mb-5 group-hover:bg-green-100 group-hover:border-green-200 transition-all duration-300'>
+            className='p-7 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 hover:border-green-200 dark:hover:border-green-700 hover:shadow-md transition-all duration-300 group'>
+            <div className='w-12 h-12 rounded-xl bg-green-50 dark:bg-green-900/25 border border-green-100 dark:border-green-800/60 flex items-center justify-center text-xl mb-5 group-hover:bg-green-100 dark:group-hover:bg-green-900/40 group-hover:border-green-200 dark:group-hover:border-green-700 transition-all duration-300'>
               {f.icon}
             </div>
-            <h3 className='text-base font-bold text-gray-900 mb-2'>
+            <h3 className='text-base font-bold text-gray-900 dark:text-gray-100 mb-2'>
               {f.title}
             </h3>
-            <p className='text-sm text-gray-400 leading-relaxed'>{f.desc}</p>
+            <p className='text-sm text-gray-400 dark:text-gray-500 leading-relaxed'>
+              {f.desc}
+            </p>
           </div>
         ))}
       </div>

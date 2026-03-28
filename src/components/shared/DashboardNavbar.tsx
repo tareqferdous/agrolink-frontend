@@ -7,6 +7,7 @@ import { LogOut } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { toast } from "sonner";
+import ThemeToggle from "./ThemeToggle";
 
 interface QuickLink {
   label: string;
@@ -63,17 +64,17 @@ export default function DashboardNavbar() {
   };
 
   return (
-    <header className='h-16 sticky top-0 z-40 bg-white border-b border-gray-100 shadow-sm'>
+    <header className='h-16 sticky top-0 z-40 bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 shadow-sm'>
       <div className='h-full px-4 sm:px-6 flex items-center justify-between'>
         <div className='flex items-center gap-4'>
           <Link href='/' className='flex items-center gap-2'>
             <span className='text-xl'>🌾</span>
-            <div className='text-base font-black tracking-tight text-gray-900'>
+            <div className='text-base font-black tracking-tight text-gray-900 dark:text-gray-100'>
               Agro<span className='text-green-600'>Link</span>
             </div>
           </Link>
 
-          <span className='hidden md:inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-green-50 text-green-700'>
+          <span className='hidden md:inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-green-50 dark:bg-green-900/40 text-green-700 dark:text-green-300'>
             {panelTitle}
           </span>
 
@@ -84,8 +85,8 @@ export default function DashboardNavbar() {
                 href={link.href}
                 className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
                   isActive(link.href)
-                    ? "bg-green-50 text-green-700"
-                    : "text-gray-600 hover:text-green-700 hover:bg-gray-50"
+                    ? "bg-green-50 dark:bg-green-900/40 text-green-700 dark:text-green-300"
+                    : "text-gray-600 dark:text-gray-300 hover:text-green-700 dark:hover:text-green-400 hover:bg-gray-50 dark:hover:bg-gray-800"
                 }`}>
                 {link.label}
               </Link>
@@ -94,18 +95,19 @@ export default function DashboardNavbar() {
         </div>
 
         <div className='flex items-center gap-2 sm:gap-3'>
+          <ThemeToggle />
           <Link
             href='/profile'
-            className='hidden sm:flex items-center gap-2 px-2.5 py-1.5 rounded-lg hover:bg-gray-50 transition-colors'>
+            className='hidden sm:flex items-center gap-2 px-2.5 py-1.5 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors'>
             <Avatar src={userImage} name={user?.name ?? ""} size='sm' />
-            <span className='text-sm font-medium text-gray-700 max-w-28 truncate'>
+            <span className='text-sm font-medium text-gray-700 dark:text-gray-300 max-w-28 truncate'>
               {user?.name}
             </span>
           </Link>
 
           <button
             onClick={handleLogout}
-            className='inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg text-sm font-medium text-gray-600 hover:text-red-600 hover:bg-red-50 transition-colors'>
+            className='inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors'>
             <LogOut className='w-4 h-4' />
             <span className='hidden sm:inline'>Logout</span>
           </button>

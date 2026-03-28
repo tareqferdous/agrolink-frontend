@@ -23,9 +23,9 @@ export default function ListingCard({
   const coverImage = listing.images[0]?.replace(/^http:\/\//i, "https://");
 
   return (
-    <div className='bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 group'>
+    <div className='bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 overflow-hidden hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 group'>
       {/* Image */}
-      <div className='relative h-48 bg-gray-100 overflow-hidden'>
+      <div className='relative h-48 bg-gray-100 dark:bg-gray-800 overflow-hidden'>
         {coverImage ? (
           <Image
             src={coverImage}
@@ -35,7 +35,7 @@ export default function ListingCard({
             className='object-cover group-hover:scale-105 transition-transform duration-300'
           />
         ) : (
-          <div className='h-full flex items-center justify-center bg-linear-to-br from-green-50 to-emerald-100'>
+          <div className='h-full flex items-center justify-center bg-linear-to-br from-green-50 to-emerald-100 dark:from-green-900/30 dark:to-gray-800'>
             <span className='text-6xl'>{categoryInfo?.icon ?? "🌾"}</span>
           </div>
         )}
@@ -43,7 +43,7 @@ export default function ListingCard({
         {/* Category badge */}
         {categoryInfo && (
           <div className='absolute top-3 left-3'>
-            <span className='inline-flex items-center gap-1 px-2.5 py-1 bg-white/95 backdrop-blur-sm rounded-full text-xs font-medium text-gray-700 shadow-sm'>
+            <span className='inline-flex items-center gap-1 px-2.5 py-1 bg-white/95 dark:bg-gray-900/90 backdrop-blur-sm rounded-full text-xs font-medium text-gray-700 dark:text-gray-200 shadow-sm'>
               {categoryInfo.icon} {categoryInfo.label}
             </span>
           </div>
@@ -70,7 +70,7 @@ export default function ListingCard({
       <div className='p-4'>
         {/* Title + price */}
         <div className='flex items-start justify-between gap-2 mb-3'>
-          <h3 className='font-bold text-gray-900 text-base leading-tight group-hover:text-green-700 transition-colors'>
+          <h3 className='font-bold text-gray-900 dark:text-gray-100 text-base leading-tight group-hover:text-green-700 dark:group-hover:text-green-400 transition-colors'>
             {listing.cropName}
           </h3>
           {listing.minPricePerUnit && (
@@ -78,30 +78,32 @@ export default function ListingCard({
               <span className='text-lg font-bold text-green-600'>
                 ৳{listing.minPricePerUnit}
               </span>
-              <span className='text-xs text-gray-400'>/{listing.unit}</span>
+              <span className='text-xs text-gray-400 dark:text-gray-500'>
+                /{listing.unit}
+              </span>
             </div>
           )}
         </div>
 
         {/* Meta */}
         <div className='space-y-1.5 mb-4'>
-          <div className='flex items-center gap-4 text-xs text-gray-500'>
+          <div className='flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400'>
             <span className='flex items-center gap-1'>
               📦{" "}
-              <span className='font-medium text-gray-700'>
+              <span className='font-medium text-gray-700 dark:text-gray-200'>
                 {listing.quantity} {listing.unit}
               </span>
             </span>
             <span className='flex items-center gap-1'>
               📍{" "}
-              <span className='font-medium text-gray-700'>
+              <span className='font-medium text-gray-700 dark:text-gray-200'>
                 {listing.location}
               </span>
             </span>
           </div>
-          <div className='flex items-center gap-1 text-xs text-gray-500'>
+          <div className='flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400'>
             📅{" "}
-            <span className='font-medium text-gray-700'>
+            <span className='font-medium text-gray-700 dark:text-gray-200'>
               Harvest:{" "}
               {new Date(listing.harvestDate).toLocaleDateString("en-BD", {
                 month: "short",
@@ -116,7 +118,7 @@ export default function ListingCard({
         <div className='flex gap-2'>
           <Link
             href={`/listings/${listing.id}`}
-            className='flex-1 text-center text-sm py-2 rounded-xl border border-gray-200 text-gray-600 hover:bg-gray-50 hover:border-gray-300 transition-all font-medium'>
+            className='flex-1 text-center text-sm py-2 rounded-xl border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover:border-gray-300 dark:hover:border-gray-600 transition-all font-medium'>
             View
           </Link>
 
@@ -124,12 +126,12 @@ export default function ListingCard({
             <>
               <button
                 onClick={() => onEdit?.(listing)}
-                className='flex-1 text-center text-sm py-2 rounded-xl border border-green-200 text-green-600 hover:bg-green-50 hover:border-green-300 transition-all font-medium'>
+                className='flex-1 text-center text-sm py-2 rounded-xl border border-green-200 dark:border-green-800 text-green-600 dark:text-green-300 hover:bg-green-50 dark:hover:bg-green-900/30 hover:border-green-300 dark:hover:border-green-700 transition-all font-medium'>
                 Edit
               </button>
               <button
                 onClick={() => onDelete?.(listing.id)}
-                className='flex-1 text-center text-sm py-2 rounded-xl border border-red-200 text-red-500 hover:bg-red-50 hover:border-red-300 transition-all font-medium'>
+                className='flex-1 text-center text-sm py-2 rounded-xl border border-red-200 dark:border-red-900 text-red-500 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/30 hover:border-red-300 dark:hover:border-red-800 transition-all font-medium'>
                 Delete
               </button>
             </>

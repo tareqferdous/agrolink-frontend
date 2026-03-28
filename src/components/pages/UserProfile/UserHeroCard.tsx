@@ -14,7 +14,7 @@ export default function UserHeroCard({
   const roleConfig = getRoleConfig(user.role);
 
   return (
-    <div className='bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm'>
+    <div className='bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 overflow-hidden shadow-sm'>
       <div
         className={`h-32 bg-linear-to-r ${roleConfig.gradient} relative overflow-hidden`}>
         <div className='absolute -right-8 -top-8 w-40 h-40 rounded-full bg-white/10' />
@@ -25,7 +25,7 @@ export default function UserHeroCard({
       <div className='px-6 pb-6'>
         <div className='flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between mb-5'>
           <div className='flex gap-4 -mt-10 relative z-10'>
-            <div className='w-20 h-20 rounded-2xl ring-4 ring-white shadow-lg overflow-hidden shrink-0'>
+            <div className='w-20 h-20 rounded-2xl ring-4 ring-white dark:ring-gray-900 shadow-lg overflow-hidden shrink-0'>
               {user.image ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
@@ -42,7 +42,9 @@ export default function UserHeroCard({
             </div>
 
             <div className='pt-2'>
-              <h1 className='text-2xl font-bold text-gray-900'>{user.name}</h1>
+              <h1 className='text-2xl font-bold text-gray-900 dark:text-gray-100'>
+                {user.name}
+              </h1>
               <span
                 className={`inline-flex items-center gap-1.5 text-xs px-3 py-1 rounded-full font-semibold ${roleConfig.bg} ${roleConfig.text}`}>
                 {roleConfig.icon} {roleConfig.label}
@@ -52,12 +54,12 @@ export default function UserHeroCard({
 
           {totalReviews > 0 && (
             <div className='sm:pt-2'>
-              <div className='inline-flex items-center gap-1.5 bg-yellow-50 border border-yellow-100 px-3 py-2 rounded-xl'>
+              <div className='inline-flex items-center gap-1.5 bg-yellow-50 dark:bg-yellow-900/30 border border-yellow-100 dark:border-yellow-800/60 px-3 py-2 rounded-xl'>
                 <span className='text-yellow-500 text-lg'>★</span>
-                <span className='font-bold text-gray-900 text-lg'>
+                <span className='font-bold text-gray-900 dark:text-gray-100 text-lg'>
                   {averageRating.toFixed(1)}
                 </span>
-                <span className='text-xs text-gray-400 font-medium'>
+                <span className='text-xs text-gray-400 dark:text-gray-500 font-medium'>
                   {getRatingLabel(averageRating)}
                 </span>
               </div>
@@ -91,12 +93,12 @@ export default function UserHeroCard({
           ].map((stat) => (
             <div
               key={stat.label}
-              className='bg-gray-50 rounded-xl p-3 text-center border border-gray-100'>
+              className='bg-gray-50 dark:bg-gray-800 rounded-xl p-3 text-center border border-gray-100 dark:border-gray-700'>
               <span className='text-lg'>{stat.icon}</span>
-              <p className='text-xs text-gray-400 mt-1 font-medium'>
+              <p className='text-xs text-gray-400 dark:text-gray-500 mt-1 font-medium'>
                 {stat.label}
               </p>
-              <p className='text-sm font-semibold text-gray-900 mt-0.5'>
+              <p className='text-sm font-semibold text-gray-900 dark:text-gray-100 mt-0.5'>
                 {stat.value}
               </p>
             </div>
@@ -104,9 +106,9 @@ export default function UserHeroCard({
         </div>
 
         {user.location && (
-          <div className='flex items-center gap-2 mt-4 pt-4 border-t border-gray-100'>
+          <div className='flex items-center gap-2 mt-4 pt-4 border-t border-gray-100 dark:border-gray-800'>
             <span className='text-base'>📍</span>
-            <span className='text-sm text-gray-600 font-medium'>
+            <span className='text-sm text-gray-600 dark:text-gray-400 font-medium'>
               {user.location}
             </span>
           </div>

@@ -157,7 +157,7 @@ function ListingsContent() {
   }, [loading, totalPages, currentPage, goToPage]);
 
   return (
-    <div className='min-h-screen bg-gray-50'>
+    <div className='min-h-screen bg-gray-50 dark:bg-gray-950'>
       {/* Hero */}
       <div className='bg-linear-to-r from-green-700 to-green-600 text-white py-12 px-6'>
         <div className='max-w-6xl mx-auto'>
@@ -174,12 +174,12 @@ function ListingsContent() {
                 updateParams({ cropName: e.target.value || null })
               }
               placeholder='Search crops...'
-              className='w-full px-4 py-3 pr-10 rounded-xl border border-white/70 bg-white/95 text-gray-900 placeholder-gray-500 text-sm shadow-lg shadow-green-900/15 backdrop-blur-sm transition-all outline-none focus:border-white focus:ring-4 focus:ring-white/35'
+              className='w-full px-4 py-3 pr-10 rounded-xl border border-white/70 dark:border-green-300/20 bg-white/95 dark:bg-gray-900/90 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 text-sm shadow-lg shadow-green-900/15 backdrop-blur-sm transition-all outline-none focus:border-white dark:focus:border-green-300/40 focus:ring-4 focus:ring-white/35 dark:focus:ring-green-300/20'
             />
             {cropName && (
               <button
                 onClick={() => updateParams({ cropName: null })}
-                className='absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700'>
+                className='absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'>
                 ✕
               </button>
             )}
@@ -190,13 +190,15 @@ function ListingsContent() {
       <div className='max-w-6xl mx-auto px-6 py-8'>
         {/* Mobile filter toggle */}
         <div className='flex items-center justify-between mb-6 lg:hidden'>
-          <p className='text-sm text-gray-500'>
-            <span className='font-semibold text-gray-900'>{total}</span>{" "}
+          <p className='text-sm text-gray-500 dark:text-gray-400'>
+            <span className='font-semibold text-gray-900 dark:text-gray-100'>
+              {total}
+            </span>{" "}
             listings
           </p>
           <button
             onClick={() => setIsSidebarOpen(true)}
-            className='flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-lg text-sm font-medium text-gray-700'>
+            className='flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-200'>
             <svg
               className='w-4 h-4'
               fill='none'
@@ -218,7 +220,7 @@ function ListingsContent() {
 
         <div className='flex gap-8'>
           {/* Desktop sidebar */}
-          <aside className='hidden lg:block w-64 flex-shrink-0'>
+          <aside className='hidden lg:block w-64 shrink-0'>
             <FilterSidebar
               meta={meta}
               metaLoading={metaLoading}
@@ -241,12 +243,14 @@ function ListingsContent() {
                 className='fixed inset-0 bg-black/50 z-40 lg:hidden'
                 onClick={() => setIsSidebarOpen(false)}
               />
-              <div className='fixed inset-y-0 left-0 w-72 bg-white z-50 overflow-y-auto p-6 lg:hidden'>
+              <div className='fixed inset-y-0 left-0 w-72 bg-white dark:bg-gray-900 z-50 overflow-y-auto p-6 lg:hidden'>
                 <div className='flex items-center justify-between mb-6'>
-                  <h2 className='font-bold text-gray-900 text-lg'>Filters</h2>
+                  <h2 className='font-bold text-gray-900 dark:text-gray-100 text-lg'>
+                    Filters
+                  </h2>
                   <button
                     onClick={() => setIsSidebarOpen(false)}
-                    className='text-gray-400 hover:text-gray-600 text-lg'>
+                    className='text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 text-lg'>
                     ✕
                   </button>
                 </div>
@@ -270,45 +274,47 @@ function ListingsContent() {
           {/* Main content */}
           <div className='flex-1 min-w-0'>
             {/* Result info + active tags */}
-            <div className='flex flex-wrap items-center gap-2 mb-6 min-h-[28px]'>
-              <p className='text-sm text-gray-500 hidden lg:block mr-2'>
+            <div className='flex flex-wrap items-center gap-2 mb-6 min-h-7'>
+              <p className='text-sm text-gray-500 dark:text-gray-400 hidden lg:block mr-2'>
                 {loading ? (
-                  <span className='text-gray-400 animate-pulse'>
+                  <span className='text-gray-400 dark:text-gray-500 animate-pulse'>
                     Searching...
                   </span>
                 ) : (
                   <>
-                    <span className='font-semibold text-gray-900'>{total}</span>{" "}
+                    <span className='font-semibold text-gray-900 dark:text-gray-100'>
+                      {total}
+                    </span>{" "}
                     listing{total !== 1 ? "s" : ""} found
                   </>
                 )}
               </p>
 
               {selectedCategory && (
-                <span className='inline-flex items-center gap-1 px-2.5 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium'>
+                <span className='inline-flex items-center gap-1 px-2.5 py-1 bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300 rounded-full text-xs font-medium'>
                   {CATEGORIES.find((c) => c.value === selectedCategory)?.icon}{" "}
                   {CATEGORIES.find((c) => c.value === selectedCategory)?.label}
                   <button
                     onClick={() => updateParams({ category: null })}
-                    className='hover:text-green-900 ml-0.5'>
+                    className='hover:text-green-900 dark:hover:text-green-200 ml-0.5'>
                     ✕
                   </button>
                 </span>
               )}
 
               {selectedLocation && (
-                <span className='inline-flex items-center gap-1 px-2.5 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-medium'>
+                <span className='inline-flex items-center gap-1 px-2.5 py-1 bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 rounded-full text-xs font-medium'>
                   📍 {selectedLocation}
                   <button
                     onClick={() => updateParams({ location: null })}
-                    className='hover:text-blue-900 ml-0.5'>
+                    className='hover:text-blue-900 dark:hover:text-blue-200 ml-0.5'>
                     ✕
                   </button>
                 </span>
               )}
 
               {(minPrice || maxPrice) && (
-                <span className='inline-flex items-center gap-1 px-2.5 py-1 bg-yellow-100 text-yellow-700 rounded-full text-xs font-medium'>
+                <span className='inline-flex items-center gap-1 px-2.5 py-1 bg-yellow-100 dark:bg-yellow-900/40 text-yellow-700 dark:text-yellow-300 rounded-full text-xs font-medium'>
                   💰 ৳{minPrice || "0"} — ৳{maxPrice || "∞"}
                   <button
                     onClick={() => {
@@ -318,19 +324,19 @@ function ListingsContent() {
                         meta.priceRange.max,
                       ]);
                     }}
-                    className='hover:text-yellow-900 ml-0.5'>
+                    className='hover:text-yellow-900 dark:hover:text-yellow-200 ml-0.5'>
                     ✕
                   </button>
                 </span>
               )}
 
               {selectedDelivery && (
-                <span className='inline-flex items-center gap-1 px-2.5 py-1 bg-purple-100 text-purple-700 rounded-full text-xs font-medium'>
+                <span className='inline-flex items-center gap-1 px-2.5 py-1 bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 rounded-full text-xs font-medium'>
                   {selectedDelivery === "PICKUP" ? "🏠" : "🚚"}{" "}
                   {selectedDelivery}
                   <button
                     onClick={() => updateParams({ deliveryOptions: null })}
-                    className='hover:text-purple-900 ml-0.5'>
+                    className='hover:text-purple-900 dark:hover:text-purple-200 ml-0.5'>
                     ✕
                   </button>
                 </span>
@@ -339,7 +345,7 @@ function ListingsContent() {
               {hasActiveFilters && (
                 <button
                   onClick={clearFilters}
-                  className='text-xs text-red-500 hover:text-red-600 font-medium underline ml-1'>
+                  className='text-xs text-red-500 dark:text-red-400 hover:text-red-600 dark:hover:text-red-300 font-medium underline ml-1'>
                   Clear all
                 </button>
               )}
@@ -351,29 +357,29 @@ function ListingsContent() {
                 {[...Array(9)].map((_, i) => (
                   <div
                     key={i}
-                    className='bg-white rounded-2xl overflow-hidden border border-gray-100'>
-                    <div className='h-48 bg-gray-200 animate-pulse' />
+                    className='bg-white dark:bg-gray-900 rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-800'>
+                    <div className='h-48 bg-gray-200 dark:bg-gray-800 animate-pulse' />
                     <div className='p-4 space-y-3'>
-                      <div className='h-4 bg-gray-200 rounded animate-pulse w-3/4' />
-                      <div className='h-3 bg-gray-200 rounded animate-pulse w-1/2' />
-                      <div className='h-8 bg-gray-200 rounded animate-pulse mt-4' />
+                      <div className='h-4 bg-gray-200 dark:bg-gray-800 rounded animate-pulse w-3/4' />
+                      <div className='h-3 bg-gray-200 dark:bg-gray-800 rounded animate-pulse w-1/2' />
+                      <div className='h-8 bg-gray-200 dark:bg-gray-800 rounded animate-pulse mt-4' />
                     </div>
                   </div>
                 ))}
               </div>
             ) : listings.length === 0 ? (
-              <div className='text-center py-20 bg-white rounded-2xl border border-gray-100'>
+              <div className='text-center py-20 bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800'>
                 <p className='text-6xl mb-4'>🌾</p>
-                <h3 className='text-lg font-semibold text-gray-900 mb-1'>
+                <h3 className='text-lg font-semibold text-gray-900 dark:text-gray-100 mb-1'>
                   No listings found
                 </h3>
-                <p className='text-gray-500 text-sm mb-4'>
+                <p className='text-gray-500 dark:text-gray-400 text-sm mb-4'>
                   Try adjusting your filters
                 </p>
                 {hasActiveFilters && (
                   <button
                     onClick={clearFilters}
-                    className='px-4 py-2 text-sm text-green-600 border border-green-200 rounded-lg hover:bg-green-50 transition-colors'>
+                    className='px-4 py-2 text-sm text-green-600 dark:text-green-300 border border-green-200 dark:border-green-800 rounded-lg hover:bg-green-50 dark:hover:bg-green-900/30 transition-colors'>
                     Clear all filters
                   </button>
                 )}

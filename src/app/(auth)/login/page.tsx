@@ -90,7 +90,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className='min-h-screen bg-gray-50 flex items-center justify-center px-4'>
+    <div className='min-h-screen bg-gray-50 dark:bg-gray-950 flex items-center justify-center px-4'>
       <div className='w-full max-w-md'>
         {/* Logo */}
         <div className='text-center mb-8'>
@@ -98,12 +98,14 @@ export default function LoginPage() {
             <span className='text-3xl'>🌾</span>
             <h1 className='text-2xl font-bold text-green-700'>AgroLink</h1>
           </div>
-          <p className='text-gray-500 text-sm'>কৃষক থেকে সরাসরি ক্রেতা</p>
+          <p className='text-gray-500 dark:text-gray-400 text-sm'>
+            কৃষক থেকে সরাসরি ক্রেতা
+          </p>
         </div>
 
         {/* Card */}
-        <div className='bg-white rounded-2xl shadow-sm border border-gray-100 p-8'>
-          <h2 className='text-xl font-semibold text-gray-900 mb-6'>
+        <div className='bg-white dark:bg-gray-900 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 p-8'>
+          <h2 className='text-xl font-semibold text-gray-900 dark:text-gray-100 mb-6'>
             Login to your account
           </h2>
 
@@ -135,11 +137,11 @@ export default function LoginPage() {
             </Button>
           </form>
 
-          <p className='text-center text-sm text-gray-500 mt-6'>
+          <p className='text-center text-sm text-gray-500 dark:text-gray-400 mt-6'>
             Don&apos;t have an account?{" "}
             <Link
               href='/register'
-              className='text-green-600 font-medium hover:underline'>
+              className='text-green-600 dark:text-green-400 font-medium hover:underline'>
               Register
             </Link>
           </p>

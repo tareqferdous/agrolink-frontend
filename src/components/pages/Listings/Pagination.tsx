@@ -16,7 +16,7 @@ export default function Pagination({
       <button
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        className='w-9 h-9 rounded-lg border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors'>
+        className='w-9 h-9 rounded-lg border border-gray-200 dark:border-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 disabled:opacity-40 disabled:cursor-not-allowed transition-colors'>
         ‹
       </button>
 
@@ -30,14 +30,14 @@ export default function Pagination({
         .map((p, idx, arr) => (
           <div key={p} className='flex items-center gap-2'>
             {idx > 0 && arr[idx - 1] !== p - 1 && (
-              <span className='text-gray-400'>...</span>
+              <span className='text-gray-400 dark:text-gray-500'>...</span>
             )}
             <button
               onClick={() => onPageChange(p)}
               className={`w-9 h-9 rounded-lg text-sm font-medium transition-colors ${
                 currentPage === p
                   ? "bg-green-600 text-white"
-                  : "border border-gray-200 text-gray-600 hover:bg-gray-50"
+                  : "border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800"
               }`}>
               {p}
             </button>
@@ -47,7 +47,7 @@ export default function Pagination({
       <button
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className='w-9 h-9 rounded-lg border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors'>
+        className='w-9 h-9 rounded-lg border border-gray-200 dark:border-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 disabled:opacity-40 disabled:cursor-not-allowed transition-colors'>
         ›
       </button>
     </div>

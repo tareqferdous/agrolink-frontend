@@ -23,7 +23,7 @@ type UserWithOptionalRole = {
 };
 
 const getRedirectPathByRole = (role?: string) => {
-  if (role === Roles.FARMER) return "/farmer/listings";
+  if (role === Roles.FARMER) return "/farmer/analytics";
   if (role === Roles.BUYER) return "/listings";
   if (role === Roles.ADMIN) return "/admin/analytics";
   return "/";

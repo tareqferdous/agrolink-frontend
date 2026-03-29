@@ -68,6 +68,7 @@ export interface Listing {
   farmer: {
     id: string;
     name: string;
+    image?: string;
     location?: string;
     phone?: string;
   };

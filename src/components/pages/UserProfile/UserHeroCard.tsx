@@ -1,3 +1,7 @@
+"use client";
+
+import { useAuth } from "@/hooks/useAuth";
+import { useUserImage } from "@/hooks/useUserImage";
 import { getRatingLabel, getRoleConfig, UserProfileData } from "./types";
 
 interface UserHeroCardProps {
@@ -11,12 +15,18 @@ export default function UserHeroCard({
   averageRating,
   totalReviews,
 }: UserHeroCardProps) {
+  const { user: authUser } = useAuth();
+  const currentUserImage = useUserImage();
   const roleConfig = getRoleConfig(user.role);
+
+  // Priority: API user.image → current user's synced image if same user → show initial
+  const resolvedUserImage =
+    user.image ??
+    (authUser?.id === user.id && currentUserImage ? currentUserImage : null);
 
   return (
     <div className='bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 overflow-hidden shadow-sm'>
-      <div
-        className={`h-32 bg-linear-to-r ${roleConfig.gradient} relative overflow-hidden`}>
+      <div className='h-32 bg-linear-to-r from-emerald-500 to-green-600 relative overflow-hidden'>
         <div className='absolute -right-8 -top-8 w-40 h-40 rounded-full bg-white/10' />
         <div className='absolute -right-4 top-12 w-20 h-20 rounded-full bg-white/10' />
         <div className='absolute left-1/3 -bottom-6 w-24 h-24 rounded-full bg-white/5' />
@@ -26,10 +36,10 @@ export default function UserHeroCard({
         <div className='flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between mb-5'>
           <div className='flex gap-4 -mt-10 relative z-10'>
             <div className='w-20 h-20 rounded-2xl ring-4 ring-white dark:ring-gray-900 shadow-lg overflow-hidden shrink-0'>
-              {user.image ? (
+              {resolvedUserImage ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
-                  src={user.image}
+                  src={resolvedUserImage}
                   alt={user.name}
                   className='w-full h-full object-cover'
                 />

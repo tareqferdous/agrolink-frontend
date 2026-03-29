@@ -72,25 +72,35 @@ export default function ProfilePage() {
 
   const onSubmit = async (data: TProfileForm) => {
     try {
-      await api.patch<ApiResponse<User>>("/api/users/profile", {
-        name: data.name,
-        phone: data.phone || undefined,
-        location: data.location || undefined,
-        companyName: data.companyName || undefined,
-      });
-
-      if (profileUser?.id) {
-        dispatchAuthUserUpdate({
-          id: profileUser.id,
+      const response = await api.patch<ApiResponse<User>>(
+        "/api/users/profile",
+        {
           name: data.name,
           phone: data.phone || undefined,
           location: data.location || undefined,
           companyName: data.companyName || undefined,
+        },
+      );
+
+      const updatedUser = response.data.data;
+
+      if (updatedUser?.id || profileUser?.id) {
+        dispatchAuthUserUpdate({
+          id: updatedUser?.id ?? profileUser!.id,
+          name: updatedUser?.name ?? data.name,
+          phone: updatedUser?.phone ?? undefined,
+          location: updatedUser?.location ?? undefined,
+          companyName: updatedUser?.companyName ?? undefined,
         });
       }
 
       toast.success("Profile updated successfully");
-      reset(data);
+      reset({
+        name: updatedUser?.name ?? data.name,
+        phone: updatedUser?.phone ?? "",
+        location: updatedUser?.location ?? "",
+        companyName: updatedUser?.companyName ?? "",
+      });
     } catch (err: any) {
       toast.error(err.message);
     }

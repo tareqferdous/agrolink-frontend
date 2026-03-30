@@ -26,17 +26,31 @@ AgroLink is a role-based agriculture marketplace where farmers create crop listi
 ### Farmer Flow
 
 ```mermaid
-%%{init: {"themeVariables": {"fontSize": "20px"}}}%%
+%%{init: {"themeVariables": {"fontSize": "24px"}}}%%
 flowchart TB
-	classDef big font-size:20px,padding:16px;
+	classDef big font-size:24px,padding:20px;
 
-	F1[Register Account] --> F2[Login to AgroLink]
-	F2 --> F3[Create Crop<br/>Listing]
-	F3 --> F4[Admin Reviews<br/>and Approves]
-	F4 --> F5[Receive Buyer<br/>Bids]
-	F5 --> F6[Accept Best<br/>Bid]
-	F6 --> F7[Ship the Order]
-	F7 --> F8[Order Complete<br/>Wallet Updated]
+	subgraph FRow1[" "]
+		direction LR
+		F1[Register Account] --> F2[Login to AgroLink] --> F3[Create Crop<br/>Listing]
+	end
+
+	subgraph FRow2[" "]
+		direction LR
+		F4[Admin Reviews<br/>and Approves] --> F5[Receive Buyer<br/>Bids] --> F6[Accept Best<br/>Bid]
+	end
+
+	subgraph FRow3[" "]
+		direction LR
+		F7[Ship the Order] --> F8[Order Complete<br/>Wallet Updated]
+	end
+
+	F3 --> F4
+	F6 --> F7
+
+	style FRow1 fill:transparent,stroke:transparent;
+	style FRow2 fill:transparent,stroke:transparent;
+	style FRow3 fill:transparent,stroke:transparent;
 
 	class F1,F2,F3,F4,F5,F6,F7,F8 big;
 ```
@@ -44,19 +58,38 @@ flowchart TB
 ### Buyer Flow
 
 ```mermaid
-%%{init: {"themeVariables": {"fontSize": "20px"}}}%%
+%%{init: {"themeVariables": {"fontSize": "24px"}}}%%
 flowchart TB
-	classDef big font-size:20px,padding:16px;
+	classDef big font-size:24px,padding:20px;
 
-	B1[Register Account] --> B2[Login to AgroLink]
-	B2 --> B3[Browse Crop<br/>Listings]
-	B3 --> B4[Place a Bid]
-	B4 --> B5[Bid Gets<br/>Accepted]
-	B5 --> B6[Go to Order<br/>Payment Route]
-	B6 --> B7[Complete Stripe<br/>Payment]
-	B7 --> B8[Payment Success<br/>Page]
-	B8 --> B9[Confirm Product<br/>Received]
-	B9 --> B10[Submit Rating<br/>and Review]
+	subgraph BRow1[" "]
+		direction LR
+		B1[Register Account] --> B2[Login to AgroLink] --> B3[Browse Crop<br/>Listings]
+	end
+
+	subgraph BRow2[" "]
+		direction LR
+		B4[Place a Bid] --> B5[Bid Gets<br/>Accepted] --> B6[Go to Order<br/>Payment Route]
+	end
+
+	subgraph BRow3[" "]
+		direction LR
+		B7[Complete Stripe<br/>Payment] --> B8[Payment Success<br/>Page] --> B9[Confirm Product<br/>Received]
+	end
+
+	subgraph BRow4[" "]
+		direction LR
+		B10[Submit Rating<br/>and Review]
+	end
+
+	B3 --> B4
+	B6 --> B7
+	B9 --> B10
+
+	style BRow1 fill:transparent,stroke:transparent;
+	style BRow2 fill:transparent,stroke:transparent;
+	style BRow3 fill:transparent,stroke:transparent;
+	style BRow4 fill:transparent,stroke:transparent;
 
 	class B1,B2,B3,B4,B5,B6,B7,B8,B9,B10 big;
 ```
@@ -64,14 +97,24 @@ flowchart TB
 ### Admin Flow
 
 ```mermaid
-%%{init: {"themeVariables": {"fontSize": "20px"}}}%%
+%%{init: {"themeVariables": {"fontSize": "24px"}}}%%
 flowchart TB
-	classDef big font-size:20px,padding:16px;
+	classDef big font-size:24px,padding:20px;
 
-	A1[Admin Login] --> A2[Approve or Reject<br/>Listings]
-	A2 --> A3[Verify Farmer<br/>and Buyer Accounts]
-	A3 --> A4[Monitor Orders<br/>and Disputes]
-	A4 --> A5[View Platform<br/>Analytics]
+	subgraph ARow1[" "]
+		direction LR
+		A1[Admin Login] --> A2[Approve or Reject<br/>Listings] --> A3[Verify Farmer<br/>and Buyer Accounts]
+	end
+
+	subgraph ARow2[" "]
+		direction LR
+		A4[Monitor Orders<br/>and Disputes] --> A5[View Platform<br/>Analytics]
+	end
+
+	A3 --> A4
+
+	style ARow1 fill:transparent,stroke:transparent;
+	style ARow2 fill:transparent,stroke:transparent;
 
 	class A1,A2,A3,A4,A5 big;
 ```
@@ -79,16 +122,31 @@ flowchart TB
 ### Quick Demo Sequence (for presentation)
 
 ```mermaid
-%%{init: {"themeVariables": {"fontSize": "20px"}}}%%
+%%{init: {"themeVariables": {"fontSize": "24px"}}}%%
 flowchart TB
-	classDef big font-size:20px,padding:16px;
+	classDef big font-size:24px,padding:20px;
 
-	D1[Farmer Creates<br/>Listing] --> D2[Buyer Places<br/>Bid]
-	D2 --> D3[Farmer Accepts<br/>Bid]
-	D3 --> D4[Buyer Completes<br/>Payment]
-	D4 --> D5[Farmer Updates<br/>Shipment]
-	D5 --> D6[Buyer Confirms<br/>and Reviews]
-	D6 --> D7[Admin Checks<br/>Analytics]
+	subgraph DRow1[" "]
+		direction LR
+		D1[Farmer Creates<br/>Listing] --> D2[Buyer Places<br/>Bid] --> D3[Farmer Accepts<br/>Bid]
+	end
+
+	subgraph DRow2[" "]
+		direction LR
+		D4[Buyer Completes<br/>Payment] --> D5[Farmer Updates<br/>Shipment] --> D6[Buyer Confirms<br/>and Reviews]
+	end
+
+	subgraph DRow3[" "]
+		direction LR
+		D7[Admin Checks<br/>Analytics]
+	end
+
+	D3 --> D4
+	D6 --> D7
+
+	style DRow1 fill:transparent,stroke:transparent;
+	style DRow2 fill:transparent,stroke:transparent;
+	style DRow3 fill:transparent,stroke:transparent;
 
 	class D1,D2,D3,D4,D5,D6,D7 big;
 ```

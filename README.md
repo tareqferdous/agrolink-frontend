@@ -9,7 +9,7 @@
 |                    | URL                                         |
 | ------------------ | ------------------------------------------- |
 | **Frontend Live**  | `https://agrolink-frontend-silk.vercel.app` |
-| **Backend Live**   | `https://agrolink-frontend-silk.vercel.app` |
+| **Backend Live**   | `https://agrolink-backend-neon.vercel.app`  |
 | **Admin Email**    | `tareqferdous10@gmail.com`                  |
 | **Admin Password** | `admin123456`                               |
 

@@ -1,181 +1,230 @@
-# AgroLink Frontend
+# 🌾 AgroLink — Frontend
 
-AgroLink is a role-based agriculture marketplace where farmers create crop listings, buyers place bids, and orders are handled with secure payments and review workflows.
+> Next.js frontend for AgroLink — an agricultural marketplace that connects Bangladeshi farmers with buyers through competitive bidding and Stripe-secured payments.
 
-## Live Links
+---
 
-- Frontend Live URL: `Add your deployed frontend URL`
-- Backend Live URL: `Add your deployed backend URL`
+## 🔗 Live Links
 
-## Features
+|                    | URL                                         |
+| ------------------ | ------------------------------------------- |
+| **Frontend Live**  | `https://agrolink-frontend-silk.vercel.app` |
+| **Backend Live**   | `https://agrolink-frontend-silk.vercel.app` |
+| **Admin Email**    | `tareqferdous10@gmail.com`                  |
+| **Admin Password** | `admin123456`                               |
 
-- Modern responsive homepage with multiple sections (Hero, Features, Category, CTA, Footer)
-- Authentication flow (login/register) with Better Auth session handling
-- Role-based dashboards:
-  - Farmer: manage listings, bids, orders, wallet
-  - Buyer: browse listings, place bids, pay and track orders
-  - Admin: manage users, listings, orders and analytics
-- Listing management with image uploads and category-based filtering
-- Bid flow with accept/reject actions and listing close behavior
-- Stripe payment integration for order payments
-- Review and rating support after completed orders
-- Loading states, toast notifications, and form validation with Zod + React Hook Form
+---
 
-## End-to-End Role Flows
+## 🎯 Project Overview
+
+AgroLink solves 4 problems for Bangladeshi farmers:
+
+| Problem                | Solution                                      |
+| ---------------------- | --------------------------------------------- |
+| Middleman exploitation | Direct farmer-to-buyer connection             |
+| No price discovery     | Competitive bidding system                    |
+| Payment fraud          | Stripe escrow — money released after delivery |
+| Delivery chaos         | Structured courier + pickup workflow          |
+
+---
+
+## 👥 User Roles
+
+| Role       | What they do                                                   |
+| ---------- | -------------------------------------------------------------- |
+| **Farmer** | List crops, manage bids, ship orders, receive wallet payments  |
+| **Buyer**  | Browse listings, bid on crops, pay via Stripe, confirm receipt |
+| **Admin**  | Approve listings, verify users, monitor orders and analytics   |
+
+---
+
+## 🔄 Platform Flow
+
+### Complete End-to-End Flow
+
+```
+FARMER                    ADMIN                     BUYER
+  │                         │                         │
+  ├─ Register & Login        │                         ├─ Register & Login
+  │                         │                         │
+  ├─ Create Listing ────────►├─ Review Listing         │
+  │                         ├─ Approve / Reject        │
+  │                         │   (Email sent)           │
+  │◄─────────────────────────┤                         │
+  │  Listing goes ACTIVE     │                         │
+  │                         │                         ├─ Browse Listings
+  │                         │                         ├─ Filter & Search
+  │                         │                         ├─ View Listing Detail
+  │                         │                         ├─ Place Bid
+  │                         │                         │
+  ├─ View All Bids           │                         │
+  ├─ Accept Best Bid ──────────────────────────────►   │
+  │  (Others auto-rejected)  │                         │  Bid ACCEPTED
+  │  (Order created)         │                         │  (Email sent)
+  │                         │                         │
+  │                         │                         ├─ Go to My Orders
+  │                         │                         ├─ Pay Now (Stripe)
+  │                         │                         ├─ Payment SUCCESS
+  │                         │                         │
+  ├─ Mark Ready / Ship       │                         │
+  ├─ Add Tracking Info       │                         ├─ Receive Tracking Email
+  │                         │                         ├─ Confirm Received
+  │                         │                         │
+  ├─ Wallet Credited ◄───────────────────────────────  │
+  │  (farmerAmount)          │                         ├─ Leave Review
+  │                         │                         │
+  ├─ Leave Review            │                         │
+```
 
 ### Farmer Flow
 
-```mermaid
-%%{init: {"themeVariables": {"fontSize": "24px"}}}%%
-flowchart TB
-	classDef big font-size:24px,padding:20px;
-
-	subgraph FRow1[" "]
-		direction LR
-		F1[Register Account] --> F2[Login to AgroLink] --> F3[Create Crop<br/>Listing]
-	end
-
-	subgraph FRow2[" "]
-		direction LR
-		F4[Admin Reviews<br/>and Approves] --> F5[Receive Buyer<br/>Bids] --> F6[Accept Best<br/>Bid]
-	end
-
-	subgraph FRow3[" "]
-		direction LR
-		F7[Ship the Order] --> F8[Order Complete<br/>Wallet Updated]
-	end
-
-	F3 --> F4
-	F6 --> F7
-
-	style FRow1 fill:transparent,stroke:transparent;
-	style FRow2 fill:transparent,stroke:transparent;
-	style FRow3 fill:transparent,stroke:transparent;
-
-	class F1,F2,F3,F4,F5,F6,F7,F8 big;
+```
+ ┌─────────────┐    ┌─────────────┐    ┌─────────────┐    ┌─────────────┐
+ │   Register  │───►│    Login    │───►│   Create    │───►│    Wait     │
+ │   Account   │    │  to Portal  │    │   Listing   │    │  Approval   │
+ └─────────────┘    └─────────────┘    └─────────────┘    └──────┬──────┘
+                                                                  │
+                                                         Admin Approves
+                                                                  │
+ ┌─────────────┐    ┌─────────────┐    ┌─────────────┐    ┌──────▼──────┐
+ │   Wallet    │◄───│   Order     │◄───│   Accept    │◄───│   Receive   │
+ │  Credited   │    │  Shipped    │    │  Best Bid   │    │    Bids     │
+ └─────────────┘    └─────────────┘    └─────────────┘    └─────────────┘
 ```
 
 ### Buyer Flow
 
-```mermaid
-%%{init: {"themeVariables": {"fontSize": "24px"}}}%%
-flowchart TB
-	classDef big font-size:24px,padding:20px;
-
-	subgraph BRow1[" "]
-		direction LR
-		B1[Register Account] --> B2[Login to AgroLink] --> B3[Browse Crop<br/>Listings]
-	end
-
-	subgraph BRow2[" "]
-		direction LR
-		B4[Place a Bid] --> B5[Bid Gets<br/>Accepted] --> B6[Go to Order<br/>Payment Route]
-	end
-
-	subgraph BRow3[" "]
-		direction LR
-		B7[Complete Stripe<br/>Payment] --> B8[Payment Success<br/>Page] --> B9[Confirm Product<br/>Received]
-	end
-
-	subgraph BRow4[" "]
-		direction LR
-		B10[Submit Rating<br/>and Review]
-	end
-
-	B3 --> B4
-	B6 --> B7
-	B9 --> B10
-
-	style BRow1 fill:transparent,stroke:transparent;
-	style BRow2 fill:transparent,stroke:transparent;
-	style BRow3 fill:transparent,stroke:transparent;
-	style BRow4 fill:transparent,stroke:transparent;
-
-	class B1,B2,B3,B4,B5,B6,B7,B8,B9,B10 big;
+```
+ ┌─────────────┐    ┌─────────────┐    ┌─────────────┐    ┌─────────────┐
+ │   Register  │───►│    Login    │───►│   Browse    │───►│  Place Bid  │
+ │   Account   │    │  to Portal  │    │  Listings   │    │  on Crop    │
+ └─────────────┘    └─────────────┘    └─────────────┘    └──────┬──────┘
+                                                                  │
+                                                         Farmer Accepts
+                                                                  │
+ ┌─────────────┐    ┌─────────────┐    ┌─────────────┐    ┌──────▼──────┐
+ │   Submit    │◄───│   Confirm   │◄───│   Stripe    │◄───│   Pay Now   │
+ │   Review    │    │  Received   │    │   Payment   │    │   Button    │
+ └─────────────┘    └─────────────┘    └─────────────┘    └─────────────┘
 ```
 
 ### Admin Flow
 
-```mermaid
-%%{init: {"themeVariables": {"fontSize": "24px"}}}%%
-flowchart TB
-	classDef big font-size:24px,padding:20px;
-
-	subgraph ARow1[" "]
-		direction LR
-		A1[Admin Login] --> A2[Approve or Reject<br/>Listings] --> A3[Verify Farmer<br/>and Buyer Accounts]
-	end
-
-	subgraph ARow2[" "]
-		direction LR
-		A4[Monitor Orders<br/>and Disputes] --> A5[View Platform<br/>Analytics]
-	end
-
-	A3 --> A4
-
-	style ARow1 fill:transparent,stroke:transparent;
-	style ARow2 fill:transparent,stroke:transparent;
-
-	class A1,A2,A3,A4,A5 big;
+```
+ ┌─────────────┐    ┌────────────────────────────────────────────────────┐
+ │ Admin Login │───►│                 Admin Dashboard                    │
+ └─────────────┘    └──────┬─────────────────┬──────────────┬────────────┘
+                           │                 │              │
+                    ┌──────▼──────┐   ┌──────▼──────┐  ┌───▼─────────┐
+                    │  Approve /  │   │   Verify    │  │  Platform   │
+                    │   Reject    │   │    Users    │  │  Analytics  │
+                    │  Listings   │   │ Farmer +    │  │  Revenue +  │
+                    │             │   │   Buyer     │  │   Orders    │
+                    └─────────────┘   └─────────────┘  └─────────────┘
 ```
 
-### Quick Demo Sequence (for presentation)
+---
 
-```mermaid
-%%{init: {"themeVariables": {"fontSize": "24px"}}}%%
-flowchart TB
-	classDef big font-size:24px,padding:20px;
+## ✨ Features
 
-	subgraph DRow1[" "]
-		direction LR
-		D1[Farmer Creates<br/>Listing] --> D2[Buyer Places<br/>Bid] --> D3[Farmer Accepts<br/>Bid]
-	end
+### Public Pages
 
-	subgraph DRow2[" "]
-		direction LR
-		D4[Buyer Completes<br/>Payment] --> D5[Farmer Updates<br/>Shipment] --> D6[Buyer Confirms<br/>and Reviews]
-	end
+- Responsive homepage — Hero, Features, Categories, CTA, Footer
+- Browse all active listings without login
+- Dynamic filters — category, price range, location, delivery type
+- Filters stored in URL — shareable and refresh-safe
+- Listing detail page with image gallery and live bid price calculator
 
-	subgraph DRow3[" "]
-		direction LR
-		D7[Admin Checks<br/>Analytics]
-	end
+### Farmer Dashboard
 
-	D3 --> D4
-	D6 --> D7
+- Stats overview — listings, bids, orders, wallet balance
+- Create and edit listings via modal (no page redirect)
+- Image upload via ImageBB
+- View and sort bids by highest amount
+- Mark order ready for pickup or ship with courier details
+- Wallet page with full transaction history
 
-	style DRow1 fill:transparent,stroke:transparent;
-	style DRow2 fill:transparent,stroke:transparent;
-	style DRow3 fill:transparent,stroke:transparent;
+### Buyer Dashboard
 
-	class D1,D2,D3,D4,D5,D6,D7 big;
+- Browse and filter crop listings
+- Place bids with real-time price + fee estimation
+- Pay via Stripe on accepted bids
+- Track order progress step by step with timeline
+- Confirm receipt to release payment to farmer
+- Leave star rating and review after completion
+
+### Admin Dashboard
+
+- Analytics — total users, orders, active listings, platform revenue
+- Approve or reject listings with rejection reason
+- Verify farmer and buyer accounts
+- Monitor all platform orders
+
+### All Users
+
+- Profile page with photo upload (updates navbar + sidebar instantly)
+- Public user profile with reviews and star rating
+- Verified account badge
+- Role-based route protection via Next.js middleware
+
+---
+
+## 🛠️ Tech Stack
+
+| Tech                    | Use                          |
+| ----------------------- | ---------------------------- |
+| Next.js 16 (App Router) | Full-stack framework         |
+| TypeScript              | Type safety                  |
+| Tailwind CSS            | Styling                      |
+| React Hook Form + Zod   | Form handling and validation |
+| Stripe React            | Payment UI                   |
+| Axios                   | API calls                    |
+| Better Auth (client)    | Session management           |
+| ImageBB                 | Image upload                 |
+| Sonner                  | Toast notifications          |
+
+---
+
+## 📁 Project Structure
+
 ```
-
-## Tech Stack
-
-- Next.js (App Router)
-- React
-- TypeScript
-- Tailwind CSS
-- Axios
-- Better Auth (client-side integration)
-- Stripe.js
-- Zod + React Hook Form
-
-## Project Structure
-
-```text
 src/
-	app/                 # App Router pages and layouts
-	components/          # Reusable UI and feature components
-	hooks/               # Custom React hooks
-	lib/                 # API/auth/stripe helpers
-	types/               # Shared TypeScript types
+├── app/
+│   ├── (auth)/             # login, register
+│   ├── (dashboard)/        # farmer/*, buyer/*, admin/*, profile
+│   │   ├── farmer/
+│   │   │   ├── listings/   # manage listings
+│   │   │   ├── bids/       # view and accept bids
+│   │   │   ├── orders/     # manage orders
+│   │   │   └── wallet/     # earnings and transactions
+│   │   ├── buyer/
+│   │   │   ├── bids/       # view bids
+│   │   │   └── orders/     # pay and track orders
+│   │   └── admin/
+│   │       ├── analytics/  # platform stats
+│   │       ├── listings/   # approve/reject
+│   │       ├── orders/     # all orders
+│   │       └── users/      # verify/ban users
+│   ├── (public)/
+│   │   ├── page.tsx        # homepage
+│   │   ├── listings/       # browse listings
+│   │   └── users/[id]/     # public user profile
+│   └── orders/[id]/        # pay + success pages
+├── components/
+│   ├── ui/                 # Button, Input, Modal, Badge, Avatar, ImageUpload
+│   ├── shared/             # Navbar, Sidebar, VerificationBanner, FarmerStats
+│   ├── listings/           # ListingCard, ListingForm, BidSection, ListingGallery
+│   └── orders/             # OrderTimeline, ReviewForm
+├── hooks/                  # useAuth, useUserImage
+├── lib/                    # axios, auth-client, stripe, imagebb, server-axios
+└── types/                  # All TypeScript types and constants
 ```
 
-## Environment Variables
+---
 
-Create a `.env.local` file in the frontend root and set:
+## ⚙️ Environment Variables
+
+Create `.env.local` in the frontend root:
 
 ```env
 NEXT_PUBLIC_API_URL=http://localhost:5000
@@ -185,30 +234,59 @@ NEXT_PUBLIC_IMAGEBB_API_KEY=your_imagebb_key
 NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=your_stripe_publishable_key
 ```
 
-## Getting Started
+---
+
+## 🚀 Getting Started
 
 ```bash
+# Install dependencies
 npm install
+
+# Start development server
 npm run dev
 ```
 
-Open `http://localhost:3000`.
+Open `http://localhost:3000`
 
-## Available Scripts
+---
 
-- `npm run dev` - Start development server
-- `npm run build` - Build production bundle
-- `npm run start` - Start production server
-- `npm run lint` - Run ESLint
+## 📜 Available Scripts
 
-## Deployment
+```bash
+npm run dev      # Start Next.js dev server
+npm run build    # Build for production
+npm run start    # Start production server
+npm run lint     # Run ESLint
+```
 
-- Recommended platform: Vercel
-- Set all required frontend environment variables in the deployment dashboard
-- Ensure `NEXT_PUBLIC_API_URL` points to the deployed backend base URL
+---
 
-## Author
+## 🧪 Test Accounts
 
-- Name: `Your Name`
-- Email: `your-email@example.com`
+| Role   | Email                    | Password    |
+| ------ | ------------------------ | ----------- |
+| Admin  | tareqferdous10@gmail.com | admin123456 |
+| Farmer | farmer@test.com          | password123 |
+| Buyer  | buyer@test.com           | password123 |
+
+**Stripe Test Card:** `4242 4242 4242 4242` · Exp: `12/29` · CVC: `123`
+
+---
+
+## 🚢 Deployment
+
+Recommended: **Vercel**
+
+1. Push code to GitHub
+2. Import repo in Vercel
+3. Set all environment variables in Vercel dashboard
+4. Make sure `NEXT_PUBLIC_API_URL` points to the deployed backend URL
+
+---
+
+## 👤 Author
+
+- **Name:** Tareq Ferdous
+- **Email:** tareqferdous10@gmail.com
+- **GitHub:** (https://github.com/tareqferdous)
 

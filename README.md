@@ -26,51 +26,71 @@ AgroLink is a role-based agriculture marketplace where farmers create crop listi
 ### Farmer Flow
 
 ```mermaid
-flowchart LR
-	F1[Register] --> F2[Login]
-	F2 --> F3[Create Listing]
-	F3 --> F4[Admin Approval]
-	F4 --> F5[Receive Bids]
-	F5 --> F6[Accept Bid]
-	F6 --> F7[Ship Order]
-	F7 --> F8[Done and Wallet Update]
+%%{init: {"themeVariables": {"fontSize": "20px"}}}%%
+flowchart TB
+	classDef big font-size:20px,padding:16px;
+
+	F1[Register Account] --> F2[Login to AgroLink]
+	F2 --> F3[Create Crop<br/>Listing]
+	F3 --> F4[Admin Reviews<br/>and Approves]
+	F4 --> F5[Receive Buyer<br/>Bids]
+	F5 --> F6[Accept Best<br/>Bid]
+	F6 --> F7[Ship the Order]
+	F7 --> F8[Order Complete<br/>Wallet Updated]
+
+	class F1,F2,F3,F4,F5,F6,F7,F8 big;
 ```
 
 ### Buyer Flow
 
 ```mermaid
-flowchart LR
-	B1[Register] --> B2[Login]
-	B2 --> B3[Browse Listings]
-	B3 --> B4[Place Bid]
-	B4 --> B5[Bid Accepted]
-	B5 --> B6[Orders Pay Route]
-	B6 --> B7[Stripe Payment]
-	B7 --> B8[Order Success]
-	B8 --> B9[Confirm Received]
-	B9 --> B10[Submit Review]
+%%{init: {"themeVariables": {"fontSize": "20px"}}}%%
+flowchart TB
+	classDef big font-size:20px,padding:16px;
+
+	B1[Register Account] --> B2[Login to AgroLink]
+	B2 --> B3[Browse Crop<br/>Listings]
+	B3 --> B4[Place a Bid]
+	B4 --> B5[Bid Gets<br/>Accepted]
+	B5 --> B6[Go to Order<br/>Payment Route]
+	B6 --> B7[Complete Stripe<br/>Payment]
+	B7 --> B8[Payment Success<br/>Page]
+	B8 --> B9[Confirm Product<br/>Received]
+	B9 --> B10[Submit Rating<br/>and Review]
+
+	class B1,B2,B3,B4,B5,B6,B7,B8,B9,B10 big;
 ```
 
 ### Admin Flow
 
 ```mermaid
-flowchart LR
-	A1[Login] --> A2[Approve or Reject Listings]
-	A2 --> A3[Verify Users]
-	A3 --> A4[Monitor Orders and Disputes]
-	A4 --> A5[View Analytics]
+%%{init: {"themeVariables": {"fontSize": "20px"}}}%%
+flowchart TB
+	classDef big font-size:20px,padding:16px;
+
+	A1[Admin Login] --> A2[Approve or Reject<br/>Listings]
+	A2 --> A3[Verify Farmer<br/>and Buyer Accounts]
+	A3 --> A4[Monitor Orders<br/>and Disputes]
+	A4 --> A5[View Platform<br/>Analytics]
+
+	class A1,A2,A3,A4,A5 big;
 ```
 
 ### Quick Demo Sequence (for presentation)
 
 ```mermaid
-flowchart LR
-	D1[Farmer Creates Listing] --> D2[Buyer Places Bid]
-	D2 --> D3[Farmer Accepts Bid]
-	D3 --> D4[Buyer Completes Payment]
-	D4 --> D5[Farmer Updates Shipment]
-	D5 --> D6[Buyer Confirms and Reviews]
-	D6 --> D7[Admin Checks Analytics]
+%%{init: {"themeVariables": {"fontSize": "20px"}}}%%
+flowchart TB
+	classDef big font-size:20px,padding:16px;
+
+	D1[Farmer Creates<br/>Listing] --> D2[Buyer Places<br/>Bid]
+	D2 --> D3[Farmer Accepts<br/>Bid]
+	D3 --> D4[Buyer Completes<br/>Payment]
+	D4 --> D5[Farmer Updates<br/>Shipment]
+	D5 --> D6[Buyer Confirms<br/>and Reviews]
+	D6 --> D7[Admin Checks<br/>Analytics]
+
+	class D1,D2,D3,D4,D5,D6,D7 big;
 ```
 
 ## Tech Stack

@@ -109,12 +109,14 @@ export default function ListingForm({
         />
 
         <div>
-          <label className='text-sm font-medium text-gray-700 block mb-1'>
+          <label className='text-sm font-medium text-gray-700 dark:text-gray-300 block mb-1'>
             Category <span className='text-red-500'>*</span>
           </label>
           <select
-            className={`w-full px-3 py-2 border rounded-lg text-sm focus:border-green-500 focus:ring-1 focus:ring-green-500 outline-none ${
-              errors.category ? "border-red-500" : "border-gray-300"
+            className={`w-full px-3 py-2 border rounded-lg text-sm bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-200 focus:border-green-500 focus:ring-1 focus:ring-green-500 outline-none ${
+              errors.category
+                ? "border-red-500 dark:border-red-700"
+                : "border-gray-300 dark:border-gray-700"
             }`}
             {...register("category")}>
             {CATEGORIES.map((cat) => (
@@ -144,11 +146,11 @@ export default function ListingForm({
           />
         </div>
         <div className='w-28'>
-          <label className='text-sm font-medium text-gray-700 block mb-1'>
+          <label className='text-sm font-medium text-gray-700 dark:text-gray-300 block mb-1'>
             Unit <span className='text-red-500'>*</span>
           </label>
           <select
-            className='w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:border-green-500 focus:ring-1 focus:ring-green-500 outline-none'
+            className='w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-200 focus:border-green-500 focus:ring-1 focus:ring-green-500 outline-none'
             {...register("unit")}>
             <option value='KG'>KG</option>
             <option value='MON'>MON</option>
@@ -187,12 +189,14 @@ export default function ListingForm({
 
       {/* Description */}
       <div>
-        <label className='text-sm font-medium text-gray-700 block mb-1'>
+        <label className='text-sm font-medium text-gray-700 dark:text-gray-300 block mb-1'>
           Description
         </label>
         <textarea
-          className={`w-full px-3 py-2 border rounded-lg text-sm focus:border-green-500 focus:ring-1 focus:ring-green-500 outline-none resize-none ${
-            errors.description ? "border-red-500" : "border-gray-300"
+          className={`w-full px-3 py-2 border rounded-lg text-sm bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-200 focus:border-green-500 focus:ring-1 focus:ring-green-500 outline-none resize-none ${
+            errors.description
+              ? "border-red-500 dark:border-red-700"
+              : "border-gray-300 dark:border-gray-700"
           }`}
           rows={3}
           placeholder='Describe your crop quality, farming method, etc.'
@@ -207,7 +211,7 @@ export default function ListingForm({
 
       {/* Delivery Options */}
       <div>
-        <label className='text-sm font-medium text-gray-700 block mb-2'>
+        <label className='text-sm font-medium text-gray-700 dark:text-gray-300 block mb-2'>
           Delivery Options <span className='text-red-500'>*</span>
         </label>
         <div className='flex gap-3'>
@@ -218,8 +222,8 @@ export default function ListingForm({
               onClick={() => toggleDelivery(option)}
               className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border-2 text-sm font-medium transition-all ${
                 selectedDelivery.includes(option)
-                  ? "border-green-500 bg-green-50 text-green-700"
-                  : "border-gray-200 text-gray-600 hover:border-gray-300"
+                  ? "border-green-500 bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300"
+                  : "border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600"
               }`}>
               {option === "PICKUP" ? "🏠" : "🚚"}
               {option}

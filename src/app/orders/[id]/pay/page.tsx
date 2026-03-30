@@ -95,7 +95,7 @@ export default function PaymentPage() {
 
   if (loading) {
     return (
-      <div className='min-h-screen bg-gray-50 flex items-center justify-center'>
+      <div className='min-h-screen bg-gray-50 dark:bg-gray-950 flex items-center justify-center'>
         <div className='w-10 h-10 border-4 border-green-600 border-t-transparent rounded-full animate-spin' />
       </div>
     );
@@ -103,38 +103,46 @@ export default function PaymentPage() {
 
   if (!clientSecret) {
     return (
-      <div className='min-h-screen bg-gray-50 flex items-center justify-center'>
+      <div className='min-h-screen bg-gray-50 dark:bg-gray-950 flex items-center justify-center'>
         <div className='text-center'>
           <p className='text-5xl mb-4'>❌</p>
-          <p className='text-gray-600'>Failed to load payment</p>
+          <p className='text-gray-600 dark:text-gray-400'>
+            Failed to load payment
+          </p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className='min-h-screen bg-gray-50 flex items-center justify-center px-4'>
+    <div className='min-h-screen bg-gray-50 dark:bg-gray-950 flex items-center justify-center px-4'>
       <div className='w-full max-w-md'>
         {/* Header */}
         <div className='text-center mb-8'>
           <span className='text-3xl'>🌾</span>
-          <h1 className='text-xl font-bold text-gray-900 mt-2'>
+          <h1 className='text-xl font-bold text-gray-900 dark:text-gray-100 mt-2'>
             Complete Payment
           </h1>
         </div>
 
         {/* Order summary */}
-        <div className='bg-white rounded-2xl border border-gray-100 p-6 mb-4'>
-          <div className='flex justify-between items-center pb-4 border-b border-gray-100 mb-4'>
+        <div className='bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 p-6 mb-4'>
+          <div className='flex justify-between items-center pb-4 border-b border-gray-100 dark:border-gray-800 mb-4'>
             <div>
-              <p className='text-sm text-gray-500'>Order Total</p>
+              <p className='text-sm text-gray-500 dark:text-gray-400'>
+                Order Total
+              </p>
               <p className='text-3xl font-bold text-green-600'>
                 ৳{orderInfo?.totalAmount}
               </p>
             </div>
             <div className='text-right'>
-              <p className='text-xs text-gray-400'>Secured by</p>
-              <p className='text-sm font-semibold text-gray-600'>Stripe</p>
+              <p className='text-xs text-gray-400 dark:text-gray-500'>
+                Secured by
+              </p>
+              <p className='text-sm font-semibold text-gray-600 dark:text-gray-300'>
+                Stripe
+              </p>
             </div>
           </div>
 
@@ -153,7 +161,7 @@ export default function PaymentPage() {
           </Elements>
         </div>
 
-        <p className='text-center text-xs text-gray-400'>
+        <p className='text-center text-xs text-gray-400 dark:text-gray-500'>
           🔒 Payment secured by Stripe — AgroLink never stores your card details
         </p>
       </div>

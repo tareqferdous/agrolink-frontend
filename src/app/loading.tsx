@@ -1,10 +1,10 @@
 export default function Loading() {
   return (
-    <div className='min-h-screen bg-white flex items-center justify-center overflow-hidden relative'>
+    <div className='min-h-screen bg-white dark:bg-gray-950 flex items-center justify-center overflow-hidden relative'>
       {/* Background glow blobs — same as hero */}
-      <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-green-100/60 rounded-full blur-3xl pointer-events-none' />
-      <div className='absolute top-1/3 left-1/3 w-[300px] h-[300px] bg-emerald-100/50 rounded-full blur-2xl pointer-events-none' />
-      <div className='absolute bottom-1/3 right-1/3 w-[250px] h-[250px] bg-teal-100/40 rounded-full blur-2xl pointer-events-none' />
+      <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-150 h-150 bg-green-100/60 dark:bg-green-900/25 rounded-full blur-3xl pointer-events-none' />
+      <div className='absolute top-1/3 left-1/3 w-75 h-75 bg-emerald-100/50 dark:bg-emerald-900/25 rounded-full blur-2xl pointer-events-none' />
+      <div className='absolute bottom-1/3 right-1/3 w-62.5 h-62.5 bg-teal-100/40 dark:bg-teal-900/20 rounded-full blur-2xl pointer-events-none' />
 
       {/* Dot grid */}
       <div
@@ -32,9 +32,9 @@ export default function Loading() {
 
         {/* Brand name */}
         <div className='flex flex-col items-center gap-1.5'>
-          <p className='text-xl font-black tracking-tight text-gray-900'>
+          <p className='text-xl font-black tracking-tight text-gray-900 dark:text-gray-100'>
             Agro
-            <span className='bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500 bg-clip-text text-transparent'>
+            <span className='bg-linear-to-r from-green-500 via-emerald-500 to-teal-500 bg-clip-text text-transparent'>
               Link
             </span>
           </p>

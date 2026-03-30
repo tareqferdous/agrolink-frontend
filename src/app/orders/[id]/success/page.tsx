@@ -39,7 +39,9 @@ function SuccessContent() {
     return (
       <div className='text-center'>
         <div className='w-12 h-12 border-4 border-green-600 border-t-transparent rounded-full animate-spin mx-auto mb-4' />
-        <p className='text-gray-500'>Confirming your payment...</p>
+        <p className='text-gray-500 dark:text-gray-400'>
+          Confirming your payment...
+        </p>
       </div>
     );
   }
@@ -48,10 +50,10 @@ function SuccessContent() {
     return (
       <div className='text-center'>
         <p className='text-6xl mb-4'>⚠️</p>
-        <h2 className='text-xl font-bold text-gray-900 mb-2'>
+        <h2 className='text-xl font-bold text-gray-900 dark:text-gray-100 mb-2'>
           Something went wrong
         </h2>
-        <p className='text-gray-500 mb-6 text-sm'>
+        <p className='text-gray-500 dark:text-gray-400 mb-6 text-sm'>
           Your payment may have been processed. Please check your orders.
         </p>
         <Link
@@ -81,17 +83,19 @@ function SuccessContent() {
         </svg>
       </div>
 
-      <h2 className='text-2xl font-bold text-gray-900 mb-2'>
+      <h2 className='text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2'>
         Payment Successful!
       </h2>
-      <p className='text-gray-500 mb-2'>Your payment has been confirmed.</p>
-      <p className='text-sm text-gray-400 mb-8'>
+      <p className='text-gray-500 dark:text-gray-400 mb-2'>
+        Your payment has been confirmed.
+      </p>
+      <p className='text-sm text-gray-400 dark:text-gray-500 mb-8'>
         The farmer will be notified and will arrange delivery soon.
       </p>
 
       {/* What happens next */}
-      <div className='bg-gray-50 rounded-xl p-4 text-left mb-8'>
-        <h3 className='font-semibold text-gray-900 mb-3 text-sm'>
+      <div className='bg-gray-50 dark:bg-gray-800 rounded-xl p-4 text-left mb-8'>
+        <h3 className='font-semibold text-gray-900 dark:text-gray-100 mb-3 text-sm'>
           What happens next?
         </h3>
         <div className='space-y-2'>
@@ -101,10 +105,10 @@ function SuccessContent() {
             "Confirm receipt to release payment to farmer",
           ].map((step, i) => (
             <div key={i} className='flex items-start gap-2'>
-              <span className='w-5 h-5 rounded-full bg-green-100 text-green-700 text-xs flex items-center justify-center font-bold flex-shrink-0 mt-0.5'>
+              <span className='w-5 h-5 rounded-full bg-green-100 text-green-700 text-xs flex items-center justify-center font-bold shrink-0 mt-0.5'>
                 {i + 1}
               </span>
-              <p className='text-sm text-gray-600'>{step}</p>
+              <p className='text-sm text-gray-600 dark:text-gray-300'>{step}</p>
             </div>
           ))}
         </div>
@@ -121,8 +125,8 @@ function SuccessContent() {
 
 export default function PaymentSuccessPage() {
   return (
-    <div className='min-h-screen bg-gray-50 flex items-center justify-center px-4'>
-      <div className='w-full max-w-md bg-white rounded-2xl border border-gray-100 p-8'>
+    <div className='min-h-screen bg-gray-50 dark:bg-gray-950 flex items-center justify-center px-4'>
+      <div className='w-full max-w-md bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 p-8'>
         <Suspense
           fallback={
             <div className='text-center'>

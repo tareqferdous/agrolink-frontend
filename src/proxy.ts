@@ -23,7 +23,6 @@ const getSession = async (request: NextRequest) => {
   }
 };
 
-// ✅ Export as default
 export default async function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
@@ -35,7 +34,7 @@ export default async function proxy(request: NextRequest) {
   const session = await getSession(request);
   const role = session?.user?.role ?? null;
 
-  // Not logged in → redirect to login
+  
   if (!role && !isPublic) {
     return NextResponse.redirect(new URL("/login", request.url));
   }

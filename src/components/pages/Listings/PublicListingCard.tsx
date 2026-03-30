@@ -10,9 +10,7 @@ export default function PublicListingCard({ listing }: PublicListingCardProps) {
   const categoryInfo = CATEGORIES.find((c) => c.value === listing.category);
 
   return (
-    <Link
-      href={`/listings/${listing.id}`}
-      className='group bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 overflow-hidden hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200'>
+    <article className='group bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 overflow-hidden hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200'>
       <div className='relative h-48 bg-gray-100 dark:bg-gray-800 overflow-hidden'>
         {listing.images.length > 0 ? (
           <Image
@@ -83,11 +81,14 @@ export default function PublicListingCard({ listing }: PublicListingCardProps) {
         </div>
 
         <div className='mt-4 py-2.5 bg-green-50 dark:bg-green-900/30 group-hover:bg-green-600 dark:group-hover:bg-green-600 rounded-xl text-center transition-all duration-200'>
-          <span className='text-sm font-semibold text-green-700 dark:text-green-300 group-hover:text-white transition-colors'>
-            Place Bid →
-          </span>
+          <Link
+            href={`/listings/${listing.id}`}
+            className='inline-flex w-full items-center justify-center text-sm font-semibold text-green-700 dark:text-green-300 group-hover:text-white transition-colors'
+            aria-label={`View details for ${listing.cropName}`}>
+            View Details →
+          </Link>
         </div>
       </div>
-    </Link>
+    </article>
   );
 }

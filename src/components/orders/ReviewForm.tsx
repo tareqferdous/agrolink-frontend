@@ -33,8 +33,8 @@ export default function ReviewForm({ orderId, onSuccess }: ReviewFormProps) {
   };
 
   return (
-    <div className='p-4 bg-yellow-50 rounded-xl border border-yellow-100'>
-      <h3 className='font-semibold text-gray-900 mb-3'>
+    <div className='p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-xl border border-yellow-100 dark:border-yellow-800/50'>
+      <h3 className='font-semibold text-gray-900 dark:text-gray-100 mb-3'>
         ⭐ Rate this transaction
       </h3>
 
@@ -45,7 +45,9 @@ export default function ReviewForm({ orderId, onSuccess }: ReviewFormProps) {
             key={star}
             onClick={() => setRating(star)}
             className={`text-2xl transition-transform hover:scale-110 ${
-              star <= rating ? "text-yellow-400" : "text-gray-300"
+              star <= rating
+                ? "text-yellow-400"
+                : "text-gray-400 dark:text-gray-600"
             }`}>
             ★
           </button>
@@ -53,7 +55,7 @@ export default function ReviewForm({ orderId, onSuccess }: ReviewFormProps) {
       </div>
 
       <textarea
-        className='w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:border-green-500 outline-none resize-none'
+        className='w-full px-3 py-2 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100 rounded-lg text-sm focus:border-green-500 outline-none resize-none'
         rows={2}
         placeholder='Share your experience... (optional)'
         value={comment}

@@ -51,13 +51,15 @@ export default function Modal({
 
       {/* Modal */}
       <div
-        className={`relative bg-white rounded-2xl shadow-2xl w-full ${sizes[size]} mx-4 flex flex-col max-h-[90vh]`}>
+        className={`relative bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-2xl w-full ${sizes[size]} mx-4 flex flex-col max-h-[90vh]`}>
         {/* Header */}
-        <div className='flex items-center justify-between px-6 py-5 border-b border-gray-100 flex-shrink-0'>
-          <h2 className='text-lg font-bold text-gray-900'>{title}</h2>
+        <div className='flex items-center justify-between px-6 py-5 border-b border-gray-100 dark:border-gray-800 shrink-0'>
+          <h2 className='text-lg font-bold text-gray-900 dark:text-gray-100'>
+            {title}
+          </h2>
           <button
             onClick={onClose}
-            className='w-8 h-8 rounded-xl bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-500 hover:text-gray-700 transition-colors'>
+            className='w-8 h-8 rounded-xl bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 flex items-center justify-center text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors'>
             <svg
               className='w-4 h-4'
               fill='none'

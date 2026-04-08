@@ -61,6 +61,16 @@ export default function Navbar() {
               className='text-gray-600 dark:text-gray-300 hover:text-green-700 dark:hover:text-green-400 font-medium transition-colors text-sm'>
               Browse Crops
             </Link>
+            <Link
+              href='/about'
+              className='text-gray-600 dark:text-gray-300 hover:text-green-700 dark:hover:text-green-400 font-medium transition-colors text-sm'>
+              About
+            </Link>
+            <Link
+              href='/faq'
+              className='text-gray-600 dark:text-gray-300 hover:text-green-700 dark:hover:text-green-400 font-medium transition-colors text-sm'>
+              FAQ
+            </Link>
             {user && (
               <Link
                 href={getDashboardLink()}
@@ -215,6 +225,24 @@ export default function Navbar() {
                 className='px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg font-medium'
                 onClick={() => setIsMobileMenuOpen(false)}>
                 Browse Crops
+              </Link>
+              <Link
+                href='/about'
+                className='px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg font-medium'
+                onClick={() => setIsMobileMenuOpen(false)}>
+                About
+              </Link>
+              <Link
+                href='/guide'
+                className='px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg font-medium'
+                onClick={() => setIsMobileMenuOpen(false)}>
+                Guide
+              </Link>
+              <Link
+                href='/faq'
+                className='px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg font-medium'
+                onClick={() => setIsMobileMenuOpen(false)}>
+                FAQ
               </Link>
 
               {user ? (

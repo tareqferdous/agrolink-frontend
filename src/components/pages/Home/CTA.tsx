@@ -14,7 +14,7 @@ const CTA = () => {
             </span>
           </div>
           <h2 className='text-[clamp(2rem,6vw,3.75rem)] font-black text-white mb-4 leading-tight'>
-            আজই শুরু করুন
+            আজই <span className='text-green-200'>Start করুন</span>
           </h2>
           <p className='text-green-100/80 mb-10 max-w-sm mx-auto text-sm leading-relaxed'>
             Join farmers who have taken back control of their prices. Fair
@@ -27,9 +27,9 @@ const CTA = () => {
               Register as Farmer
             </Link>
             <Link
-              href='/register'
+              href='/listings'
               className='px-9 py-3.5 rounded-xl border border-white/30 text-white text-sm font-semibold hover:bg-white/10 active:scale-95 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-white focus-visible:ring-offset-green-700 dark:focus-visible:ring-green-300 dark:focus-visible:ring-offset-gray-900'>
-              Register as Buyer
+              Browse as Buyer
             </Link>
           </div>
         </div>

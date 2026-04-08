@@ -6,9 +6,9 @@ const Features = () => {
       desc: "Multiple buyers compete for your crop. You always get the best market price — no more guessing or getting underpaid.",
     },
     {
-      icon: "🔐",
-      title: "Stripe Escrow Payment",
-      desc: "Buyers pay upfront via Stripe. Funds held safely, released only after delivery confirmed. Zero payment fraud.",
+      icon: "🔎",
+      title: "Smart Search & Filters",
+      desc: "Category, price range, location, and delivery mode filter diye buyers fast relevant listing khuje pete pare.",
     },
     {
       icon: "📸",
@@ -16,9 +16,9 @@ const Features = () => {
       desc: "Upload 3 photos, set harvest date, location, and minimum price. Buyers see exactly what they're bidding on.",
     },
     {
-      icon: "📦",
-      title: "Flexible Delivery",
-      desc: "Choose pickup or ship via Pathao, Sundarban, or Paperfly. Buyers get live tracking numbers automatically.",
+      icon: "🗂️",
+      title: "Order Timeline View",
+      desc: "Pending theke completed porjonto each order stage clear timeline-e dekha jay for better coordination.",
     },
     {
       icon: "💼",
@@ -38,11 +38,12 @@ const Features = () => {
           Platform Features
         </p>
         <h2 className='text-[clamp(1.75rem,4vw,2.5rem)] font-black text-gray-900 dark:text-gray-100 mb-4'>
-          কেন <span className='gradient-text'>AgroLink</span> বেছে নেবেন?
+          কেন <span className='gradient-text'>AgroLink Platform</span> বেছে
+          নেবেন?
         </h2>
         <p className='text-gray-400 dark:text-gray-500 max-w-md mx-auto text-sm leading-relaxed'>
-          Every feature is built around one goal — making sure farmers get paid
-          fairly and on time.
+          Everyday marketplace operations সহজ করতে design করা practical tools
+          that save time for both farmers and buyers.
         </p>
       </div>
 

@@ -9,7 +9,14 @@ import PublicListingCard from "@/components/pages/Listings/PublicListingCard";
 import api from "@/lib/axios";
 import { CATEGORIES, Category, Listing } from "@/types";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Suspense, useCallback, useEffect, useRef, useState } from "react";
+import {
+  Suspense,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { toast } from "sonner";
 
 interface ListingsResponse {
@@ -23,6 +30,8 @@ interface ListingsResponse {
   };
   filterMeta: ListingsMeta;
 }
+
+type SortOption = "newest" | "oldest" | "price_asc" | "price_desc";
 
 export default function PublicListingsPage() {
   return (
@@ -57,6 +66,8 @@ function ListingsContent() {
   const maxPrice = searchParams.get("maxPrice") ?? "";
   const selectedDelivery = searchParams.get("deliveryOptions") ?? "";
   const cropName = searchParams.get("cropName") ?? "";
+  const selectedSort =
+    (searchParams.get("sort") as SortOption | null) ?? "newest";
   const currentPageParam = searchParams.get("page") ?? "1";
   const parsedCurrentPage = parseInt(currentPageParam, 10);
   const currentPage =
@@ -70,7 +81,34 @@ function ListingsContent() {
     minPrice !== "" ||
     maxPrice !== "" ||
     selectedDelivery !== "" ||
-    cropName !== "";
+    cropName !== "" ||
+    selectedSort !== "newest";
+
+  const sortedListings = useMemo(() => {
+    const copy = [...listings];
+
+    switch (selectedSort) {
+      case "oldest":
+        return copy.sort(
+          (a, b) =>
+            new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
+        );
+      case "price_asc":
+        return copy.sort(
+          (a, b) => (a.minPricePerUnit ?? Infinity) - (b.minPricePerUnit ?? Infinity),
+        );
+      case "price_desc":
+        return copy.sort(
+          (a, b) => (b.minPricePerUnit ?? -1) - (a.minPricePerUnit ?? -1),
+        );
+      case "newest":
+      default:
+        return copy.sort(
+          (a, b) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+        );
+    }
+  }, [listings, selectedSort]);
 
   // update URL search params
   const updateParams = useCallback(
@@ -273,6 +311,23 @@ function ListingsContent() {
 
           {/* Main content */}
           <div className='flex-1 min-w-0'>
+            <div className='flex items-center justify-between gap-3 mb-4'>
+              <p className='text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider font-semibold'>
+                Sort Results
+              </p>
+              <select
+                value={selectedSort}
+                onChange={(e) =>
+                  updateParams({ sort: (e.target.value as SortOption) || null })
+                }
+                className='px-3 py-2 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 rounded-lg text-sm text-gray-700 dark:text-gray-200 focus:border-green-500 focus:ring-1 focus:ring-green-500 outline-none cursor-pointer'>
+                <option value='newest'>Newest first</option>
+                <option value='oldest'>Oldest first</option>
+                <option value='price_asc'>Price: Low to High</option>
+                <option value='price_desc'>Price: High to Low</option>
+              </select>
+            </div>
+
             {/* Result info + active tags */}
             <div className='flex flex-wrap items-center gap-2 mb-6 min-h-7'>
               <p className='text-sm text-gray-500 dark:text-gray-400 hidden lg:block mr-2'>
@@ -342,6 +397,17 @@ function ListingsContent() {
                 </span>
               )}
 
+              {selectedSort !== "newest" && (
+                <span className='inline-flex items-center gap-1 px-2.5 py-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full text-xs font-medium'>
+                  ↕ Sort: {selectedSort.replace("_", " ")}
+                  <button
+                    onClick={() => updateParams({ sort: null })}
+                    className='hover:text-gray-900 dark:hover:text-gray-100 ml-0.5'>
+                    ✕
+                  </button>
+                </span>
+              )}
+
               {hasActiveFilters && (
                 <button
                   onClick={clearFilters}
@@ -386,7 +452,7 @@ function ListingsContent() {
               </div>
             ) : (
               <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5'>
-                {listings.map((listing) => (
+                {sortedListings.map((listing) => (
                   <PublicListingCard key={listing.id} listing={listing} />
                 ))}
               </div>

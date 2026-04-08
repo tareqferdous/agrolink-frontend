@@ -1,6 +1,7 @@
 "use client";
 
 import ReviewForm from "@/components/orders/ReviewForm";
+import Pagination from "@/components/pages/Listings/Pagination";
 import Badge, { getOrderStatusBadge } from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
 import api from "@/lib/axios";
@@ -10,12 +11,15 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
+const PAGE_SIZE = 5;
+
 export default function BuyerOrdersPage() {
   const router = useRouter();
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [confirming, setConfirming] = useState<string | null>(null);
   const [reviewedOrders, setReviewedOrders] = useState<Set<string>>(new Set());
+  const [currentPage, setCurrentPage] = useState(1);
 
   const fetchOrders = async () => {
     try {
@@ -40,6 +44,18 @@ export default function BuyerOrdersPage() {
   useEffect(() => {
     fetchOrders();
   }, []);
+
+  const totalPages = Math.ceil(orders.length / PAGE_SIZE);
+  const paginatedOrders = orders.slice(
+    (currentPage - 1) * PAGE_SIZE,
+    currentPage * PAGE_SIZE,
+  );
+
+  useEffect(() => {
+    if (totalPages > 0 && currentPage > totalPages) {
+      setCurrentPage(totalPages);
+    }
+  }, [currentPage, totalPages]);
 
   const handlePay = (orderId: string) => {
     router.push(`/orders/${orderId}/pay`);
@@ -94,134 +110,143 @@ export default function BuyerOrdersPage() {
           </p>
         </div>
       ) : (
-        <div className='space-y-4'>
-          {orders.map((order) => {
-            const statusBadge = getOrderStatusBadge(order.orderStatus);
-            const isReviewed = reviewedOrders.has(order.id);
+        <>
+          <div className='space-y-4'>
+            {paginatedOrders.map((order) => {
+              const statusBadge = getOrderStatusBadge(order.orderStatus);
+              const isReviewed = reviewedOrders.has(order.id);
 
-            return (
-              <div
-                key={order.id}
-                className='bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-800 p-6'>
-                <div className='flex items-start justify-between'>
-                  <div className='flex-1'>
-                    <div className='flex items-center gap-3 mb-2'>
-                      <h3 className='font-semibold text-gray-900 dark:text-gray-100'>
-                        {order.listing.cropName}
-                      </h3>
-                      <Badge
-                        label={statusBadge.label}
-                        variant={statusBadge.variant}
-                      />
-                    </div>
-
-                    <div className='grid grid-cols-2 md:grid-cols-4 gap-4 mt-3 text-sm'>
-                      <div>
-                        <p className='text-gray-400 dark:text-gray-500'>
-                          Farmer
-                        </p>
-                        <Link
-                          href={`/users/${order.farmer.id}`}
-                          className='font-medium text-gray-900 dark:text-gray-100 hover:text-green-600 dark:hover:text-green-400 transition-colors'>
-                          {order.farmer.name}
-                        </Link>
-                      </div>
-                      <div>
-                        <p className='text-gray-400 dark:text-gray-500'>
-                          Quantity
-                        </p>
-                        <p className='font-medium text-gray-900 dark:text-gray-100'>
-                          {order.listing.quantity} {order.listing.unit}
-                        </p>
-                      </div>
-                      <div>
-                        <p className='text-gray-400 dark:text-gray-500'>
-                          Total
-                        </p>
-                        <p className='font-medium text-green-600'>
-                          ৳{order.totalAmount}
-                        </p>
-                      </div>
-                      <div>
-                        <p className='text-gray-400 dark:text-gray-500'>
-                          Delivery
-                        </p>
-                        <p className='font-medium text-gray-900 dark:text-gray-100'>
-                          {order.deliveryMethod}
-                        </p>
-                      </div>
-                    </div>
-
-                    {/* Tracking info */}
-                    {order.trackingNumber && (
-                      <div className='mt-3 p-3 bg-blue-50 dark:bg-blue-900/30 rounded-lg text-sm'>
-                        <p className='text-blue-700 dark:text-blue-300 font-medium'>
-                          🚚 Shipped via {order.courierName}
-                        </p>
-                        <p className='text-blue-600 dark:text-blue-300'>
-                          Tracking: {order.trackingNumber}
-                        </p>
-                      </div>
-                    )}
-
-                    {/* Payment pending warning */}
-                    {order.orderStatus === "PENDING_PAYMENT" && (
-                      <div className='mt-3 p-3 bg-yellow-50 dark:bg-yellow-900/30 rounded-lg text-sm'>
-                        <p className='text-yellow-700 dark:text-yellow-300 font-medium'>
-                          ⚠️ Payment required within 24 hours
-                        </p>
-                      </div>
-                    )}
-
-                    {/* Review form — completed orders only */}
-                    {order.orderStatus === "COMPLETED" && !isReviewed && (
-                      <div className='mt-4'>
-                        <ReviewForm
-                          orderId={order.id}
-                          onSuccess={() => {
-                            setReviewedOrders(
-                              (prev) => new Set([...prev, order.id]),
-                            );
-                          }}
+              return (
+                <div
+                  key={order.id}
+                  className='bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-800 p-6'>
+                  <div className='flex items-start justify-between'>
+                    <div className='flex-1'>
+                      <div className='flex items-center gap-3 mb-2'>
+                        <h3 className='font-semibold text-gray-900 dark:text-gray-100'>
+                          {order.listing.cropName}
+                        </h3>
+                        <Badge
+                          label={statusBadge.label}
+                          variant={statusBadge.variant}
                         />
                       </div>
-                    )}
 
-                    {isReviewed && (
-                      <p className='text-sm text-green-600 mt-4'>
-                        ✅ Review submitted
-                      </p>
-                    )}
-                  </div>
+                      <div className='grid grid-cols-2 md:grid-cols-4 gap-4 mt-3 text-sm'>
+                        <div>
+                          <p className='text-gray-400 dark:text-gray-500'>
+                            Farmer
+                          </p>
+                          <Link
+                            href={`/users/${order.farmer.id}`}
+                            className='font-medium text-gray-900 dark:text-gray-100 hover:text-green-600 dark:hover:text-green-400 transition-colors'>
+                            {order.farmer.name}
+                          </Link>
+                        </div>
+                        <div>
+                          <p className='text-gray-400 dark:text-gray-500'>
+                            Quantity
+                          </p>
+                          <p className='font-medium text-gray-900 dark:text-gray-100'>
+                            {order.listing.quantity} {order.listing.unit}
+                          </p>
+                        </div>
+                        <div>
+                          <p className='text-gray-400 dark:text-gray-500'>
+                            Total
+                          </p>
+                          <p className='font-medium text-green-600'>
+                            ৳{order.totalAmount}
+                          </p>
+                        </div>
+                        <div>
+                          <p className='text-gray-400 dark:text-gray-500'>
+                            Delivery
+                          </p>
+                          <p className='font-medium text-gray-900 dark:text-gray-100'>
+                            {order.deliveryMethod}
+                          </p>
+                        </div>
+                      </div>
 
-                  {/* Actions */}
-                  <div className='flex flex-col gap-2 ml-4'>
-                    {order.orderStatus === "PENDING_PAYMENT" && (
-                      <Button size='sm' onClick={() => handlePay(order.id)}>
-                        Pay Now
-                      </Button>
-                    )}
-                    {(order.orderStatus === "READY_FOR_PICKUP" ||
-                      order.orderStatus === "SHIPPED") && (
-                      <Button
-                        size='sm'
-                        variant='outline'
-                        loading={confirming === order.id}
-                        onClick={() => handleConfirmReceived(order.id)}>
-                        Confirm Received
-                      </Button>
-                    )}
-                    {order.orderStatus === "COMPLETED" && (
-                      <span className='text-xs text-green-600 font-medium'>
-                        ✅ Completed
-                      </span>
-                    )}
+                      {/* Tracking info */}
+                      {order.trackingNumber && (
+                        <div className='mt-3 p-3 bg-blue-50 dark:bg-blue-900/30 rounded-lg text-sm'>
+                          <p className='text-blue-700 dark:text-blue-300 font-medium'>
+                            🚚 Shipped via {order.courierName}
+                          </p>
+                          <p className='text-blue-600 dark:text-blue-300'>
+                            Tracking: {order.trackingNumber}
+                          </p>
+                        </div>
+                      )}
+
+                      {/* Payment pending warning */}
+                      {order.orderStatus === "PENDING_PAYMENT" && (
+                        <div className='mt-3 p-3 bg-yellow-50 dark:bg-yellow-900/30 rounded-lg text-sm'>
+                          <p className='text-yellow-700 dark:text-yellow-300 font-medium'>
+                            ⚠️ Payment required within 24 hours
+                          </p>
+                        </div>
+                      )}
+
+                      {/* Review form — completed orders only */}
+                      {order.orderStatus === "COMPLETED" && !isReviewed && (
+                        <div className='mt-4'>
+                          <ReviewForm
+                            orderId={order.id}
+                            onSuccess={() => {
+                              setReviewedOrders(
+                                (prev) => new Set([...prev, order.id]),
+                              );
+                            }}
+                          />
+                        </div>
+                      )}
+
+                      {isReviewed && (
+                        <p className='text-sm text-green-600 mt-4'>
+                          ✅ Review submitted
+                        </p>
+                      )}
+                    </div>
+
+                    {/* Actions */}
+                    <div className='flex flex-col gap-2 ml-4'>
+                      {order.orderStatus === "PENDING_PAYMENT" && (
+                        <Button size='sm' onClick={() => handlePay(order.id)}>
+                          Pay Now
+                        </Button>
+                      )}
+                      {(order.orderStatus === "READY_FOR_PICKUP" ||
+                        order.orderStatus === "SHIPPED") && (
+                        <Button
+                          size='sm'
+                          variant='outline'
+                          loading={confirming === order.id}
+                          onClick={() => handleConfirmReceived(order.id)}>
+                          Confirm Received
+                        </Button>
+                      )}
+                      {order.orderStatus === "COMPLETED" && (
+                        <span className='text-xs text-green-600 font-medium'>
+                          ✅ Completed
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
-        </div>
+              );
+            })}
+          </div>
+          {totalPages > 0 && (
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={setCurrentPage}
+            />
+          )}
+        </>
       )}
     </div>
   );

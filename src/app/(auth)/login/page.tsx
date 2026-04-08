@@ -5,6 +5,7 @@ import Input from "@/components/ui/Input";
 import { Roles } from "@/constants/role";
 import { authClient } from "@/lib/auth-client";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Mail } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -45,16 +46,40 @@ const getRoleFromProfile = async () => {
   }
 };
 
+const DEMO_EMAIL =
+  process.env.NEXT_PUBLIC_DEMO_EMAIL ?? "demo.buyer@agrolink.com";
+const DEMO_PASSWORD = process.env.NEXT_PUBLIC_DEMO_PASSWORD ?? "123456";
+
 export default function LoginPage() {
   const router = useRouter();
 
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<TLoginForm>({
     resolver: zodResolver(loginSchema),
   });
+
+  const handleDemoFill = () => {
+    setValue("email", DEMO_EMAIL, { shouldValidate: true });
+    setValue("password", DEMO_PASSWORD, { shouldValidate: true });
+    toast.success("Demo credentials auto-filled");
+  };
+
+  const handleSocialLogin = async (provider: "google") => {
+    const callbackURL = `${window.location.origin}/listings`;
+
+    const result = await authClient.signIn.social({
+      provider,
+      callbackURL,
+    });
+
+    if (result?.error) {
+      toast.error(result.error.message ?? "Google login failed");
+    }
+  };
 
   const onSubmit = async (data: TLoginForm) => {
     try {
@@ -108,6 +133,34 @@ export default function LoginPage() {
           <h2 className='text-xl font-semibold text-gray-900 dark:text-gray-100 mb-6'>
             Login to your account
           </h2>
+
+          <div className='space-y-3 mb-5'>
+            <Button
+              type='button'
+              variant='secondary'
+              className='w-full'
+              onClick={handleDemoFill}>
+              Use Demo Login
+            </Button>
+
+            <div>
+              <button
+                type='button'
+                onClick={() => handleSocialLogin("google")}
+                className='w-full inline-flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg border border-gray-200 dark:border-gray-700 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors'>
+                <Mail size={16} />
+                Continue with Google
+              </button>
+            </div>
+
+            <div className='flex items-center gap-2'>
+              <span className='h-px flex-1 bg-gray-200 dark:bg-gray-800' />
+              <span className='text-xs uppercase tracking-wider text-gray-400 dark:text-gray-500'>
+                or
+              </span>
+              <span className='h-px flex-1 bg-gray-200 dark:bg-gray-800' />
+            </div>
+          </div>
 
           <form onSubmit={handleSubmit(onSubmit)} className='space-y-4'>
             <Input

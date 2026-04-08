@@ -5,6 +5,7 @@ import OrdersEmptyState from "@/components/pages/FarmerOrders/OrdersEmptyState";
 import OrdersHeader from "@/components/pages/FarmerOrders/OrdersHeader";
 import OrdersLoadingSkeleton from "@/components/pages/FarmerOrders/OrdersLoadingSkeleton";
 import { shipSchema, TShipForm } from "@/components/pages/FarmerOrders/types";
+import Pagination from "@/components/pages/Listings/Pagination";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import Modal from "@/components/ui/Modal";
@@ -15,11 +16,14 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
+const PAGE_SIZE = 5;
+
 export default function FarmerOrdersPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [shipModal, setShipModal] = useState<string | null>(null);
   const [reviewedOrders, setReviewedOrders] = useState<Set<string>>(new Set());
+  const [currentPage, setCurrentPage] = useState(1);
 
   const {
     register,
@@ -55,6 +59,18 @@ export default function FarmerOrdersPage() {
     fetchOrders();
   }, []);
 
+  const totalPages = Math.ceil(orders.length / PAGE_SIZE);
+  const paginatedOrders = orders.slice(
+    (currentPage - 1) * PAGE_SIZE,
+    currentPage * PAGE_SIZE,
+  );
+
+  useEffect(() => {
+    if (totalPages > 0 && currentPage > totalPages) {
+      setCurrentPage(totalPages);
+    }
+  }, [currentPage, totalPages]);
+
   const handleReadyPickup = async (orderId: string) => {
     try {
       await api.patch(`/api/orders/${orderId}/ready-pickup`);
@@ -88,15 +104,24 @@ export default function FarmerOrdersPage() {
       {orders.length === 0 ? (
         <OrdersEmptyState />
       ) : (
-        <FarmerOrdersList
-          orders={orders}
-          reviewedOrders={reviewedOrders}
-          onReadyPickup={handleReadyPickup}
-          onShip={setShipModal}
-          onReviewSuccess={(orderId) => {
-            setReviewedOrders((prev) => new Set([...prev, orderId]));
-          }}
-        />
+        <>
+          <FarmerOrdersList
+            orders={paginatedOrders}
+            reviewedOrders={reviewedOrders}
+            onReadyPickup={handleReadyPickup}
+            onShip={setShipModal}
+            onReviewSuccess={(orderId) => {
+              setReviewedOrders((prev) => new Set([...prev, orderId]));
+            }}
+          />
+          {totalPages > 0 && (
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={setCurrentPage}
+            />
+          )}
+        </>
       )}
 
       {/* Ship Modal */}

@@ -4,6 +4,7 @@ import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import { authClient } from "@/lib/auth-client";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Mail } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -44,6 +45,19 @@ type TRegisterForm = z.input<typeof registerSchema>;
 
 export default function RegisterPage() {
   const router = useRouter();
+
+  const handleSocialLogin = async (provider: "google") => {
+    const callbackURL = `${window.location.origin}/listings`;
+
+    const result = await authClient.signIn.social({
+      provider,
+      callbackURL,
+    });
+
+    if (result?.error) {
+      toast.error(result.error.message ?? "Google login failed");
+    }
+  };
 
   const {
     register,
@@ -101,6 +115,26 @@ export default function RegisterPage() {
           <h2 className='text-xl font-semibold text-gray-900 dark:text-gray-100 mb-6'>
             Create your account
           </h2>
+
+          <div className='space-y-3 mb-5'>
+            <div>
+              <button
+                type='button'
+                onClick={() => handleSocialLogin("google")}
+                className='w-full inline-flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg border border-gray-200 dark:border-gray-700 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors'>
+                <Mail size={16} />
+                Continue with Google
+              </button>
+            </div>
+
+            <div className='flex items-center gap-2'>
+              <span className='h-px flex-1 bg-gray-200 dark:bg-gray-800' />
+              <span className='text-xs uppercase tracking-wider text-gray-400 dark:text-gray-500'>
+                or sign up with email
+              </span>
+              <span className='h-px flex-1 bg-gray-200 dark:bg-gray-800' />
+            </div>
+          </div>
 
           <form onSubmit={handleSubmit(onSubmit)} className='space-y-4'>
             {/* Role selector */}

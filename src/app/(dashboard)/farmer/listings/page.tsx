@@ -2,6 +2,7 @@
 
 import ListingCard from "@/components/listings/ListingCard";
 import ListingForm, { TListingForm } from "@/components/listings/ListingForm";
+import Pagination from "@/components/pages/Listings/Pagination";
 import VerificationBanner from "@/components/shared/VerificationBanner";
 import Button from "@/components/ui/Button";
 import Modal from "@/components/ui/Modal";
@@ -9,6 +10,8 @@ import api from "@/lib/axios";
 import { ApiResponse, Listing } from "@/types";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+
+const PAGE_SIZE = 6;
 
 type ModalState = {
   mode: "create" | "edit";
@@ -20,6 +23,7 @@ export default function FarmerListingsPage() {
   const [loading, setLoading] = useState(true);
   const [modal, setModal] = useState<ModalState>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const fetchListings = async () => {
     try {
@@ -36,6 +40,18 @@ export default function FarmerListingsPage() {
   useEffect(() => {
     fetchListings();
   }, []);
+
+  const totalPages = Math.ceil(listings.length / PAGE_SIZE);
+  const paginatedListings = listings.slice(
+    (currentPage - 1) * PAGE_SIZE,
+    currentPage * PAGE_SIZE,
+  );
+
+  useEffect(() => {
+    if (totalPages > 0 && currentPage > totalPages) {
+      setCurrentPage(totalPages);
+    }
+  }, [currentPage, totalPages]);
 
   const handleSubmit = async (data: TListingForm) => {
     try {
@@ -135,17 +151,26 @@ export default function FarmerListingsPage() {
           </Button>
         </div>
       ) : (
-        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
-          {listings.map((listing) => (
-            <ListingCard
-              key={listing.id}
-              listing={listing}
-              showActions
-              onEdit={(listing) => setModal({ mode: "edit", listing })}
-              onDelete={handleDelete}
+        <>
+          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
+            {paginatedListings.map((listing) => (
+              <ListingCard
+                key={listing.id}
+                listing={listing}
+                showActions
+                onEdit={(listing) => setModal({ mode: "edit", listing })}
+                onDelete={handleDelete}
+              />
+            ))}
+          </div>
+          {totalPages > 0 && (
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={setCurrentPage}
             />
-          ))}
-        </div>
+          )}
+        </>
       )}
 
       {/* Create / Edit Modal */}

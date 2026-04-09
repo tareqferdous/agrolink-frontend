@@ -8,6 +8,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import Avatar from "../ui/Avatar";
+import AgroLinkLogo from "./AgroLinkLogo";
 import ThemeToggle from "./ThemeToggle";
 
 export default function Navbar() {
@@ -48,10 +49,12 @@ export default function Navbar() {
         <div className='flex justify-between items-center h-16'>
           {/* Logo */}
           <Link href='/' className='flex items-center gap-2'>
-            <span className='text-2xl'>🌾</span>
-            <div className='text-lg font-black tracking-tight text-gray-900 dark:text-gray-100'>
-              Agro<span className='text-green-600'>Link</span>
-            </div>
+            <span className='dark:hidden'>
+              <AgroLinkLogo variant='light' className='h-8' />
+            </span>
+            <span className='hidden dark:inline'>
+              <AgroLinkLogo variant='dark' className='h-8' />
+            </span>
           </Link>
 
           {/* Desktop — center links */}

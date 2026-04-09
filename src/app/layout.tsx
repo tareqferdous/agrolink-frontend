@@ -1,8 +1,8 @@
+import AppClientShell from "@/components/shared/AppClientShell";
 import Footer from "@/components/shared/Footer";
-import Navbar from "@/components/shared/Navbar";
+import NavbarClientShell from "@/components/shared/NavbarClientShell";
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
-import { Toaster } from "sonner";
 import "./globals.css";
 
 const THEME_BOOTSTRAP_SCRIPT = `(() => {
@@ -39,10 +39,10 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: THEME_BOOTSTRAP_SCRIPT }} />
       </head>
       <body className={geist.className}>
-        <Navbar />
+        <NavbarClientShell />
         {children}
         <Footer />
-        <Toaster position='top-right' richColors theme='system' />
+        <AppClientShell />
       </body>
     </html>
   );

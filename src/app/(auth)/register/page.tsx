@@ -1,5 +1,6 @@
 "use client";
 
+import AgroLinkLogo from "@/components/shared/AgroLinkLogo";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import { authClient } from "@/lib/auth-client";
@@ -101,9 +102,13 @@ export default function RegisterPage() {
       <div className='w-full max-w-md'>
         {/* Logo */}
         <div className='text-center mb-8'>
-          <div className='inline-flex items-center gap-2 mb-2'>
-            <span className='text-3xl'>🌾</span>
-            <h1 className='text-2xl font-bold text-green-700'>AgroLink</h1>
+          <div className='inline-flex items-center mb-2'>
+            <span className='dark:hidden'>
+              <AgroLinkLogo variant='light' className='h-10' />
+            </span>
+            <span className='hidden dark:inline'>
+              <AgroLinkLogo variant='dark' className='h-10' />
+            </span>
           </div>
           <p className='text-gray-500 dark:text-gray-400 text-sm'>
             কৃষক থেকে সরাসরি ক্রেতা

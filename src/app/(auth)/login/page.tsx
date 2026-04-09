@@ -1,11 +1,11 @@
 "use client";
 
+import AgroLinkLogo from "@/components/shared/AgroLinkLogo";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import { Roles } from "@/constants/role";
 import { authClient } from "@/lib/auth-client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Mail } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -46,9 +46,8 @@ const getRoleFromProfile = async () => {
   }
 };
 
-const DEMO_EMAIL =
-  process.env.NEXT_PUBLIC_DEMO_EMAIL ?? "demo.buyer@agrolink.com";
-const DEMO_PASSWORD = process.env.NEXT_PUBLIC_DEMO_PASSWORD ?? "123456";
+const DEMO_EMAIL = process.env.NEXT_PUBLIC_DEMO_EMAIL ?? "farmer1@gmail.com";
+const DEMO_PASSWORD = process.env.NEXT_PUBLIC_DEMO_PASSWORD ?? "password123";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -119,9 +118,13 @@ export default function LoginPage() {
       <div className='w-full max-w-md'>
         {/* Logo */}
         <div className='text-center mb-8'>
-          <div className='inline-flex items-center gap-2 mb-2'>
-            <span className='text-3xl'>🌾</span>
-            <h1 className='text-2xl font-bold text-green-700'>AgroLink</h1>
+          <div className='inline-flex items-center mb-2'>
+            <span className='dark:hidden'>
+              <AgroLinkLogo variant='light' className='h-10' />
+            </span>
+            <span className='hidden dark:inline'>
+              <AgroLinkLogo variant='dark' className='h-10' />
+            </span>
           </div>
           <p className='text-gray-500 dark:text-gray-400 text-sm'>
             কৃষক থেকে সরাসরি ক্রেতা
@@ -138,17 +141,41 @@ export default function LoginPage() {
             <Button
               type='button'
               variant='secondary'
-              className='w-full'
+              className='w-full relative overflow-hidden border border-green-200 dark:border-green-700/60 bg-gradient-to-r from-green-100 via-emerald-100 to-lime-100 dark:from-green-900/40 dark:via-emerald-900/40 dark:to-lime-900/30 text-green-900 dark:text-green-100 hover:from-green-200 hover:via-emerald-200 hover:to-lime-200 dark:hover:from-green-800/60 dark:hover:via-emerald-800/60 dark:hover:to-lime-800/50 shadow-[0_6px_18px_rgba(34,197,94,0.20)] hover:shadow-[0_10px_24px_rgba(22,163,74,0.28)] transition-all duration-300'
               onClick={handleDemoFill}>
-              Use Demo Login
+              <span className='inline-flex items-center gap-2'>
+                <span className='h-2.5 w-2.5 rounded-full bg-green-500 animate-pulse' />
+                <span className='font-semibold'>Use Demo Login</span>
+              </span>
             </Button>
 
             <div>
               <button
                 type='button'
                 onClick={() => handleSocialLogin("google")}
-                className='w-full inline-flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg border border-gray-200 dark:border-gray-700 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors'>
-                <Mail size={16} />
+                className='w-full inline-flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg border border-blue-100 dark:border-gray-700 bg-gradient-to-r from-white via-blue-50 to-red-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-900 text-sm font-semibold text-gray-700 dark:text-gray-100 hover:shadow-[0_8px_18px_rgba(59,130,246,0.22)] hover:-translate-y-0.5 transition-all duration-300'>
+                <svg
+                  width='18'
+                  height='18'
+                  viewBox='0 0 48 48'
+                  aria-hidden='true'>
+                  <path
+                    fill='#FFC107'
+                    d='M43.611 20.083H42V20H24v8h11.303C33.655 32.657 29.199 36 24 36c-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.955 3.045l5.657-5.657C34.046 6.053 29.27 4 24 4C12.955 4 4 12.955 4 24s8.955 20 20 20s20-8.955 20-20c0-1.341-0.138-2.65-0.389-3.917z'
+                  />
+                  <path
+                    fill='#FF3D00'
+                    d='M6.306 14.691l6.571 4.819C14.655 16.108 18.961 13 24 13c3.059 0 5.842 1.154 7.955 3.045l5.657-5.657C34.046 6.053 29.27 4 24 4c-7.682 0-14.347 4.337-17.694 10.691z'
+                  />
+                  <path
+                    fill='#4CAF50'
+                    d='M24 44c5.168 0 9.86-1.977 13.409-5.19l-6.19-5.238C29.154 35.122 26.686 36 24 36c-5.178 0-9.627-3.33-11.283-7.946l-6.521 5.025C9.511 39.556 16.227 44 24 44z'
+                  />
+                  <path
+                    fill='#1976D2'
+                    d='M43.611 20.083H42V20H24v8h11.303c-0.792 2.237-2.231 4.166-4.084 5.572l0.003-0.002l6.19 5.238C36.974 39.205 44 34 44 24c0-1.341-0.138-2.65-0.389-3.917z'
+                  />
+                </svg>
                 Continue with Google
               </button>
             </div>

@@ -2,6 +2,8 @@ import DashboardFooter from "@/components/shared/DashboardFooter";
 import DashboardNavbarClient from "@/components/shared/DashboardNavbarClient";
 import Sidebar from "@/components/shared/Sidebar";
 
+export const dynamic = "force-dynamic";
+
 export default function DashboardLayout({
   children,
 }: {
